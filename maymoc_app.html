@@ -567,51 +567,25 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 <div id="toast"></div>
 
 <script>
-// URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN
+// DÁN ĐƯỜNG LINK WEB APP GOOGLE SCRIPT CỦA BẠN VÀO GIỮA HAI DẤU NHÁY ĐƠN NÀY
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwKIWgB-MedjJKKEED--9JxLOqV30-M2EpAHGrowQ-AnRWq6t5E6R9MZIVulFoaSv1Z/exec';
 let currentUser = null;
 let _cbIdx = 0;
 const PCCC_ITEMS = ['Đầu Vòi','Cuộn Dây','Bình PCCC','Đèn Exit','Đèn Sự Cố','Bơm Chữa Cháy','Bơm Bù Áp'];
 let pcccState = {};
 
-// ── JSONP CHUẨN HOÁ (Sửa lỗi bất đồng bộ Event Loop của thẻ script) ─────────────────
+// ── JSONP CHUẨN HOÁ ──────────────────────────────────────────────────
 function callGAS(params) {
   return new Promise((resolve, reject) => {
     const cbName = '_gasCallback' + (_cbIdx++);
     params.callback = cbName;
-    
-    const qs = Object.entries(params)
-      .map(([k,v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v))
-      .join('&');
-      
+    const qs = Object.entries(params).map(([k,v])=>encodeURIComponent(k)+'='+encodeURIComponent(v)).join('&');
     const script = document.createElement('script');
     script.src = GAS_URL + '?' + qs;
-    
-    // Tạo bộ đếm thời gian Timeout đề phòng hệ thống nghẽn
-    const timer = setTimeout(() => {
-      cleanup();
-      reject(new Error('Timeout'));
-    }, 15000);
-    
-    // Gán hàm callback toàn cục nhận dữ liệu
-    window[cbName] = (data) => {
-      clearTimeout(timer);
-      delete window[cbName];
-      if (script.parentNode) script.parentNode.removeChild(script);
-      resolve(data); // Đẩy dữ liệu ra sau khi dọn dẹp xong cấu trúc DOM
-    };
-    
-    function cleanup() {
-      clearTimeout(timer);
-      delete window[cbName];
-      if (script.parentNode) script.parentNode.removeChild(script);
-    }
-    
-    script.onerror = () => {
-      cleanup();
-      reject(new Error('Network error'));
-    };
-    
+    const timer = setTimeout(() => { cleanup(); reject(new Error('Timeout')); }, 15000);
+    window[cbName] = (data) => { clearTimeout(timer); delete window[cbName]; if(script.parentNode) script.parentNode.removeChild(script); resolve(data); };
+    function cleanup() { clearTimeout(timer); delete window[cbName]; if(script.parentNode) script.parentNode.removeChild(script); }
+    script.onerror = () => { cleanup(); reject(new Error('Network error')); };
     document.head.appendChild(script);
   });
 }
@@ -653,7 +627,7 @@ function pickStatus(el, hiddenId, val) {
   document.getElementById(hiddenId).value = val;
 }
 
-// ── LOGIN ĐĂNG NHẬP (Ép kiểu nghiêm ngặt và xử lý khoảng trắng dữ liệu) ──
+// ── LOGIN ĐĂNG NHẬP ─────────────────────────────────────
 async function doLogin() {
   const manv = document.getElementById('loginId').value.trim();
   const pass = document.getElementById('loginPass').value.trim();
@@ -733,9 +707,7 @@ async function loadCheckNgay() {
     const res = await callGAS({ action:'getLog', sheet:'Log_CheckNgay', from:date, to:date });
     checkNgayData = res.success ? res.data : [];
     renderCheckNgay();
-  } catch(e) {
-    document.getElementById('checkNgayList').innerHTML = '<div class="empty"><div class="icon">⚠️</div><p>Lỗi kết nối dữ liệu</p></div>';
-  }
+  } catch(e) { document.getElementById('checkNgayList').innerHTML = '<div class="empty"><div class="icon">⚠️</div><p>Lỗi kết nối dữ liệu</p></div>'; }
 }
 
 function renderCheckNgay() {
@@ -780,8 +752,7 @@ function openCheckNgayNew() {
 async function saveCheckNgay() {
   const date = document.getElementById('dateCheckNgay').value || todayStr();
   const data = {
-    Ngay: date,
-    MaNV: currentUser.manv, HoTen: currentUser.hoten,
+    Ngay: date, MaNV: currentUser.manv, HoTen: currentUser.hoten,
     ViTri: document.getElementById('mCN_vitri').value.trim(),
     NoiDungCongViec: document.getElementById('mCN_noidung').value.trim(),
     TinhTrang: document.getElementById('mCN_tinhtrang').value,
@@ -807,9 +778,7 @@ async function loadHangMuc() {
     const res = await callGAS({ action:'getLog', sheet:'Log_HangMuc' });
     hangMucData = res.success ? res.data : [];
     renderHangMuc();
-  } catch(e) {
-    document.getElementById('hangMucList').innerHTML = emptyState('Lỗi kết nối dữ liệu');
-  }
+  } catch(e) { document.getElementById('hangMucList').innerHTML = emptyState('Lỗi kết nối dữ liệu'); }
 }
 
 function filterHangMuc(f, el) {
@@ -857,8 +826,7 @@ function openHangMucNew() {
 
 async function saveHangMuc() {
   const data = {
-    Ngay: todayStr(),
-    MaNV: currentUser.manv, HoTen: currentUser.hoten,
+    Ngay: todayStr(), MaNV: currentUser.manv, HoTen: currentUser.hoten,
     HangMuc: document.getElementById('mHM_hangmuc').value.trim(),
     NoiDung: document.getElementById('mHM_noidung').value.trim(),
     TrangThai: document.getElementById('mHM_trangthai').value,
@@ -1151,9 +1119,7 @@ async function savePCCC() {
   } catch(e) { showToast('Lỗi kết nối','err'); }
 }
 
-// ════════════════════════════════════════════════════════
-// EXPORT CSV
-// ════════════════════════════════════════════════════════
+// ── EXPORT CSV ──────────────────────────────────────────
 async function exportCSV(sheetName, prefix) {
   showToast('Đang tải dữ liệu...');
   try {
