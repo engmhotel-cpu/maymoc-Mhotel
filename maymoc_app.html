@@ -34,7 +34,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .iw input:focus{border-color:var(--accent);}
 .btn-login{width:100%;padding:12px;background:var(--accent);color:#fff;font-weight:700;border:none;border-radius:var(--rs);cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;}
 .btn-login:hover{background:var(--accent-dark);}
-.lerr{color:var(--warn);font-size:12px;text-align:center;margin-top:10px;min-height:16px;font-weight:500;}
+.lerr{color:var(--warn);font-size:12px;text-align:center;margin-top:10px;min-height:16px;font-weight:600;word-break:break-all;background:var(--warn-dim);padding:6px;border-radius:6px;display:none;}
 
 /* APP SHELL */
 #appShell{display:none;flex-direction:column;min-height:100vh;}
@@ -77,7 +77,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .sh h2{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--blue);text-transform:uppercase;}
 .cbadge{background:var(--blue-dim);color:var(--blue);font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;}
 
-/* CARDS DETAILED */
+/* CARDS STYLING */
 .cgrid{display:grid;grid-template-columns:1fr;gap:12px;}
 @media(min-width:600px){.cgrid{grid-template-columns:1fr 1fr;}}
 .card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;border-left:4px solid var(--border);padding:14px 15px;}
@@ -230,7 +230,9 @@ const MAPPINGS = {
   hethong: { generator: 'Log_MayPhatDien', pccc: 'Log_PCCC' }
 };
 
-// 1. HÀM ĐỌC FIELD AN TOÀN (SAFE FIELD) - TUYỆT ĐỐI KHÔNG SẬP LUỒNG KHÔNG CÓ TRƯỜNG
+const PCCC_ITEMS = ['Đầu Vòi','Cuộn Dây','Bình PCCC','Đèn Exit','Đèn Sự Cố','Bơm Chữa Cháy','Bơm Bù Áp'];
+
+// 1. HÀM ĐỌC FIELD AN TOÀN (SAFE FIELD)
 function fld(row, ...keys){
   if(!row) return '';
   const map = {};
@@ -267,27 +269,40 @@ function getStatusPill(row){
 function today(){const d=new Date();return`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
 function p2(n){return String(n).padStart(2,'0');}
 function setToday(id){document.getElementById(id).value=today();}
+function fmtD(s){
+  if(!s)return'—';
+  let clean=String(s).trim().split(' ')[0];
+  if(clean.includes('/')){ let p=clean.split('/'); if(p.length===3) return `${p[0]}/${p[1]}/${p[2]}`;}
+  if(clean.includes('-')){ let p=clean.split('-'); if(p.length===3) return `${p[2]}/${p[1]}/${p[0]}`;}
+  return s;
+}
 
-// ĐỒNG BỘ JSONP TRÁNH CORS CHUẨN XÁC
+// ĐỒNG BỘ JSONP DÙNG BỘ ĐẾM TUẦN TỰ NGUYÊN BẢN (CHỐNG LỖI CALLBACK)
 function callGAS(p){
   return new Promise((res,rej)=>{
-    const cb='_cb'+Math.floor(Math.random()*1000000); p.callback=cb;
+    const cb='_cb'+(++_ci); p.callback=cb;
     const qs=Object.entries(p).map(([k,v])=>encodeURIComponent(k)+'='+encodeURIComponent(v)).join('&');
     const s=document.createElement('script'); s.src=GAS+'?'+qs;
-    const t=setTimeout(()=>{clean();rej(new Error('Hệ thống đám mây bận'));},15000);
+    const t=setTimeout(()=>{clean();rej(new Error('Hệ thống Google Apps Script bận (Timeout)'));},15000);
     window[cb]=d=>{clearTimeout(t);clean();res(d);};
     function clean(){delete window[cb];s.parentNode&&s.parentNode.removeChild(s);}
-    s.onerror=()=>{clearTimeout(t);clean();rej(new Error('Lỗi liên kết mạng'));};
+    s.onerror=()=>{clearTimeout(t);clean();rej(new Error('Lỗi liên kết mạng (Script OnError)'));};
     document.head.appendChild(s);
   });
 }
 
-// LOGIN - ĐÃ SỬA LỖI MẠNG XÁC THỰC
+// LOGIN - IN CHI TIẾT LỖI RA MÀN HÌNH ĐỂ BẮT BỆNH CHÍNH XÁC
 async function doLogin(){
+  const errDiv = document.getElementById('loginErr');
+  errDiv.style.display = 'none';
+  
   const manv=document.getElementById('loginId').value.trim();
   const pass=document.getElementById('loginPass').value.trim();
-  if(!manv||!pass){document.getElementById('loginErr').textContent='Hãy nhập đủ thông tin';return;}
-  document.getElementById('loginErr').textContent='Đang kết nối xác thực mạng...';
+  if(!manv||!pass){errDiv.textContent='Hãy nhập đủ thông tin'; errDiv.style.display='block'; return;}
+  
+  errDiv.textContent='Đang kết nối xác thực mạng...';
+  errDiv.style.display='block';
+  
   try{
     const r=await callGAS({action:'login',manv,pass});
     if(r && r.success){
@@ -302,8 +317,13 @@ async function doLogin(){
       document.getElementById('appShell').style.display='flex';
       ['workDate_kiemtra','workDate_suachua','workDate_hethong'].forEach(setToday);
       loadDashboard();
-    }else{document.getElementById('loginErr').textContent=(r&&r.msg)||'Mã nhân viên hoặc mật khẩu sai';}
-  }catch(e){document.getElementById('loginErr').textContent='Lỗi mạng xác thực. Kiểm tra lại URL GAS!';}
+    }else{
+      errDiv.textContent=(r&&r.msg)||'Mã nhân viên hoặc mật khẩu sai';
+    }
+  }catch(e){
+    // IN THẲNG LỖI THỰC TẾ RA ĐỂ CHECK
+    errDiv.textContent='[LỖI HỆ THỐNG]: ' + e.toString();
+  }
 }
 function doLogout(){location.reload();}
 
@@ -376,7 +396,6 @@ function createCard(row){
   const displayTime = time.includes(' ') ? safeDatePart(time) : time;
   const note = fld(row, 'GhiChu');
 
-  // Xử lý riêng cho PCCC hiển thị nhanh
   let pcccSubGrid = '';
   if(PCCC_ITEMS.some(n => fld(row, n.replace(/ /g,'')) !== '')){
     const pcccBadges = PCCC_ITEMS.map(n => {
@@ -400,7 +419,7 @@ function createCard(row){
     </div>`;
 }
 
-// 2. TẢI DỮ LIỆU - KHÔNG LỌC LẠI NGÀY Ở FRONTEND
+// TẢI DỮ LIỆU TỪ BACKEND
 async function loadData(sheet, date, containerId){
   const targetElement = document.getElementById(containerId);
   targetElement.innerHTML = `<div class="ld"><div class="spin"></div>Đang bốc dữ liệu từ trang tính...</div>`;
