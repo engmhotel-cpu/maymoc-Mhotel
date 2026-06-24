@@ -485,7 +485,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
 <script>
 const GAS='https://script.google.com/macros/s/AKfycbwKIWgB-MedjJKKEED--9JxLOqV30-M2EpAHGrowQ-AnRWq6t5E6R9MZIVulFoaSv1Z/exec';
-let user=null,_ci=0,hmFilter='all',pcccSt={};
+let user=null,_ci=0,hmFilter='all',pcccSt={},isSaving=false;
 const PCCC_ITEMS=['Đầu Vòi','Cuộn Dây','Bình PCCC','Đèn Exit','Đèn Sự Cố','Bơm Chữa Cháy','Bơm Bù Áp'];
 const DAYS=['CN','T2','T3','T4','T5','T6','T7'];
 const MONTHS=['tháng 1','tháng 2','tháng 3','tháng 4','tháng 5','tháng 6','tháng 7','tháng 8','tháng 9','tháng 10','tháng 11','tháng 12'];
@@ -713,10 +713,13 @@ async function loadCheckNgay(){
   }catch(e){document.getElementById('cnContent').innerHTML=empty('Lỗi kết nối');}
 }
 async function saveCN(){
+  if(isSaving)return;
   const d=document.getElementById('dateCheckNgay').value||today();
   const data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,ViTri:document.getElementById('cn_vt').value.trim(),NoiDungCongViec:document.getElementById('cn_nd').value.trim(),TinhTrang:document.getElementById('cn_tt').value,GhiChu:document.getElementById('cn_gc').value.trim()};
   if(!data.ViTri||!data.TinhTrang){toast('Nhập đủ vị trí và tình trạng','err');return;}
+  isSaving=true;
   try{const r=await callGAS({action:'saveLog',sheet:'Log_CheckNgay',data:JSON.stringify(data)});if(r.success){closeMod('mCN');toast('✓ Đã lưu!');loadCheckNgay();}else toast(r.msg||'Lỗi','err');}catch(e){toast('Lỗi kết nối','err');}
+  finally{isSaving=false;}
 }
 
 // ══ MODULE: HẠNG MỤC ══
@@ -735,9 +738,12 @@ function renderHM(){
   el.innerHTML=`<div class="sh"><h2>Hạng Mục Xử Lý</h2><span class="cbadge">${data.length} mục</span></div><div class="cgrid">${data.slice().reverse().map(r=>cardHM(r)).join('')}</div>`;
 }
 async function saveHM(){
+  if(isSaving)return;
   const data={Ngay:today(),MaNV:user.manv,HoTen:user.hoten,HangMuc:document.getElementById('hm_hm').value.trim(),NoiDung:document.getElementById('hm_nd').value.trim(),TrangThai:document.getElementById('hm_tt').value,NgayBatDau:document.getElementById('hm_bd').value,NgayKetThuc:document.getElementById('hm_kt').value,GhiChu:document.getElementById('hm_gc').value.trim()};
   if(!data.HangMuc||!data.TrangThai){toast('Nhập đủ hạng mục và trạng thái','err');return;}
+  isSaving=true;
   try{const r=await callGAS({action:'saveLog',sheet:'Log_HangMuc',data:JSON.stringify(data)});if(r.success){closeMod('mHM');toast('✓ Đã lưu!');loadHM();}else toast(r.msg||'Lỗi','err');}catch(e){toast('Lỗi kết nối','err');}
+  finally{isSaving=false;}
 }
 
 // ══ MODULE: SỬA CHỮA ══
@@ -754,10 +760,13 @@ async function loadSC(){
   }catch(e){document.getElementById('scContent').innerHTML=empty('Lỗi kết nối');}
 }
 async function saveSC(){
+  if(isSaving)return;
   const d=document.getElementById('dateSC').value||today();
   const data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,HangMuc:document.getElementById('sc_hm').value.trim(),NoiDungCongViec:document.getElementById('sc_nd').value.trim(),TinhTrang:document.getElementById('sc_tt').value,GhiChu:document.getElementById('sc_gc').value.trim()};
   if(!data.HangMuc||!data.TinhTrang){toast('Nhập đủ hạng mục và tình trạng','err');return;}
+  isSaving=true;
   try{const r=await callGAS({action:'saveLog',sheet:'Log_SuaChuaPhong',data:JSON.stringify(data)});if(r.success){closeMod('mSC');toast('✓ Đã lưu!');loadSC();}else toast(r.msg||'Lỗi','err');}catch(e){toast('Lỗi kết nối','err');}
+  finally{isSaving=false;}
 }
 
 // ══ MODULE: ĐỊNH KỲ ══
@@ -774,10 +783,13 @@ async function loadDK(){
   }catch(e){document.getElementById('dkContent').innerHTML=empty('Lỗi kết nối');}
 }
 async function saveDK(){
+  if(isSaving)return;
   const d=document.getElementById('dateDK').value||today();
   const data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,HangMuc:document.getElementById('dk_hm').value.trim(),Tang:document.getElementById('dk_tang').value.trim(),NoiDungCongViec:document.getElementById('dk_nd').value.trim(),TinhTrang:document.getElementById('dk_tt').value,GhiChu:document.getElementById('dk_gc').value.trim()};
   if(!data.HangMuc||!data.TinhTrang){toast('Nhập đủ hạng mục và tình trạng','err');return;}
+  isSaving=true;
   try{const r=await callGAS({action:'saveLog',sheet:'Log_DinhKy',data:JSON.stringify(data)});if(r.success){closeMod('mDK');toast('✓ Đã lưu!');loadDK();}else toast(r.msg||'Lỗi','err');}catch(e){toast('Lỗi kết nối','err');}
+  finally{isSaving=false;}
 }
 
 // ══ MODULE: MÁY PHÁT ══
@@ -793,10 +805,13 @@ async function loadMP(){
   }catch(e){document.getElementById('mpContent').innerHTML=empty('Lỗi kết nối');}
 }
 async function saveMP(){
+  if(isSaving)return;
   const d=document.getElementById('dateMP').value||today();
   const data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,ThoiGianChay:document.getElementById('mp_tg').value.trim(),TrangThai:document.getElementById('mp_tt').value,DienAp:document.getElementById('mp_da').value.trim(),TinhTrangAcquy:document.getElementById('mp_aq').value,MayPhat:document.getElementById('mp_mp').value.trim(),DauMayPhat:document.getElementById('mp_dau').value,GhiChu:document.getElementById('mp_gc').value.trim()};
   if(!data.TrangThai){toast('Chọn trạng thái máy','err');return;}
+  isSaving=true;
   try{const r=await callGAS({action:'saveLog',sheet:'Log_MayPhatDien',data:JSON.stringify(data)});if(r.success){closeMod('mMP');toast('✓ Đã lưu!');loadMP();}else toast(r.msg||'Lỗi','err');}catch(e){toast('Lỗi kết nối','err');}
+  finally{isSaving=false;}
 }
 
 // ══ MODULE: PCCC ══
@@ -818,12 +833,15 @@ function tgPCCC(name,el){
   el.className='pi '+(states[idx]==='Tốt'?'ok':states[idx]==='Lỗi'?'fault':'');
 }
 async function savePCCC(){
+  if(isSaving)return;
   const d=document.getElementById('datePCCC').value||today();
   const[y,m]=d.split('-');
   const fields={};PCCC_ITEMS.forEach(n=>{fields[n.replace(/ /g,'')]=pcccSt[n]||'—';});
   const data={Thang:`${m}/${y}`,Ngay:d,MaNV:user.manv,HoTen:user.hoten,...fields,TinhTrang:document.getElementById('pc_tt').value,GhiChu:document.getElementById('pc_gc').value.trim()};
   if(!data.TinhTrang){toast('Chọn tình trạng chung','err');return;}
+  isSaving=true;
   try{const r=await callGAS({action:'saveLog',sheet:'Log_PCCC',data:JSON.stringify(data)});if(r.success){closeMod('mPCCC');toast('✓ Đã lưu!');loadPCCC();}else toast(r.msg||'Lỗi','err');}catch(e){toast('Lỗi kết nối','err');}
+  finally{isSaving=false;}
 }
 
 // ══ EXPORT CSV ══
