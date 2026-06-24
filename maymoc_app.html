@@ -503,6 +503,27 @@ function callGAS(p){
   });
 }
 
+// Normalize data từ Sheets — trim whitespace, fix encoding issues
+function norm(obj){
+  const out={};
+  for(const k in obj){
+    const key=String(k).trim();
+    const val=typeof obj[k]==='string'?obj[k].trim():obj[k];
+    out[key]=val;
+  }
+  return out;
+}
+// Normalize array
+function normArr(arr){return Array.isArray(arr)?arr.map(norm):[];}
+
+// Safe field read với fallback keys (handle cả camelCase lẫn PascalCase)
+function fld(obj,...keys){
+  for(const k of keys){
+    if(obj[k]!==undefined&&obj[k]!==null&&obj[k]!=='')return String(obj[k]).trim();
+  }
+  return '';
+}
+
 function today(){const d=new Date();return`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
 function p2(n){return String(n).padStart(2,'0');}
 function setToday(id){document.getElementById(id).value=today();}
@@ -512,6 +533,47 @@ function fmtDayVN(){const d=new Date();return`${DAYS[d.getDay()]}, ${d.getDate()
 function toast(msg,type='ok'){const t=document.getElementById('toast');t.textContent=msg;t.className='show '+type;setTimeout(()=>{t.className='';},2600);}
 function pick(el,hid,val){el.parentElement.querySelectorAll('.rc').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');document.getElementById(hid).value=val;}
 function openMod(id){
+  if(id==='mCN'){
+    document.getElementById('cn_vt').value='';
+    document.getElementById('cn_nd').value='';
+    document.getElementById('cn_tt').value='';
+    document.getElementById('cn_gc').value='';
+    document.querySelectorAll('#mCN .rc').forEach(b=>b.classList.remove('sel'));
+  }
+  if(id==='mHM'){
+    document.getElementById('hm_hm').value='';
+    document.getElementById('hm_nd').value='';
+    document.getElementById('hm_tt').value='';
+    document.getElementById('hm_bd').value=today();
+    document.getElementById('hm_kt').value='';
+    document.getElementById('hm_gc').value='';
+    document.querySelectorAll('#mHM .rc').forEach(b=>b.classList.remove('sel'));
+  }
+  if(id==='mSC'){
+    document.getElementById('sc_hm').value='';
+    document.getElementById('sc_nd').value='';
+    document.getElementById('sc_tt').value='';
+    document.getElementById('sc_gc').value='';
+    document.querySelectorAll('#mSC .rc').forEach(b=>b.classList.remove('sel'));
+  }
+  if(id==='mDK'){
+    document.getElementById('dk_hm').value='';
+    document.getElementById('dk_tang').value='';
+    document.getElementById('dk_nd').value='';
+    document.getElementById('dk_tt').value='';
+    document.getElementById('dk_gc').value='';
+    document.querySelectorAll('#mDK .rc').forEach(b=>b.classList.remove('sel'));
+  }
+  if(id==='mMP'){
+    document.getElementById('mp_tg').value='';
+    document.getElementById('mp_tt').value='';
+    document.getElementById('mp_da').value='';
+    document.getElementById('mp_aq').value='';
+    document.getElementById('mp_mp').value='';
+    document.getElementById('mp_dau').value='';
+    document.getElementById('mp_gc').value='';
+    document.querySelectorAll('#mMP .rc').forEach(b=>b.classList.remove('sel'));
+  }
   if(id==='mPCCC'){
     pcccSt={};document.getElementById('pc_tt').value='';document.getElementById('pc_gc').value='';
     document.querySelectorAll('#mPCCC .rc').forEach(b=>b.classList.remove('sel'));
@@ -522,7 +584,16 @@ function openMod(id){
 function closeMod(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)closeMod(o.id);}));
 
-function scls(s){const m={'Bình thường':'ok','Hoạt động tốt':'ok','Hoàn thành':'ok','Đã xong':'ok','Tốt':'ok','Có lỗi':'fault','Có sự cố':'fault','Cần theo dõi':'pending','Cần bảo trì':'pending','Cần kiểm tra':'pending','Chờ xử lý':'pending','Chờ sửa':'pending','Đang làm':'inprog','Đang sửa':'inprog'};return m[s]||'';}
+function scls(s){
+  if(!s)return'';
+  const m={'Bình thường':'ok','Hoạt động tốt':'ok','Hoàn thành':'ok','Đã xong':'ok','Tốt':'ok','Có lỗi':'fault','Có sự cố':'fault','Cần theo dõi':'pending','Cần bảo trì':'pending','Cần kiểm tra':'pending','Chờ xử lý':'pending','Chờ sửa':'pending','Đang làm':'inprog','Đang sửa':'inprog'};
+  if(m[s])return m[s];
+  const sl=s.toLowerCase().trim();
+  if(sl.includes('bình thường')||sl.includes('tốt')||sl.includes('hoàn thành')||sl.includes('đã xong'))return'ok';
+  if(sl.includes('lỗi')||sl.includes('sự cố'))return'fault';
+  if(sl.includes('chờ')||sl.includes('cần')||sl.includes('đang'))return'pending';
+  return'';
+}
 function pill(s){if(!s)return'<span class="pill gray">—</span>';const c=scls(s)||'gray';return`<span class="pill ${c}"><span class="pd"></span>${s}</span>`;}
 function empty(msg){return`<div class="empty"><div class="ei">📭</div><div class="et">${msg}</div></div>`;}
 function ld(){return`<div class="ld"><div class="spin"></div>Đang tải...</div>`;}
@@ -581,21 +652,20 @@ async function loadDashboard(){
   const d=today();
   // Load stats & previews in parallel
   try{
-    const [rCN,rHM,rMP,rPC]=await Promise.all([
-      callGAS({action:'getLog',sheet:'Log_CheckNgay',from:d,to:d}),
-      callGAS({action:'getLog',sheet:'Log_HangMuc'}),
-      callGAS({action:'getLog',sheet:'Log_MayPhatDien',from:d,to:d}),
-      callGAS({action:'getLog',sheet:'Log_PCCC',from:d,to:d})
-    ]);
-    const cn=rCN.success?rCN.data:[];
-    const hm=rHM.success?rHM.data:[];
-    const mp=rMP.success?rMP.data:[];
-    const pc=rPC.success?rPC.data:[];
+    // JSONP không hỗ trợ parallel tốt — load tuần tự để tránh race condition
+    const rCN=await callGAS({action:'getLog',sheet:'Log_CheckNgay',from:d,to:d});
+    const rHM=await callGAS({action:'getLog',sheet:'Log_HangMuc'});
+    const rMP=await callGAS({action:'getLog',sheet:'Log_MayPhatDien',from:d,to:d});
+    const rPC=await callGAS({action:'getLog',sheet:'Log_PCCC',from:d,to:d});
+    const cn=normArr(rCN.success?rCN.data:[]);
+    const hm=normArr(rHM.success?rHM.data:[]);
+    const mp=normArr(rMP.success?rMP.data:[]);
+    const pc=normArr(rPC.success?rPC.data:[]);
 
-    // Stats
-    const cnOk=cn.filter(r=>r.TinhTrang==='Bình thường').length;
-    const cnFault=cn.filter(r=>r.TinhTrang==='Có lỗi').length;
-    const hmPending=hm.filter(r=>r.TrangThai==='Chờ xử lý'||r.TrangThai==='Đang làm').length;
+    // Stats — dùng fld() để đọc an toàn, so sánh case-insensitive
+    const cnOk=cn.filter(r=>{const t=fld(r,'TinhTrang','tinhtrang');return t.toLowerCase().includes('bình thường')||t.toLowerCase().includes('binh thuong');}).length;
+    const cnFault=cn.filter(r=>{const t=fld(r,'TinhTrang','tinhtrang');return t.toLowerCase().includes('lỗi')||t.toLowerCase().includes('loi');}).length;
+    const hmPending=hm.filter(r=>{const t=fld(r,'TrangThai','trangthai');const tl=t.toLowerCase();return tl.includes('chờ')||tl.includes('cho')||tl.includes('đang làm')||tl.includes('dang lam');}).length;
     document.getElementById('statsRow').innerHTML=`
       <div class="stat-card ok"><div class="stat-num">${cnOk}</div><div class="stat-label">Check OK hôm nay</div></div>
       <div class="stat-card fault"><div class="stat-num">${cnFault}</div><div class="stat-label">Phát hiện lỗi</div></div>
@@ -632,71 +702,106 @@ async function loadDashboard(){
 
 // ══ CARD BUILDERS ══
 function cardCN(r){
-  const cls=scls(r.TinhTrang);
+  const tt=fld(r,'TinhTrang','tinhtrang');
+  const cls=scls(tt);
+  const vt=fld(r,'ViTri','vitri')||'—';
+  const nd=fld(r,'NoiDungCongViec','noidungcongviec','NoiDung','noidung')||'—';
+  const ht=fld(r,'HoTen','hoten')||'—';
+  const manv=fld(r,'MaNV','manv')||'—';
+  const ngay=fld(r,'Ngay','ngay');
+  const tg=fld(r,'ThoiGian','thoigian');
+  const gc=fld(r,'GhiChu','ghichu');
   return`<div class="card ${cls}"><div class="ci">
     <div class="czl">Khu vực / Hạng mục kiểm tra</div>
-    <div class="cz">${r.ViTri||'—'}</div>
+    <div class="cz">${vt}</div>
     <div class="ctl">Nội dung nghiệp vụ</div>
-    <div class="ct">${r.NoiDungCongViec||'—'}</div>
+    <div class="ct">${nd}</div>
     <div class="cmg">
-      <div><div class="cml">Nhân viên thực hiện</div><div class="cmv">• ${r.HoTen||'—'} (${r.MaNV||'—'})</div></div>
-      <div><div class="cml">Ngày hoàn thiện</div><div class="cmv">📅 ${fmtD(r.Ngay)}</div></div>
+      <div><div class="cml">Nhân viên thực hiện</div><div class="cmv">• ${ht} (${manv})</div></div>
+      <div><div class="cml">Ngày hoàn thiện</div><div class="cmv">📅 ${fmtD(ngay)}</div></div>
     </div>
     <div class="csla">
-      <div class="si ${r.TinhTrang==='Có lỗi'?'w':'g'}">Tình trạng: <span>${r.TinhTrang||'—'}</span></div>
-      <div class="si">Giờ: <span>${(r.ThoiGian||'').split(' ')[0]||'—'}</span></div>
+      <div class="si ${tt.includes('lỗi')||tt.includes('loi')?'w':'g'}">Tình trạng: <span>${tt||'—'}</span></div>
+      <div class="si">Giờ: <span>${tg.split(' ')[0]||'—'}</span></div>
     </div>
-    <div class="cft"><div class="cnote">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>${pill(r.TinhTrang)}</div>
+    <div class="cft"><div class="cnote">${gc?'Ghi chú: '+gc:''}</div>${pill(tt)}</div>
   </div></div>`;
 }
 function cardHM(r){
-  const cls=r.TrangThai==='Hoàn thành'?'ok':r.TrangThai==='Đang làm'?'inprog':'pending';
+  const tt=fld(r,'TrangThai','trangthai');
+  const ttl=tt.toLowerCase();
+  const cls=ttl.includes('hoàn thành')||ttl.includes('hoan thanh')?'ok':ttl.includes('đang làm')||ttl.includes('dang lam')?'inprog':'pending';
+  const hm=fld(r,'HangMuc','hangmuc')||'—';
+  const nd=fld(r,'NoiDung','noidung','NoiDungCongViec','noidungcongviec')||'—';
+  const ht=fld(r,'HoTen','hoten')||'—';
+  const manv=fld(r,'MaNV','manv')||'—';
+  const bd=fld(r,'NgayBatDau','ngaybatdau');
+  const kt=fld(r,'NgayKetThuc','ngayketthuc');
+  const gc=fld(r,'GhiChu','ghichu');
   return`<div class="card ${cls}"><div class="ci">
     <div class="czl">Hạng mục</div>
-    <div class="cz">${r.HangMuc||'—'}</div>
+    <div class="cz">${hm}</div>
     <div class="ctl">Nội dung công việc</div>
-    <div class="ct">${r.NoiDung||'—'}</div>
+    <div class="ct">${nd}</div>
     <div class="cmg">
-      <div><div class="cml">Nhân viên thực hiện</div><div class="cmv">• ${r.HoTen||'—'} (${r.MaNV||'—'})</div></div>
-      <div><div class="cml">Tiến độ</div><div class="cmv">${pill(r.TrangThai)}</div></div>
+      <div><div class="cml">Nhân viên thực hiện</div><div class="cmv">• ${ht} (${manv})</div></div>
+      <div><div class="cml">Tiến độ</div><div class="cmv">${pill(tt)}</div></div>
     </div>
     <div class="csla">
-      ${r.NgayBatDau?`<div class="si">Bắt đầu: <span>${fmtD(r.NgayBatDau)}</span></div>`:''}
-      ${r.NgayKetThuc?`<div class="si w">Hạn chót: <span>${fmtD(r.NgayKetThuc)}</span></div>`:''}
+      ${bd?`<div class="si">Bắt đầu: <span>${fmtD(bd)}</span></div>`:''}
+      ${kt?`<div class="si w">Hạn chót: <span>${fmtD(kt)}</span></div>`:''}
     </div>
-    <div class="cft"><div class="cnote">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div></div>
+    <div class="cft"><div class="cnote">${gc?'Ghi chú: '+gc:''}</div></div>
   </div></div>`;
 }
 function cardMP(r){
-  const cls=scls(r.TrangThai);
+  const tt=fld(r,'TrangThai','trangthai');
+  const cls=scls(tt);
+  const ht=fld(r,'HoTen','hoten')||'—';
+  const ngay=fld(r,'Ngay','ngay');
+  const tgc=fld(r,'ThoiGianChay','thoigianchay')||'—';
+  const acq=fld(r,'TinhTrangAcquy','tinhtrangacquy')||'—';
+  const dau=fld(r,'DauMayPhat','daumayphat')||'—';
+  const da=fld(r,'DienAp','dienap')||'—';
+  const gc=fld(r,'GhiChu','ghichu');
   return`<div class="card ${cls}"><div class="ci">
     <div class="czl">Hệ thống điện dự phòng</div>
     <div class="cz">Máy Phát Điện</div>
     <div class="cmg">
-      <div><div class="cml">Nhân viên thực hiện</div><div class="cmv">• ${r.HoTen||'—'}</div></div>
-      <div><div class="cml">Ngày vận hành</div><div class="cmv">📅 ${fmtD(r.Ngay)}</div></div>
+      <div><div class="cml">Nhân viên thực hiện</div><div class="cmv">• ${ht}</div></div>
+      <div><div class="cml">Ngày vận hành</div><div class="cmv">📅 ${fmtD(ngay)}</div></div>
     </div>
     <div class="csla">
-      <div class="si">Thời gian chạy: <span>${r.ThoiGianChay||'—'}</span></div>
-      <div class="si ${r.TinhTrangAcquy==='Cần thay'?'w':''}">Acquy: <span>${r.TinhTrangAcquy||'—'}</span></div>
-      <div class="si ${r.DauMayPhat==='Cần thay'||r.DauMayPhat==='Cần châm thêm'?'w':'g'}">Dầu: <span>${r.DauMayPhat||'—'}</span></div>
-      <div class="si">Điện áp: <span>${r.DienAp||'—'}</span></div>
+      <div class="si">Thời gian chạy: <span>${tgc}</span></div>
+      <div class="si ${acq.includes('thay')?'w':''}">Acquy: <span>${acq}</span></div>
+      <div class="si ${dau.includes('thay')||dau.includes('châm')?'w':'g'}">Dầu: <span>${dau}</span></div>
+      <div class="si">Điện áp: <span>${da}</span></div>
     </div>
-    <div class="cft"><div class="cnote">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>${pill(r.TrangThai)}</div>
+    <div class="cft"><div class="cnote">${gc?'Ghi chú: '+gc:''}</div>${pill(tt)}</div>
   </div></div>`;
 }
 function cardPC(r){
-  const cls=scls(r.TinhTrang);
-  const items=PCCC_ITEMS.map(n=>{const v=r[n.replace(/ /g,'')]||'—';const c=v==='Tốt'?'ok':v==='Lỗi'?'fault':'gray';return`<span class="pill ${c}" style="font-size:9px">${n}: ${v}</span>`;}).join(' ');
+  const tt=fld(r,'TinhTrang','tinhtrang');
+  const cls=scls(tt);
+  const ht=fld(r,'HoTen','hoten')||'—';
+  const ngay=fld(r,'Ngay','ngay');
+  const thang=fld(r,'Thang','thang')||'—';
+  const gc=fld(r,'GhiChu','ghichu');
+  const items=PCCC_ITEMS.map(n=>{
+    const key=n.replace(/ /g,'');
+    const v=fld(r,key,key.toLowerCase())||'—';
+    const c=v==='Tốt'||v.toLowerCase()==='tốt'?'ok':v==='Lỗi'||v.toLowerCase()==='lỗi'?'fault':'gray';
+    return`<span class="pill ${c}" style="font-size:9px">${n}: ${v}</span>`;
+  }).join(' ');
   return`<div class="card ${cls}"><div class="ci">
     <div class="czl">Hệ thống PCCC</div>
-    <div class="cz">Kiểm tra tháng ${r.Thang||'—'}</div>
+    <div class="cz">Kiểm tra tháng ${thang}</div>
     <div class="cmg">
-      <div><div class="cml">Người kiểm tra</div><div class="cmv">• ${r.HoTen||'—'}</div></div>
-      <div><div class="cml">Ngày kiểm tra</div><div class="cmv">📅 ${fmtD(r.Ngay)}</div></div>
+      <div><div class="cml">Người kiểm tra</div><div class="cmv">• ${ht}</div></div>
+      <div><div class="cml">Ngày kiểm tra</div><div class="cmv">📅 ${fmtD(ngay)}</div></div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">${items}</div>
-    <div class="cft"><div class="cnote">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>${pill(r.TinhTrang)}</div>
+    <div class="cft"><div class="cnote">${gc?'Ghi chú: '+gc:''}</div>${pill(tt)}</div>
   </div></div>`;
 }
 
@@ -706,8 +811,9 @@ async function loadCheckNgay(){
   document.getElementById('cnContent').innerHTML=ld();
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_CheckNgay',from:d,to:d});
-    const data=r.success?r.data:[];
+    const data=normArr(r.success?r.data:[]);
     const el=document.getElementById('cnContent');
+    el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra nào ngày ${fmtD(d)}`);return;}
     el.innerHTML=`<div class="sh"><h2>Kết Quả Kiểm Tra</h2><span class="cbadge">${data.length} mục</span></div><div class="cgrid">${data.map(r=>cardCN(r)).join('')}</div>`;
   }catch(e){document.getElementById('cnContent').innerHTML=empty('Lỗi kết nối');}
@@ -726,14 +832,17 @@ async function saveCN(){
 let hmData=[];
 async function loadHM(){
   document.getElementById('hmContent').innerHTML=ld();
-  try{const r=await callGAS({action:'getLog',sheet:'Log_HangMuc'});hmData=r.success?r.data:[];renderHM();}
+  try{const r=await callGAS({action:'getLog',sheet:'Log_HangMuc'});hmData=normArr(r.success?r.data:[]);renderHM();}
   catch(e){document.getElementById('hmContent').innerHTML=empty('Lỗi kết nối');}
 }
 function filterHM(f,el){hmFilter=f;document.querySelectorAll('#tab-hangMuc .chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderHM();}
 function renderHM(){
   const el=document.getElementById('hmContent');
   let data=hmData;
-  if(hmFilter!=='all')data=data.filter(r=>r.TrangThai===hmFilter);
+  if(hmFilter!=='all')data=data.filter(r=>{
+    const tt=fld(r,'TrangThai','trangthai','Trangthai')||'';
+    return tt.toLowerCase().trim()===hmFilter.toLowerCase().trim();
+  });
   if(!data.length){el.innerHTML=empty('Không có hạng mục nào');return;}
   el.innerHTML=`<div class="sh"><h2>Hạng Mục Xử Lý</h2><span class="cbadge">${data.length} mục</span></div><div class="cgrid">${data.slice().reverse().map(r=>cardHM(r)).join('')}</div>`;
 }
@@ -752,11 +861,20 @@ async function loadSC(){
   document.getElementById('scContent').innerHTML=ld();
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_SuaChuaPhong',from:d,to:d});
-    const data=r.success?r.data:[];
+    const data=normArr(r.success?r.data:[]);
     const el=document.getElementById('scContent');
+    el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có phiếu sửa chữa ngày ${fmtD(d)}`);return;}
     const cls={'Chờ sửa':'pending','Đang sửa':'inprog','Đã xong':'ok'};
-    el.innerHTML=`<div class="sh"><h2>Sửa Chữa Phòng</h2><span class="cbadge">${data.length}</span></div><div class="cgrid">${data.map(r=>`<div class="card ${cls[r.TinhTrang]||''}"><div class="ci"><div class="czl">Hạng mục sửa chữa</div><div class="cz">${r.HangMuc||'—'}</div><div class="ctl">Nội dung công việc</div><div class="ct">${r.NoiDungCongViec||'—'}</div><div class="cmg"><div><div class="cml">Nhân viên</div><div class="cmv">• ${r.HoTen||'—'}</div></div><div><div class="cml">Tình trạng</div><div class="cmv">${pill(r.TinhTrang)}</div></div></div><div class="cft"><div class="cnote">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div></div></div></div>`).join('')}</div>`;
+    el.innerHTML=`<div class="sh"><h2>Sửa Chữa Phòng</h2><span class="cbadge">${data.length}</span></div><div class="cgrid">${data.map(r=>{
+      const tt=fld(r,'TinhTrang','tinhtrang');
+      const hm=fld(r,'HangMuc','hangmuc')||'—';
+      const nd=fld(r,'NoiDungCongViec','noidungcongviec','NoiDung','noidung')||'—';
+      const ht=fld(r,'HoTen','hoten')||'—';
+      const gc=fld(r,'GhiChu','ghichu');
+      const c=cls[tt]||scls(tt)||'';
+      return`<div class="card ${c}"><div class="ci"><div class="czl">Hạng mục sửa chữa</div><div class="cz">${hm}</div><div class="ctl">Nội dung công việc</div><div class="ct">${nd}</div><div class="cmg"><div><div class="cml">Nhân viên</div><div class="cmv">• ${ht}</div></div><div><div class="cml">Tình trạng</div><div class="cmv">${pill(tt)}</div></div></div><div class="cft"><div class="cnote">${gc?'Ghi chú: '+gc:''}</div></div></div></div>`;
+    }).join('')}</div>`;
   }catch(e){document.getElementById('scContent').innerHTML=empty('Lỗi kết nối');}
 }
 async function saveSC(){
@@ -775,11 +893,22 @@ async function loadDK(){
   document.getElementById('dkContent').innerHTML=ld();
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_DinhKy',from:d,to:d});
-    const data=r.success?r.data:[];
+    const data=normArr(r.success?r.data:[]);
     const el=document.getElementById('dkContent');
+    el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra định kỳ ngày ${fmtD(d)}`);return;}
     const cls={'Bình thường':'ok','Có lỗi':'fault','Cần bảo trì':'pending'};
-    el.innerHTML=`<div class="sh"><h2>Kiểm Tra Định Kỳ</h2><span class="cbadge">${data.length}</span></div><div class="cgrid">${data.map(r=>`<div class="card ${cls[r.TinhTrang]||''}"><div class="ci"><div class="czl">Hạng mục định kỳ</div><div class="cz">${r.HangMuc||'—'}${r.Tang?' · '+r.Tang:''}</div><div class="ctl">Nội dung kiểm tra</div><div class="ct">${r.NoiDungCongViec||'—'}</div><div class="cmg"><div><div class="cml">Nhân viên</div><div class="cmv">• ${r.HoTen||'—'}</div></div><div><div class="cml">Ngày</div><div class="cmv">📅 ${fmtD(r.Ngay)}</div></div></div><div class="cft"><div class="cnote">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>${pill(r.TinhTrang)}</div></div></div>`).join('')}</div>`;
+    el.innerHTML=`<div class="sh"><h2>Kiểm Tra Định Kỳ</h2><span class="cbadge">${data.length}</span></div><div class="cgrid">${data.map(r=>{
+      const tt=fld(r,'TinhTrang','tinhtrang');
+      const hm=fld(r,'HangMuc','hangmuc')||'—';
+      const tang=fld(r,'Tang','tang');
+      const nd=fld(r,'NoiDungCongViec','noidungcongviec','NoiDung','noidung')||'—';
+      const ht=fld(r,'HoTen','hoten')||'—';
+      const ngay=fld(r,'Ngay','ngay');
+      const gc=fld(r,'GhiChu','ghichu');
+      const c=cls[tt]||scls(tt)||'';
+      return`<div class="card ${c}"><div class="ci"><div class="czl">Hạng mục định kỳ</div><div class="cz">${hm}${tang?' · '+tang:''}</div><div class="ctl">Nội dung kiểm tra</div><div class="ct">${nd}</div><div class="cmg"><div><div class="cml">Nhân viên</div><div class="cmv">• ${ht}</div></div><div><div class="cml">Ngày</div><div class="cmv">📅 ${fmtD(ngay)}</div></div></div><div class="cft"><div class="cnote">${gc?'Ghi chú: '+gc:''}</div>${pill(tt)}</div></div></div>`;
+    }).join('')}</div>`;
   }catch(e){document.getElementById('dkContent').innerHTML=empty('Lỗi kết nối');}
 }
 async function saveDK(){
@@ -798,8 +927,9 @@ async function loadMP(){
   document.getElementById('mpContent').innerHTML=ld();
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_MayPhatDien',from:d,to:d});
-    const data=r.success?r.data:[];
+    const data=normArr(r.success?r.data:[]);
     const el=document.getElementById('mpContent');
+    el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có log máy phát ngày ${fmtD(d)}`);return;}
     el.innerHTML=`<div class="sh"><h2>Máy Phát Điện</h2><span class="cbadge">${data.length}</span></div><div class="cgrid">${data.map(r=>cardMP(r)).join('')}</div>`;
   }catch(e){document.getElementById('mpContent').innerHTML=empty('Lỗi kết nối');}
@@ -820,8 +950,9 @@ async function loadPCCC(){
   document.getElementById('pcccContent').innerHTML=ld();
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_PCCC',from:d,to:d});
-    const data=r.success?r.data:[];
+    const data=normArr(r.success?r.data:[]);
     const el=document.getElementById('pcccContent');
+    el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra PCCC ngày ${fmtD(d)}`);return;}
     el.innerHTML=`<div class="sh"><h2>Kiểm Tra PCCC</h2><span class="cbadge">${data.length}</span></div><div class="cgrid">${data.map(r=>cardPC(r)).join('')}</div>`;
   }catch(e){document.getElementById('pcccContent').innerHTML=empty('Lỗi kết nối');}
