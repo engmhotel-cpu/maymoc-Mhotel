@@ -264,7 +264,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
         <div class="dw-date" id="dw-date">—</div>
       </div>
       <div class="stats-row" id="statsRow">
-        <div class="ld"><div class="spin"></div>Đang tải tổng quan...</div>
+        <div class="ld"><div class="spin"></div>Đang tải dữ liệu...</div>
       </div>
       <div class="dash-section">
         <div class="dash-sh"><h3>📋 Kiểm Tra Hôm Nay</h3><a onclick="switchTab('checkNgay')">Xem tất cả →</a></div>
@@ -504,11 +504,13 @@ function norm(obj){
 }
 function normArr(arr){return Array.isArray(arr)?arr.map(norm):[];}
 
-// HÀM VÁ LỖI PHÂN TÍCH NGÀY CHUẨN ĐỐI CHIẾU 100%
+// HÀM CHUẨN HÓA ĐỊNH DẠNG NGÀY ĐỐI CHIẾU FRONTEND TUYỆT ĐỐI
 function cleanDateStr(str) {
   if (!str) return '';
   let s = String(str).trim();
   if (s.includes(' ')) s = s.split(' ')[0];
+  
+  // Xử lý dấu gạch chéo DD/MM/YYYY hoặc MM/DD/YYYY thành YYYY-MM-DD
   if (s.includes('/')) {
     let p = s.split('/');
     if (p.length === 3) {
@@ -645,33 +647,30 @@ function loadTab(t){
   else if(t==='mayPhat') loadMP();
   else if(t==='pccc') loadPCCC();
 }
-function initApp(){
-  ['dateCheckNgay','dateSC','dateDK','dateMP','datePCCC'].forEach(setToday);
-  document.getElementById('hm_bd').value=today();
-  loadDashboard();
-}
 
-// ══ DASHBOARD (LOAD TUẦN TỰ TRÁNH RACE CONDITION) ══
+// ══ DASHBOARD ══
 async function loadDashboard(){
   const d=today();
   document.getElementById('statsRow').innerHTML = ld();
   try{
-    const rCN=await callGAS({action:'getLog',sheet:'Log_CheckNgay',from:d,to:d});
-    await new Promise(r => setTimeout(r, 300)); // Nghỉ ngắn tránh nghẽn luồng mạng
+    const rCN=await callGAS({action:'getLog',sheet:'Log_CheckNgay'});
     const rHM=await callGAS({action:'getLog',sheet:'Log_HangMuc'});
-    await new Promise(r => setTimeout(r, 300));
-    const rMP=await callGAS({action:'getLog',sheet:'Log_MayPhatDien',from:d,to:d});
-    await new Promise(r => setTimeout(r, 300));
-    const rPC=await callGAS({action:'getLog',sheet:'Log_PCCC',from:d,to:d});
+    const rMP=await callGAS({action:'getLog',sheet:'Log_MayPhatDien'});
+    const rPC=await callGAS({action:'getLog',sheet:'Log_PCCC'});
 
-    const cn=normArr(rCN.success?rCN.data:[]);
-    const hm=normArr(rHM.success?rHM.data:[]);
-    const mp=normArr(rMP.success?rMP.data:[]);
-    const pc=normArr(rPC.success?rPC.data:[]);
+    const cnFull=normArr(rCN.success?rCN.data:[]);
+    const hmFull=normArr(rHM.success?rHM.data:[]);
+    const mpFull=normArr(rMP.success?rMP.data:[]);
+    const pcFull=normArr(rPC.success?rPC.data:[]);
+
+    // Lọc theo ngày hôm nay trên Dashboard
+    const cn = cnFull.filter(r => cleanDateStr(fld(r,'Ngay','ngay')) === d);
+    const mp = mpFull.filter(r => cleanDateStr(fld(r,'Ngay','ngay')) === d);
+    const pc = pcFull.filter(r => cleanDateStr(fld(r,'Ngay','ngay')) === d);
 
     const cnOk=cn.filter(r=>{const t=fld(r,'TinhTrang','tinhtrang');return t.toLowerCase().includes('bình thường')||t.toLowerCase().includes('binh thuong');}).length;
     const cnFault=cn.filter(r=>{const t=fld(r,'TinhTrang','tinhtrang');return t.toLowerCase().includes('lỗi')||t.toLowerCase().includes('loi');}).length;
-    const hmPending=hm.filter(r=>{const t=fld(r,'TrangThai','trangthai');const tl=t.toLowerCase();return tl.includes('chờ')||tl.includes('cho')||tl.includes('đang làm')||tl.includes('dang lam');}).length;
+    const hmPending=hmFull.filter(r=>{const t=fld(r,'TrangThai','trangthai');const tl=t.toLowerCase();return tl.includes('chờ')||tl.includes('cho')||tl.includes('đang làm')||tl.includes('dang lam');}).length;
     
     document.getElementById('statsRow').innerHTML=`
       <div class="stat-card ok"><div class="stat-num">${cnOk}</div><div class="stat-label">Check OK hôm nay</div></div>
@@ -686,7 +685,7 @@ async function loadDashboard(){
     else{elCN.innerHTML=`<div class="cgrid">${cn.slice(-4).reverse().map(r=>cardCN(r)).join('')}</div>`;}
 
     const elHM=document.getElementById('dash-hangMuc');
-    const hmActive=hm.filter(r=>{const tt=fld(r,'TrangThai','trangthai').toLowerCase(); return !tt.includes('hoàn thành') && !tt.includes('hoan thanh');}).slice(-4).reverse();
+    const hmActive=hmFull.filter(r=>{const tt=fld(r,'TrangThai','trangthai').toLowerCase(); return !tt.includes('hoàn thành') && !tt.includes('hoan thanh');}).slice(-4).reverse();
     if(!hmActive.length){elHM.innerHTML=empty('Không có hạng mục nào đang tồn');}
     else{elHM.innerHTML=`<div class="cgrid">${hmActive.map(r=>cardHM(r)).join('')}</div>`;}
 
@@ -814,8 +813,9 @@ async function loadCheckNgay(){
   const d = cleanDateStr(targetInput) || today();
   document.getElementById('cnContent').innerHTML=ld();
   try{
-    const r=await callGAS({action:'getLog',sheet:'Log_CheckNgay',from:d,to:d});
-    const data=normArr(r.success?r.data:[]);
+    const r=await callGAS({action:'getLog',sheet:'Log_CheckNgay'});
+    const rawData=normArr(r.success?r.data:[]);
+    const data = rawData.filter(r => cleanDateStr(fld(r,'Ngay','ngay')) === d);
     const el=document.getElementById('cnContent');
     el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra nào ngày ${fmtD(d)}`);return;}
@@ -890,9 +890,10 @@ async function loadSC(){
   const targetInput = document.getElementById('dateSC').value;
   const d = cleanDateStr(targetInput) || today();
   document.getElementById('scContent').innerHTML=ld();
-  try{
-    const r=await callGAS({action:'getLog',sheet:'Log_SuaChuaPhong',from:d,to:d});
-    const data=normArr(r.success?r.data:[]);
+  try {
+    const r=await callGAS({action:'getLog',sheet:'Log_SuaChuaPhong'});
+    const rawData=normArr(r.success?r.data:[]);
+    const data = rawData.filter(r => cleanDateStr(fld(r,'Ngay','ngay')) === d);
     const el=document.getElementById('scContent');
     el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có phiếu sửa chữa ngày ${fmtD(d)}`);return;}
@@ -931,8 +932,9 @@ async function loadDK(){
   const d = cleanDateStr(targetInput) || today();
   document.getElementById('dkContent').innerHTML=ld();
   try{
-    const r=await callGAS({action:'getLog',sheet:'Log_DinhKy',from:d,to:d});
-    const data=normArr(r.success?r.data:[]);
+    const r=await callGAS({action:'getLog',sheet:'Log_DinhKy'});
+    const rawData=normArr(r.success?r.data:[]);
+    const data = rawData.filter(r => cleanDateStr(fld(r,'Ngay','ngay')) === d);
     const el=document.getElementById('dkContent');
     el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra định kỳ ngày ${fmtD(d)}`);return;}
@@ -974,8 +976,9 @@ async function loadMP(){
   const d = cleanDateStr(targetInput) || today();
   document.getElementById('mpContent').innerHTML=ld();
   try{
-    const r=await callGAS({action:'getLog',sheet:'Log_MayPhatDien',from:d,to:d});
-    const data=normArr(r.success?r.data:[]);
+    const r=await callGAS({action:'getLog',sheet:'Log_MayPhatDien'});
+    const rawData=normArr(r.success?r.data:[]);
+    const data = rawData.filter(r => cleanDateStr(fld(r,'Ngay','ngay')) === d);
     const el=document.getElementById('mpContent');
     el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có log máy phát ngày ${fmtD(d)}`);return;}
@@ -1009,8 +1012,9 @@ async function loadPCCC(){
   const d = cleanDateStr(targetInput) || today();
   document.getElementById('pcccContent').innerHTML=ld();
   try{
-    const r=await callGAS({action:'getLog',sheet:'Log_PCCC',from:d,to:d});
-    const data=normArr(r.success?r.data:[]);
+    const r=await callGAS({action:'getLog',sheet:'Log_PCCC'});
+    const rawData=normArr(r.success?r.data:[]);
+    const data = rawData.filter(r => cleanDateStr(fld(r,'Ngay','ngay')) === d);
     const el=document.getElementById('pcccContent');
     el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra PCCC ngày ${fmtD(d)}`);return;}
