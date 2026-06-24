@@ -267,7 +267,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
         <div class="ld"><div class="spin"></div>Đang tải...</div>
       </div>
       <div class="dash-section">
-        <div class="dash-sh"><h3>📋 Kiểm Tra Hôm Nay</h3><a onclick="switchTab('checkNgay')">Xem tất cả →</a></div>
+        <div class="dash-sh"><h3>📋 Kiểm Tra Hôm Hôm Nay</h3><a onclick="switchTab('checkNgay')">Xem tất cả →</a></div>
         <div id="dash-checkNgay"><div class="ld"><div class="spin"></div></div></div>
       </div>
       <div class="dash-section">
@@ -507,7 +507,6 @@ function normArr(arr){return Array.isArray(arr)?arr.map(norm):[];}
 function fld(obj,...keys){
   for(const k of keys){
     if(obj[k]!==undefined&&obj[k]!==null&&obj[k]!=='')return String(obj[k]).trim();
-    // Fallback tìm key hoa thường không quan trọng
     for(const realKey in obj) {
       if(realKey.toLowerCase() === k.toLowerCase() && obj[realKey]!==undefined && obj[realKey]!==null && obj[realKey]!=='') {
         return String(obj[realKey]).trim();
@@ -576,7 +575,7 @@ function scls(s){
   return'';
 }
 function pill(s){if(!s)return'<span class="pill gray">—</span>';const c=scls(s)||'gray';return`<span class="pill ${c}"><span class="pd"></span>${s}</span>`;}
-	function empty(msg){return`<div class="empty"><div class="ei">📭</div><div class="et">${msg}</div></div>`;}
+function empty(msg){return`<div class="empty"><div class="ei">📭</div><div class="et">${msg}</div></div>`;}
 function ld(){return`<div class="ld"><div class="spin"></div>Đang tải...</div>`;}
 
 // LOGIN
@@ -740,6 +739,15 @@ function cardMP(r){
   const dau=fld(r,'DauMayPhat','daumayphat')||'—';
   const da=fld(r,'DienAp','dienap')||'—';
   const gc=fld(r,'GhiChu','ghichu');
+  
+  const rawTg=fld(r,'ThoiGian','thoigian');
+  let tg = '—';
+  if (rawTg && typeof rawTg === 'string' && rawTg.includes(' ')) {
+    tg = rawTg.split(' ')[0];
+  } else if (rawTg) {
+    tg = rawTg;
+  }
+
   return`<div class="card ${cls}"><div class="ci">
     <div class="czl">Hệ thống điện dự phòng</div>
     <div class="cz">Máy Phát Điện</div>
