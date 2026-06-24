@@ -20,7 +20,7 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;min-height:100vh;}
 
-/* LOGIN */
+/* LOGIN SCREEN */
 #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e0f2fe 0%,#f0fdf4 50%,#f0f4f8 100%);padding:24px;}
 .lw{width:100%;max-width:420px;}
 .lb{text-align:center;margin-bottom:28px;}
@@ -32,10 +32,11 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .iw .ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;}
 .iw input{width:100%;padding:11px 13px 11px 40px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:14px;font-family:'Inter',sans-serif;outline:none;}
 .iw input:focus{border-color:var(--accent);}
-.btn-login{width:100%;padding:12px;background:var(--accent);color:#fff;font-weight:700;border:none;border-radius:var(--rs);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;}
-.lerr{color:var(--warn);font-size:12px;text-align:center;margin-top:10px;min-height:16px;}
+.btn-login{width:100%;padding:12px;background:var(--accent);color:#fff;font-weight:700;border:none;border-radius:var(--rs);cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;}
+.btn-login:hover{background:var(--accent-dark);}
+.lerr{color:var(--warn);font-size:12px;text-align:center;margin-top:10px;min-height:16px;font-weight:500;}
 
-/* MAIN APP */
+/* APP SHELL */
 #appShell{display:none;flex-direction:column;min-height:100vh;}
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;height:56px;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
 .tl{display:flex;align-items:center;gap:10px;}
@@ -56,7 +57,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .tbtn{flex:1;text-align:center;padding:14px 10px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;text-transform:uppercase;letter-spacing:.5px;}
 .tbtn.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--surface2);}
 
-/* CONTENT INTERFACE */
+/* INTERFACE SYSTEM */
 .content{flex:1;padding:16px;max-width:960px;margin:0 auto;width:100%;padding-bottom:40px;}
 .tpanel{display:none;}
 .tpanel.active{display:block;}
@@ -76,7 +77,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .sh h2{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--blue);text-transform:uppercase;}
 .cbadge{background:var(--blue-dim);color:var(--blue);font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;}
 
-/* CARDS STYLING */
+/* CARDS DETAILED */
 .cgrid{display:grid;grid-template-columns:1fr;gap:12px;}
 @media(min-width:600px){.cgrid{grid-template-columns:1fr 1fr;}}
 .card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;border-left:4px solid var(--border);padding:14px 15px;}
@@ -87,15 +88,15 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
 .card-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;margin-bottom:8px;color:var(--text);}
 .card-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:13px;color:var(--text);}
-.card-row span{color:var(--muted);}
-.card-footer{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted);}
+.card-row span{color:var(--muted);font-weight:500;}
+.card-footer{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);}
 
-/* STATS */
+/* STATS DESIGN */
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
 .stat-card{background:var(--surface);border-radius:var(--r);padding:14px 12px;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center;border-top:3px solid var(--border);}
-.stat-card.ok{border-top-color:var(--ok);}
-.stat-card.fault{border-top-color:var(--warn);}
-.stat-card.blue{border-top-color:var(--blue);}
+.stat-card.ok {border-top-color:var(--ok);}
+.stat-card.fault {border-top-color:var(--warn);}
+.stat-card.blue {border-top-color:var(--blue);}
 .stat-num{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;}
 .stat-card.ok .stat-num{color:var(--ok);}
 .stat-card.fault .stat-num{color:var(--warn);}
@@ -110,21 +111,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .spin{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* MODAL SYSTEM */
-.ov{display:none;position:fixed;inset:0;background:rgba(17,24,39,.45);z-index:500;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
-.ov.open{display:flex;}
-@media(min-width:600px){.ov{align-items:center;}}
-.modal{background:var(--surface);width:100%;max-width:520px;border-radius:var(--r) var(--r) 0 0;max-height:92vh;display:flex;flex-direction:column;box-shadow:0 -4px 40px rgba(0,0,0,.12);}
-@media(min-width:600px){.modal{border-radius:var(--r);margin:16px;max-height:88vh;}}
-.mhd{padding:16px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.mtitle{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;}
-.mclose{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;}
-.mbody{padding:18px;overflow-y:auto;flex:1;}
-.mft{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px;}
-
-.field{margin-bottom:14px;}
-.field label{display:block;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:5px;}
-.field input,.field select,.field textarea{width:100%;padding:10px 12px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:13px;outline:none;}
+/* PILLS */
 .pill{display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase;}
 .pill.ok{background:var(--accent-dim2);color:var(--ok);}
 .pill.fault{background:var(--warn-dim);color:var(--warn);}
@@ -143,12 +130,12 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     <div class="lb">
       <div><span class="badge">⚙ HK HOTEL OPERATIONS</span></div>
       <h1 style="margin-top:12px">KỸ THUẬT & VẬN HÀNH</h1>
-      <p>Hệ thống Quản Trị Vận Hành Không Lỗi Bộ Lọc Lệch Pha Dữ Liệu</p>
+      <p>Hệ thống Quản Trị Vận Hành 4 Tab Không Lỗi Bộ Lọc Ngày</p>
     </div>
     <div class="lcard">
-      <div class="iw"><span class="ic">👤</span><input type="text" id="loginId" placeholder="Mã nhân viên"/></div>
+      <div class="iw"><span class="ic">👤</span><input type="text" id="loginId" placeholder="Mã nhân viên (VD: KT01)"/></div>
       <div class="iw"><span class="ic">🔒</span><input type="password" id="loginPass" placeholder="Mật khẩu"/></div>
-      <button class="btn-login bpri" onclick="doLogin()">⚡ Đăng Nhập</button>
+      <button class="btn-login bpri" onclick="doLogin()">⚡ Đăng Nhập Hệ Thống</button>
       <div class="lerr" id="loginErr"></div>
     </div>
   </div>
@@ -157,7 +144,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 <div id="appShell">
   <div class="topbar">
     <div class="tl">
-      <div><div class="ttitle">HK HOTEL OPERATIONS</div><div class="tsub">KIẾN TRÚC CHỐNG LỖI FRONTIER</div></div>
+      <div><div class="ttitle">HK HOTEL OPERATIONS</div><div class="tsub">HỆ THỐNG ĐIỀU HÀNH KỸ THUẬT</div></div>
       <div class="netstatus"><span class="ndot"></span><span id="netLabel">Online</span></div>
     </div>
     <div class="tr">
@@ -179,12 +166,12 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   <div class="content">
     <div class="tpanel active" id="tab-dashboard">
       <div class="dash-welcome">
-        <div class="dw-sub">Hệ thống kỹ thuật</div>
+        <div class="dw-sub">Hệ thống vận hành</div>
         <div class="dw-title" id="dw-name">—</div>
         <div class="dw-date" id="dw-date">—</div>
       </div>
       <div class="stats-row" id="statsRow">
-        <div class="ld"><div class="spin"></div>Đang quét đồng bộ dữ liệu...</div>
+        <div class="ld"><div class="spin"></div>Đang tải số liệu...</div>
       </div>
       <div class="dash-section">
         <div class="dash-sh"><h3>📋 10 Hoạt Động Mới Nhất Trong Ngày</h3></div>
@@ -220,7 +207,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div class="crow">
         <div class="frow">
           <div class="chip active" id="sub-generator" onclick="switchSubTab('hethong', 'generator')">⚡ Máy Phát</div>
-          <div class="chip" id="sub-pccc" onclick="switchSubTab('hethong', 'pccc')">🔥 PCCC</div>
+          <div class="chip" id="sub-pccc" onclick="switchSubTab('hethong', 'pccc')">🔥 Hệ PCCC</div>
         </div>
         <div style="flex:1"></div>
         <div class="diw"><label>Ngày</label><input type="date" id="workDate_hethong" onchange="syncDataAction('hethong')"/></div>
@@ -230,11 +217,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   </div>
 </div>
 
-<div id="toast"></div>
-
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbwKIWgB-MedjJKKEED--9JxLOqV30-M2EpAHGrowQ-AnRWq6t5E6R9MZIVulFoaSv1Z/exec';
+const GAS = 'https://script.google.com/macros/s/AKfycbwKIWgB-MedjJKKEED--9JxLOqV30-M2EpAHGrowQ-AnRWq6t5E6R9MZIVulFoaSv1Z/exec';
 
+let user = null, _ci = 0;
 let currentTab = 'dashboard';
 const currentSubTabs = { kiemtra: 'daily', suachua: 'room', hethong: 'generator' };
 
@@ -244,7 +230,7 @@ const MAPPINGS = {
   hethong: { generator: 'Log_MayPhatDien', pccc: 'Log_PCCC' }
 };
 
-// 1. HÀM ĐỌC FIELD AN TOÀN (SAFE FIELD) - TRÁI TIM KIẾN TRÚC CHỐNG SẬP
+// 1. HÀM ĐỌC FIELD AN TOÀN (SAFE FIELD) - TUYỆT ĐỐI KHÔNG SẬP LUỒNG KHÔNG CÓ TRƯỜNG
 function fld(row, ...keys){
   if(!row) return '';
   const map = {};
@@ -282,13 +268,13 @@ function today(){const d=new Date();return`${d.getFullYear()}-${p2(d.getMonth()+
 function p2(n){return String(n).padStart(2,'0');}
 function setToday(id){document.getElementById(id).value=today();}
 
-// ĐỒNG BỘ JSONP KHÔNG CHẶN CORS
+// ĐỒNG BỘ JSONP TRÁNH CORS CHUẨN XÁC
 function callGAS(p){
   return new Promise((res,rej)=>{
     const cb='_cb'+Math.floor(Math.random()*1000000); p.callback=cb;
     const qs=Object.entries(p).map(([k,v])=>encodeURIComponent(k)+'='+encodeURIComponent(v)).join('&');
-    const s=document.createElement('script'); s.src=API_URL+'?'+qs;
-    const t=setTimeout(()=>{clean();rej(new Error('Hệ thống phản hồi chậm'));},15000);
+    const s=document.createElement('script'); s.src=GAS+'?'+qs;
+    const t=setTimeout(()=>{clean();rej(new Error('Hệ thống đám mây bận'));},15000);
     window[cb]=d=>{clearTimeout(t);clean();res(d);};
     function clean(){delete window[cb];s.parentNode&&s.parentNode.removeChild(s);}
     s.onerror=()=>{clearTimeout(t);clean();rej(new Error('Lỗi liên kết mạng'));};
@@ -296,17 +282,18 @@ function callGAS(p){
   });
 }
 
-// LOGIN
+// LOGIN - ĐÃ SỬA LỖI MẠNG XÁC THỰC
 async function doLogin(){
   const manv=document.getElementById('loginId').value.trim();
   const pass=document.getElementById('loginPass').value.trim();
-  if(!manv||!pass){alert('Hãy nhập đủ thông tin!');return;}
-  document.getElementById('loginErr').textContent='Đang xác thực thông tin...';
+  if(!manv||!pass){document.getElementById('loginErr').textContent='Hãy nhập đủ thông tin';return;}
+  document.getElementById('loginErr').textContent='Đang kết nối xác thực mạng...';
   try{
     const r=await callGAS({action:'login',manv,pass});
-    if(r&&r.success){
+    if(r && r.success){
       user=r;
-      document.getElementById('uAvatar').textContent=(r.hoten||'?').split(' ').pop()[0].toUpperCase();
+      const hoTenStr = r.hoten || 'Staff';
+      document.getElementById('uAvatar').textContent = hoTenStr.split(' ').pop()[0].toUpperCase();
       document.getElementById('uName').textContent=r.hoten;
       document.getElementById('uRole').textContent=r.vaitro==='manager'?'Quản Lý':'Kỹ Thuật';
       document.getElementById('dw-name').textContent=r.hoten;
@@ -315,17 +302,16 @@ async function doLogin(){
       document.getElementById('appShell').style.display='flex';
       ['workDate_kiemtra','workDate_suachua','workDate_hethong'].forEach(setToday);
       loadDashboard();
-    }else{document.getElementById('loginErr').textContent=(r&&r.msg)||'Sai tài khoản hoặc mật khẩu';}
-  }catch(e){document.getElementById('loginErr').textContent='Lỗi kết nối';}
+    }else{document.getElementById('loginErr').textContent=(r&&r.msg)||'Mã nhân viên hoặc mật khẩu sai';}
+  }catch(e){document.getElementById('loginErr').textContent='Lỗi mạng xác thực. Kiểm tra lại URL GAS!';}
 }
 function doLogout(){location.reload();}
 
-// TABS BAR HANDLER
+// TAB HANDLING
 function switchTab(tab){
   currentTab = tab;
   document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('active'));
-  
   const targetBtn = Array.from(document.querySelectorAll('.tbtn')).find(b=>b.textContent.toLowerCase().includes(tab.toLowerCase()));
   if(targetBtn) targetBtn.classList.add('active');
   document.getElementById('tab-'+tab).classList.add('active');
@@ -348,89 +334,92 @@ function syncDataAction(tab){
   loadData(sheet, dateValue, `container-${tab}`);
 }
 
-//🏠 TỔNG QUAN LOGIC - LOAD SONG SONG, KHÔNG CHẮN LUỒNG, THỐNG KÊ TOÀN CỤC
+// 🏠 TỔNG QUAN LOGIC
 async function loadDashboard(){
   const d = today();
-  document.getElementById('statsRow').innerHTML = `<div class="ld"><div class="spin"></div>Đang tính toán số liệu...</div>`;
+  document.getElementById('statsRow').innerHTML = `<div class="ld"><div class="spin"></div>Đang bốc dữ liệu thời gian thực...</div>`;
   try{
     const rCN = await callGAS({action:'getLog', sheet:'Log_CheckNgay', from:d, to:d});
     const rSC = await callGAS({action:'getLog', sheet:'Log_SuaChuaPhong', from:d, to:d});
-    
     const cn = rCN.success ? rCN.data : [];
     const sc = rSC.success ? rSC.data : [];
     
-    const totalCheck = cn.length;
     const okCheck = cn.filter(r => fld(r, 'TinhTrang', 'TrangThai').toUpperCase().includes('BÌNH THƯỜNG') || fld(r, 'TinhTrang', 'TrangThai').toUpperCase().includes('TỐT')).length;
     const faultCheck = cn.filter(r => fld(r, 'TinhTrang', 'TrangThai').toUpperCase().includes('LỖI') || fld(r, 'TinhTrang', 'TrangThai').toUpperCase().includes('SỰ CỐ')).length;
     
     document.getElementById('statsRow').innerHTML = `
       <div class="stat-card ok"><div class="stat-num">${okCheck}</div><div class="stat-label">Hạng Mục OK</div></div>
       <div class="stat-card fault"><div class="stat-num">${faultCheck}</div><div class="stat-label">Hạng Mục Lỗi</div></div>
-      <div class="stat-card blue"><div class="stat-num">${totalCheck}</div><div class="stat-label">Tổng Đã Check</div></div>
+      <div class="stat-card blue"><div class="stat-num">${cn.length}</div><div class="stat-label">Tổng Đã Check</div></div>
       <div class="stat-card pending"><div class="stat-num">${sc.filter(r=>!fld(r, 'TinhTrang').toUpperCase().includes('XONG')).length}</div><div class="stat-label">Sửa Phòng Tồn</div></div>`;
       
-    // Render danh sách 10 hoạt động mới nhất (Trộn dữ liệu từ Check Ngày)
     if(!cn.length){
       document.getElementById('dash-recent-list').innerHTML = empty('Hôm nay chưa có nhật ký vận hành nào.');
     } else {
-      const recentHtml = cn.slice(-10).reverse().map(r => {
+      document.getElementById('dash-recent-list').innerHTML = cn.slice(-10).reverse().map(r => {
         return `<div class="card-row" style="background:#fff; padding:10px; border-radius:6px; margin-bottom:6px; border-left:3px solid var(--accent)">
           <span style="font-weight:700; color:var(--blue); min-width:60px; display:inline-block;">${safeDatePart(fld(r, 'ThoiGian'))}</span>
-          <b style="margin-left:6px">${fld(r, 'ViTri')}</b>: ${fld(r, 'NoiDungCongViec')} [${fld(r, 'HoTen')}]
+          <b style="margin-left:6px">${fld(r, 'ViTri', 'HangMuc')}</b>: ${fld(r, 'NoiDungCongViec', 'NoiDung')} [${fld(r, 'HoTen')}]
         </div>`;
       }).join('');
-      document.getElementById('dash-recent-list').innerHTML = recentHtml;
     }
   }catch(e){
-    document.getElementById('statsRow').innerHTML = empty('Lỗi tải dữ liệu thời gian thực');
+    document.getElementById('statsRow').innerHTML = empty('Lỗi tải dữ liệu tổng quan');
   }
 }
 
-// 👑 HÀM RENDER THẺ CARD DÙNG CHUNG - CHỐNG SAI PHÂN TÁCH CHUỖI KHÔNG CÓ TRƯỜNG
+// 👑 HÀM RENDER THẺ CARD DÙNG CHUNG TUÂN THỦ KIẾN TRÚC AN TOÀN
 function createCard(row){
-  const status = fld(row, 'TinhTrang', 'TrangThai');
-  const content = fld(row, 'NoiDungCongViec', 'NoiDung', 'HangMuc', 'ViTri') || 'Không có nội dung';
-  const note = fld(row, 'GhiChu');
-  const employee = fld(row, 'HoTen') || 'Chưa rõ';
+  const content = fld(row, 'NoiDungCongViec', 'NoiDung', 'HangMuc', 'ViTri') || 'Không có tiêu đề';
+  const employee = fld(row, 'HoTen') || 'Kỹ thuật viên';
   const time = fld(row, 'ThoiGian') || fld(row, 'Ngay') || '—';
-  
-  // 3. NO DATE OBJECT PARSE - DÙNG CHUỖI NGUYÊN BẢN HIỂN THỊ
   const displayTime = time.includes(' ') ? safeDatePart(time) : time;
+  const note = fld(row, 'GhiChu');
+
+  // Xử lý riêng cho PCCC hiển thị nhanh
+  let pcccSubGrid = '';
+  if(PCCC_ITEMS.some(n => fld(row, n.replace(/ /g,'')) !== '')){
+    const pcccBadges = PCCC_ITEMS.map(n => {
+      const val = fld(row, n.replace(/ /g,''));
+      if(!val) return '';
+      return `<span class="pill ${val==='Tốt'?'ok':'fault'}" style="font-size:9px; margin:2px">${n}: ${val}</span>`;
+    }).join('');
+    pcccSubGrid = `<div style="display:flex; flex-wrap:wrap; margin:6px 0">${pcccBadges}</div>`;
+  }
 
   return `
     <div class="card ${getStatusClass(row)}">
       <div class="card-title">${content}</div>
       <div class="card-body">
-        <div class="card-row"><span>👤 Kỹ sư:</span> <b>${employee}</b></div>
+        <div class="card-row"><span>👤 Người làm:</span> <b>${employee}</b></div>
         <div class="card-row"><span>📌 Trạng thái:</span> ${getStatusPill(row)}</div>
         <div class="card-row"><span>🕒 Thời điểm:</span> ${displayTime}</div>
+        ${pcccSubGrid}
         ${note ? `<div class="card-footer"><div class="cnote">📝 Ghi chú: ${note}</div></div>` : ''}
       </div>
     </div>`;
 }
 
-// 2. HÀM TẢI DỮ LIỆU CHUẨN - KHÔNG FILTER LẠI, CHỈ HIỂN THỊ THẲNG
+// 2. TẢI DỮ LIỆU - KHÔNG LỌC LẠI NGÀY Ở FRONTEND
 async function loadData(sheet, date, containerId){
   const targetElement = document.getElementById(containerId);
-  targetElement.innerHTML = `<div class="ld"><div class="spin"></div>Đang đồng bộ từ đám mây...</div>`;
+  targetElement.innerHTML = `<div class="ld"><div class="spin"></div>Đang bốc dữ liệu từ trang tính...</div>`;
   try{
-    // Lọc tại Server-side bằng tham số from và to, triệt tiêu filter frontend
     const r = await callGAS({action: 'getLog', sheet: sheet, from: date, to: date});
     if(r && r.success){
       const data = Array.isArray(r.data) ? r.data : [];
       if(!data.length){
-        targetElement.innerHTML = empty(`Không có dữ liệu ghi nhận cho ngày này.`);
+        targetElement.innerHTML = empty(`Không tìm thấy dữ liệu hoạt động trong ngày.`);
         return;
       }
-      // Render trực tiếp số lượng bản ghi nhận từ server-side về màn hình
       targetElement.innerHTML = `
         <div class="sh">
           <h2>Nhật ký hoạt động</h2>
-          <span class="cbadge">${data.length} dòng máy</span>
+          <span class="cbadge">${data.length} dòng dữ liệu</span>
         </div>
         <div class="cgrid">${data.map(row => createCard(row)).join('')}</div>`;
     } else {
-      targetElement.innerHTML = empty(r.msg || 'Không thể đọc bảng dữ liệu');
+      targetElement.innerHTML = empty(r.msg || 'Không thể đọc bảng dữ liệu từ Apps Script');
     }
   }catch(e){
     targetElement.innerHTML = empty('Lỗi đồng bộ hoặc đường truyền máy chủ bận.');
