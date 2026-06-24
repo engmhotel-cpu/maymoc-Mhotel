@@ -6,784 +6,528 @@
 <title>HK Hotel Operations & Engineering</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --bg: #F0F4F8;
-  --surface: #FFFFFF;
-  --surface2: #F8FAFC;
-  --accent: #0E9F6E;
-  --accent-dark: #047857;
-  --accent-dim: rgba(14,159,110,0.10);
-  --accent-dim2: rgba(14,159,110,0.18);
-  --blue: #1D4ED8;
-  --blue-dim: rgba(29,78,216,0.08);
-  --text: #1F2937;
-  --muted: #6B7280;
-  --border: #E5E7EB;
-  --warn: #DC2626;
-  --warn-dim: rgba(220,38,38,0.08);
-  --ok: #0E9F6E;
-  --pending: #D97706;
-  --pending-dim: rgba(217,119,6,0.10);
-  --shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-  --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.07), 0 4px 6px -2px rgba(0,0,0,0.04);
-  --radius: 12px;
-  --radius-sm: 8px;
+:root{
+  --bg:#F0F4F8;--surface:#FFFFFF;--surface2:#F8FAFC;--surface3:#EEF2F7;
+  --accent:#0E9F6E;--accent-dark:#047857;--accent-dim:rgba(14,159,110,0.10);--accent-dim2:rgba(14,159,110,0.18);
+  --blue:#1D4ED8;--blue-dim:rgba(29,78,216,0.08);
+  --text:#1F2937;--muted:#6B7280;--border:#E5E7EB;
+  --warn:#DC2626;--warn-dim:rgba(220,38,38,0.08);
+  --ok:#0E9F6E;--pending:#D97706;--pending-dim:rgba(217,119,6,0.10);
+  --shadow:0 4px 6px -1px rgba(0,0,0,0.05),0 2px 4px -1px rgba(0,0,0,0.03);
+  --shadow-md:0 10px 15px -3px rgba(0,0,0,0.07),0 4px 6px -2px rgba(0,0,0,0.04);
+  --r:12px;--rs:8px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;min-height:100vh;}
 
-/* ══ LOGIN ══ */
-#loginScreen{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#e0f2fe 0%,#f0fdf4 50%,#f0f4f8 100%);
-  padding:24px;
-}
-.login-wrap{width:100%;max-width:420px;}
-.login-brand{text-align:center;margin-bottom:32px;}
-.login-brand .brand-badge{
-  display:inline-flex;align-items:center;gap:10px;
-  background:var(--accent);color:#fff;padding:8px 18px;border-radius:30px;
-  font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;
-  letter-spacing:1.5px;margin-bottom:16px;
-}
-.login-brand h1{
-  font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;
-  color:var(--text);letter-spacing:1px;margin-bottom:8px;
-}
-.login-brand p{font-size:13px;color:var(--muted);line-height:1.5;max-width:320px;margin:0 auto;}
-.login-card{
-  background:var(--surface);border-radius:var(--radius);padding:32px;
-  box-shadow:var(--shadow-md);border:1px solid var(--border);
-}
-.input-wrap{position:relative;margin-bottom:16px;}
-.input-wrap .icon{
-  position:absolute;left:14px;top:50%;transform:translateY(-50%);
-  color:var(--muted);font-size:16px;pointer-events:none;
-}
-.input-wrap input{
-  width:100%;padding:12px 14px 12px 42px;
-  background:var(--surface2);border:1.5px solid var(--border);
-  border-radius:var(--radius-sm);color:var(--text);font-size:14px;
-  font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;
-}
-.input-wrap input:focus{border-color:var(--accent);}
-.input-wrap input::placeholder{color:#9CA3AF;}
-.btn-login{
-  width:100%;padding:13px;background:var(--accent);color:#fff;
-  font-family:'Inter',sans-serif;font-weight:700;font-size:15px;
-  border:none;border-radius:var(--radius-sm);cursor:pointer;
-  margin-top:4px;transition:background .2s,transform .1s;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
+/* LOGIN */
+#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e0f2fe 0%,#f0fdf4 50%,#f0f4f8 100%);padding:24px;}
+.lw{width:100%;max-width:420px;}
+.lb{text-align:center;margin-bottom:28px;}
+.lb .badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:7px 16px;border-radius:30px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1.5px;margin-bottom:14px;}
+.lb h1{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.lb p{font-size:12px;color:var(--muted);line-height:1.6;max-width:300px;margin:0 auto;}
+.lcard{background:var(--surface);border-radius:var(--r);padding:28px;box-shadow:var(--shadow-md);border:1px solid var(--border);}
+.iw{position:relative;margin-bottom:14px;}
+.iw .ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;}
+.iw input{width:100%;padding:11px 13px 11px 40px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;}
+.iw input:focus{border-color:var(--accent);}
+.iw input::placeholder{color:#9CA3AF;}
+.btn-login{width:100%;padding:12px;background:var(--accent);color:#fff;font-weight:700;font-size:14px;border:none;border-radius:var(--rs);cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;}
 .btn-login:hover{background:var(--accent-dark);}
-.btn-login:active{transform:scale(.98);}
-.login-err{color:var(--warn);font-size:13px;text-align:center;margin-top:12px;min-height:18px;}
+.lerr{color:var(--warn);font-size:12px;text-align:center;margin-top:10px;min-height:16px;}
 
-/* ══ APP SHELL ══ */
+/* APP */
 #appShell{display:none;flex-direction:column;min-height:100vh;}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;height:56px;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
+.tl{display:flex;align-items:center;gap:10px;}
+.tbrand{background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;padding:3px 10px;border-radius:20px;}
+.ttitle{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--text);}
+.tsub{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-weight:600;}
+.netstatus{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);background:var(--surface2);padding:4px 9px;border-radius:20px;border:1px solid var(--border);}
+.ndot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:ndp 2s infinite;}
+@keyframes ndp{0%,100%{opacity:1}50%{opacity:.3}}
+.tr{display:flex;align-items:center;gap:8px;}
+.ublock{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:30px;padding:4px 12px 4px 4px;}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.uname{font-size:12px;font-weight:600;color:var(--text);}
+.urole{font-size:10px;color:var(--muted);}
+.btn-lo{background:none;border:none;color:var(--muted);cursor:pointer;padding:3px;font-size:15px;transition:color .2s;}
+.btn-lo:hover{color:var(--warn);}
 
-/* ══ HEADER ══ */
-.top-bar{
-  background:var(--surface);border-bottom:1px solid var(--border);
-  padding:0 20px;display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:200;height:60px;
-  box-shadow:0 1px 3px rgba(0,0,0,0.06);
-}
-.top-left{display:flex;align-items:center;gap:12px;}
-.brand-pill{
-  background:var(--accent);color:#fff;
-  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
-  letter-spacing:1.5px;padding:4px 12px;border-radius:20px;white-space:nowrap;
-}
-.top-title{
-  font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;
-  color:var(--text);letter-spacing:.5px;
-}
-.top-subtitle{
-  font-size:10px;color:var(--muted);letter-spacing:1px;
-  text-transform:uppercase;font-weight:600;
-}
-.net-status{
-  display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;
-  color:var(--muted);background:var(--surface2);
-  padding:5px 10px;border-radius:20px;border:1px solid var(--border);
-}
-.net-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.top-right{display:flex;align-items:center;gap:12px;}
-.user-block{
-  display:flex;align-items:center;gap:10px;
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:30px;padding:5px 14px 5px 5px;
-}
-.avatar{
-  width:32px;height:32px;border-radius:50%;background:var(--accent);
-  color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.user-name{font-size:13px;font-weight:600;color:var(--text);}
-.user-role{font-size:11px;color:var(--muted);}
-.btn-logout{
-  background:none;border:none;color:var(--muted);cursor:pointer;
-  padding:4px;font-size:16px;transition:color .2s;
-}
-.btn-logout:hover{color:var(--warn);}
+/* TABS */
+.tabbar{background:var(--surface);border-bottom:2px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:56px;z-index:199;}
+.tabbar::-webkit-scrollbar{display:none;}
+.tbtn{flex-shrink:0;padding:11px 14px;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s;text-transform:uppercase;letter-spacing:.5px;margin-bottom:-2px;}
+.tbtn.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tbtn:hover{color:var(--text);}
 
-/* ══ TABS ══ */
-.tab-bar{
-  background:var(--surface);border-bottom:2px solid var(--border);
-  display:flex;overflow-x:auto;scrollbar-width:none;
-  position:sticky;top:60px;z-index:199;
-}
-.tab-bar::-webkit-scrollbar{display:none;}
-.tab-btn{
-  flex-shrink:0;padding:13px 18px;font-size:12px;font-weight:600;
-  color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;
-  white-space:nowrap;transition:color .2s,border-color .2s;
-  text-transform:uppercase;letter-spacing:.5px;margin-bottom:-2px;
-}
-.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
-.tab-btn:hover{color:var(--text);}
+/* CONTENT */
+.content{flex:1;padding:16px;max-width:960px;margin:0 auto;width:100%;padding-bottom:40px;}
+.tpanel{display:none;}
+.tpanel.active{display:block;}
 
-/* ══ CONTENT ══ */
-.content{flex:1;padding:20px;max-width:900px;margin:0 auto;width:100%;padding-bottom:40px;}
-.tab-panel{display:none;}
-.tab-panel.active{display:block;}
+/* CTRL ROW */
+.crow{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.diw{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:6px 11px;box-shadow:var(--shadow);}
+.diw label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;}
+.diw input[type=date]{background:none;border:none;color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;}
+.bsm{padding:7px 12px;border-radius:var(--rs);font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .2s;white-space:nowrap;}
+.bt{background:var(--accent-dim2);color:var(--accent);}
+.bt:hover{background:var(--accent);color:#fff;}
+.ba{background:var(--accent);color:#fff;display:flex;align-items:center;gap:4px;}
+.ba:hover{background:var(--accent-dark);}
+.be{background:var(--surface);color:var(--muted);border:1px solid var(--border);box-shadow:var(--shadow);}
+.be:hover{border-color:var(--accent);color:var(--accent);}
 
-/* ══ TOP ROW CONTROLS ══ */
-.ctrl-row{
-  display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;
-}
-.date-input-wrap{
-  display:flex;align-items:center;gap:8px;background:var(--surface);
-  border:1px solid var(--border);border-radius:var(--radius-sm);
-  padding:7px 12px;box-shadow:var(--shadow);
-}
-.date-input-wrap label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;}
-.date-input-wrap input[type=date]{
-  background:none;border:none;color:var(--text);font-size:13px;
-  font-family:'Inter',sans-serif;outline:none;
-}
-.btn-sm{
-  padding:8px 14px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;
-  cursor:pointer;border:none;transition:all .2s;white-space:nowrap;
-}
-.btn-today{background:var(--accent-dim2);color:var(--accent);}
-.btn-today:hover{background:var(--accent);color:#fff;}
-.btn-add{background:var(--accent);color:#fff;display:flex;align-items:center;gap:5px;}
-.btn-add:hover{background:var(--accent-dark);}
-.btn-export{
-  background:var(--surface);color:var(--muted);
-  border:1px solid var(--border);display:flex;align-items:center;gap:5px;
-  box-shadow:var(--shadow);
-}
-.btn-export:hover{border-color:var(--accent);color:var(--accent);}
-
-/* ══ FILTER CHIPS ══ */
-.filter-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
-.chip{
-  padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;
-  background:var(--surface);color:var(--muted);
-  border:1.5px solid var(--border);cursor:pointer;transition:all .2s;
-  box-shadow:var(--shadow);
-}
+/* FILTER */
+.frow{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.chip{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;background:var(--surface);color:var(--muted);border:1.5px solid var(--border);cursor:pointer;transition:all .2s;box-shadow:var(--shadow);}
 .chip.active{background:var(--accent-dim2);color:var(--accent);border-color:var(--accent);}
 
-/* ══ SECTION HEADING ══ */
-.sec-head{
-  display:flex;align-items:center;gap:10px;margin:0 0 14px;
-}
-.sec-head h2{
-  font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;
-  color:var(--blue);text-transform:uppercase;letter-spacing:.5px;
-}
-.count-badge{
-  background:var(--blue-dim);color:var(--blue);
-  font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;
-}
+/* SECTION HEAD */
+.sh{display:flex;align-items:center;gap:8px;margin:0 0 12px;}
+.sh h2{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;}
+.cbadge{background:var(--blue-dim);color:var(--blue);font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;}
 
-/* ══ CARDS GRID ══ */
-.cards-grid{display:grid;grid-template-columns:1fr;gap:14px;}
-@media(min-width:640px){.cards-grid{grid-template-columns:1fr 1fr;}}
+/* CARDS */
+.cgrid{display:grid;grid-template-columns:1fr;gap:12px;}
+@media(min-width:600px){.cgrid{grid-template-columns:1fr 1fr;}}
 
-/* ══ CARD ══ */
-.card{
-  background:var(--surface);border-radius:var(--radius);
-  border:1px solid var(--border);box-shadow:var(--shadow);
-  overflow:hidden;transition:box-shadow .2s,transform .15s;
-  border-left:4px solid var(--border);
-}
+.card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .2s,transform .15s;border-left:4px solid var(--border);}
 .card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px);}
 .card.ok{border-left-color:var(--ok);}
 .card.fault{border-left-color:var(--warn);}
 .card.pending{border-left-color:var(--pending);}
-.card.inprogress{border-left-color:var(--blue);}
+.card.inprog{border-left-color:var(--blue);}
+.ci{padding:14px 15px;}
 
-.card-inner{padding:16px;}
+.czl{font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px;}
+.cz{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.2;}
+.ctl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.ct{font-size:13px;color:var(--text);line-height:1.5;margin-bottom:10px;}
+.cmg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;}
+.cml{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+.cmv{font-size:12px;color:var(--text);font-weight:500;}
+.csla{background:var(--surface2);border-radius:var(--rs);padding:7px 10px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px;}
+.si{font-size:11px;color:var(--muted);}
+.si span{font-weight:700;}
+.si.w span{color:var(--warn);}
+.si.g span{color:var(--ok);}
+.cft{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--border);}
+.cnote{font-size:11px;color:var(--muted);font-style:italic;flex:1;margin-right:6px;}
 
-.card-zone-label{
-  font-size:9px;font-weight:700;color:var(--blue);
-  text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px;
-}
-.card-zone{
-  font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;
-  color:var(--text);margin-bottom:10px;line-height:1.2;
-}
-
-.card-task-label{
-  font-size:9px;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;
-}
-.card-task{font-size:13px;color:var(--text);line-height:1.5;margin-bottom:12px;}
-
-.card-meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
-.card-meta-item{}
-.card-meta-label{
-  font-size:9px;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;
-}
-.card-meta-val{font-size:12px;color:var(--text);font-weight:500;}
-
-.card-sla{
-  background:var(--surface2);border-radius:var(--radius-sm);
-  padding:8px 12px;margin-bottom:10px;
-  display:flex;flex-wrap:wrap;gap:10px;
-}
-.sla-item{font-size:12px;color:var(--muted);}
-.sla-item span{font-weight:700;}
-.sla-item.warn span{color:var(--warn);}
-.sla-item.ok span{color:var(--ok);}
-
-.card-footer{
-  display:flex;align-items:center;justify-content:space-between;
-  padding-top:10px;border-top:1px solid var(--border);
-}
-.card-note{font-size:11px;color:var(--muted);font-style:italic;flex:1;margin-right:8px;}
-.card-actions{display:flex;gap:6px;}
-.act-btn{
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;
-  transition:all .2s;color:var(--muted);
-}
-.act-btn:hover{border-color:var(--accent);color:var(--accent);}
-
-/* ══ STATUS PILL ══ */
-.pill{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;
-  text-transform:uppercase;letter-spacing:.3px;
-}
+/* PILLS */
+.pill{display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;}
 .pill.ok{background:var(--accent-dim2);color:var(--ok);}
 .pill.fault{background:var(--warn-dim);color:var(--warn);}
 .pill.pending{background:var(--pending-dim);color:var(--pending);}
 .pill.blue{background:var(--blue-dim);color:var(--blue);}
-.pill-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+.pill.gray{background:var(--surface3);color:var(--muted);}
+.pd{width:5px;height:5px;border-radius:50%;background:currentColor;}
 
-/* ══ EMPTY ══ */
-.empty{
-  text-align:center;padding:48px 20px;
-  background:var(--surface);border-radius:var(--radius);
-  border:1.5px dashed var(--border);
-}
-.empty-icon{font-size:40px;margin-bottom:12px;opacity:.4;}
-.empty-text{font-size:14px;color:var(--muted);}
+/* DASHBOARD */
+.dash-welcome{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);border-radius:var(--r);padding:20px;color:#fff;margin-bottom:16px;position:relative;overflow:hidden;}
+.dash-welcome::after{content:'⚙';position:absolute;right:-10px;top:-10px;font-size:80px;opacity:.08;}
+.dw-sub{font-size:11px;opacity:.8;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;}
+.dw-title{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;margin-bottom:2px;}
+.dw-date{font-size:12px;opacity:.75;}
 
-/* ══ LOADING ══ */
-.loading{
-  text-align:center;padding:40px;color:var(--muted);font-size:13px;
-  display:flex;align-items:center;justify-content:center;gap:10px;
-}
-.spin{
-  width:18px;height:18px;border:2px solid var(--border);
-  border-top-color:var(--accent);border-radius:50%;
-  animation:spin .7s linear infinite;display:inline-block;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
+@media(min-width:500px){.stats-row{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:700px){.stats-row{grid-template-columns:repeat(6,1fr);}}
+.stat-card{background:var(--surface);border-radius:var(--r);padding:14px 12px;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center;border-top:3px solid var(--border);}
+.stat-card.ok{border-top-color:var(--ok);}
+.stat-card.fault{border-top-color:var(--warn);}
+.stat-card.pending{border-top-color:var(--pending);}
+.stat-card.blue{border-top-color:var(--blue);}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;line-height:1;}
+.stat-card.ok .stat-num{color:var(--ok);}
+.stat-card.fault .stat-num{color:var(--warn);}
+.stat-card.pending .stat-num{color:var(--pending);}
+.stat-card.blue .stat-num{color:var(--blue);}
+.stat-label{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:4px;}
 
-/* ══ MODAL ══ */
-.overlay{
-  display:none;position:fixed;inset:0;background:rgba(17,24,39,.45);
-  z-index:500;align-items:flex-end;justify-content:center;
-  backdrop-filter:blur(4px);
-}
-.overlay.open{display:flex;}
-@media(min-width:600px){.overlay{align-items:center;}}
-.modal{
-  background:var(--surface);width:100%;max-width:540px;
-  border-radius:var(--radius) var(--radius) 0 0;
-  max-height:92vh;display:flex;flex-direction:column;
-  animation:slideUp .25s ease;box-shadow:0 -4px 40px rgba(0,0,0,.12);
-}
-@media(min-width:600px){.modal{border-radius:var(--radius);margin:16px;max-height:88vh;}}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.modal-hd{
-  padding:18px 20px 14px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
-}
-.modal-title{
-  font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--text);
-}
-.modal-close{background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;padding:2px;}
-.modal-body{padding:20px;overflow-y:auto;flex:1;}
-.modal-ft{
-  padding:14px 20px;border-top:1px solid var(--border);
-  display:flex;gap:10px;flex-shrink:0;
-}
+.dash-section{margin-bottom:20px;}
+.dash-sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.dash-sh h3{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;}
+.dash-sh a{font-size:11px;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:none;}
+.dash-sh a:hover{text-decoration:underline;}
 
-/* ══ FORM ══ */
-.field{margin-bottom:16px;}
-.field label{
-  display:block;font-size:11px;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;
-}
-.field input,.field select,.field textarea{
-  width:100%;padding:11px 13px;background:var(--surface2);
-  border:1.5px solid var(--border);border-radius:var(--radius-sm);
-  color:var(--text);font-size:14px;font-family:'Inter',sans-serif;
-  outline:none;transition:border-color .2s;
-}
+/* EMPTY */
+.empty{text-align:center;padding:40px 20px;background:var(--surface);border-radius:var(--r);border:1.5px dashed var(--border);}
+.ei{font-size:36px;margin-bottom:10px;opacity:.35;}
+.et{font-size:13px;color:var(--muted);}
+
+/* LOADING */
+.ld{text-align:center;padding:36px;color:var(--muted);font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.spin{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* MODAL */
+.ov{display:none;position:fixed;inset:0;background:rgba(17,24,39,.45);z-index:500;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
+.ov.open{display:flex;}
+@media(min-width:600px){.ov{align-items:center;}}
+.modal{background:var(--surface);width:100%;max-width:520px;border-radius:var(--r) var(--r) 0 0;max-height:92vh;display:flex;flex-direction:column;animation:su .25s ease;box-shadow:0 -4px 40px rgba(0,0,0,.12);}
+@media(min-width:600px){.modal{border-radius:var(--r);margin:16px;max-height:88vh;}}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mhd{padding:16px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.mtitle{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--text);}
+.mclose{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:2px;}
+.mbody{padding:18px;overflow-y:auto;flex:1;}
+.mft{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0;}
+
+/* FORM */
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px;}
+.field input,.field select,.field textarea{width:100%;padding:10px 12px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);}
-.field textarea{resize:vertical;min-height:80px;}
-.field select option{background:#fff;}
+.field textarea{resize:vertical;min-height:70px;}
+.rrow{display:flex;gap:7px;flex-wrap:wrap;}
+.rc{flex:1;min-width:80px;padding:9px 7px;border-radius:var(--rs);border:2px solid var(--border);text-align:center;cursor:pointer;font-size:11px;font-weight:600;color:var(--muted);transition:all .2s;user-select:none;background:var(--surface2);}
+.rc.ok.sel{border-color:var(--ok);background:var(--accent-dim2);color:var(--ok);}
+.rc.fault.sel{border-color:var(--warn);background:var(--warn-dim);color:var(--warn);}
+.rc.pending.sel{border-color:var(--pending);background:var(--pending-dim);color:var(--pending);}
+.rc.blue.sel{border-color:var(--blue);background:var(--blue-dim);color:var(--blue);}
+.bf{width:100%;padding:11px;border-radius:var(--rs);font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .2s;font-family:'Inter',sans-serif;}
+.bpri{background:var(--accent);color:#fff;}
+.bpri:hover{background:var(--accent-dark);}
+.bsec{background:var(--surface2);color:var(--text);border:1.5px solid var(--border);}
 
-.radio-row{display:flex;gap:8px;flex-wrap:wrap;}
-.radio-card{
-  flex:1;min-width:90px;padding:10px 8px;border-radius:var(--radius-sm);
-  border:2px solid var(--border);text-align:center;cursor:pointer;
-  font-size:12px;font-weight:600;color:var(--muted);
-  transition:all .2s;user-select:none;background:var(--surface2);
-}
-.radio-card:hover{border-color:#9CA3AF;}
-.radio-card.ok.sel{border-color:var(--ok);background:var(--accent-dim2);color:var(--ok);}
-.radio-card.fault.sel{border-color:var(--warn);background:var(--warn-dim);color:var(--warn);}
-.radio-card.pending.sel{border-color:var(--pending);background:var(--pending-dim);color:var(--pending);}
-.radio-card.blue.sel{border-color:var(--blue);background:var(--blue-dim);color:var(--blue);}
+/* PCCC */
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:12px;}
+@media(min-width:360px){.pgrid{grid-template-columns:repeat(3,1fr);}}
+.pi{background:var(--surface2);border:2px solid var(--border);border-radius:var(--rs);padding:10px 7px;text-align:center;cursor:pointer;transition:all .2s;}
+.pil{font-size:10px;color:var(--muted);font-weight:600;margin-bottom:5px;}
+.pio{font-size:20px;}
+.pi.ok{border-color:var(--ok);background:var(--accent-dim);}
+.pi.ok .pil{color:var(--ok);}
+.pi.fault{border-color:var(--warn);background:var(--warn-dim);}
+.pi.fault .pil{color:var(--warn);}
 
-.btn-full{width:100%;padding:12px;border-radius:var(--radius-sm);font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all .2s;}
-.btn-primary{background:var(--accent);color:#fff;}
-.btn-primary:hover{background:var(--accent-dark);}
-.btn-secondary{background:var(--surface2);color:var(--text);border:1.5px solid var(--border);}
-
-/* ══ PCCC GRID ══ */
-.pccc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px;}
-@media(min-width:380px){.pccc-grid{grid-template-columns:repeat(3,1fr);}}
-.pccc-item{
-  background:var(--surface2);border:2px solid var(--border);
-  border-radius:var(--radius-sm);padding:12px 8px;text-align:center;cursor:pointer;
-  transition:all .2s;
-}
-.pccc-item .pi-label{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px;}
-.pccc-item .pi-icon{font-size:22px;}
-.pccc-item.ok{border-color:var(--ok);background:var(--accent-dim);}
-.pccc-item.ok .pi-label{color:var(--ok);}
-.pccc-item.fault{border-color:var(--warn);background:var(--warn-dim);}
-.pccc-item.fault .pi-label{color:var(--warn);}
-
-/* ══ TOAST ══ */
-#toast{
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);
-  background:var(--text);color:#fff;padding:11px 20px;border-radius:30px;
-  font-size:13px;font-weight:500;opacity:0;transition:all .3s;z-index:1000;
-  box-shadow:0 8px 20px rgba(0,0,0,.2);pointer-events:none;white-space:nowrap;
-}
+/* TOAST */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--text);color:#fff;padding:10px 18px;border-radius:30px;font-size:12px;font-weight:500;opacity:0;transition:all .3s;z-index:1000;box-shadow:0 8px 20px rgba(0,0,0,.2);pointer-events:none;white-space:nowrap;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 #toast.ok{background:var(--accent);}
 #toast.err{background:var(--warn);}
-
-/* ══ DIVIDER ══ */
-.divider{height:1px;background:var(--border);margin:20px 0;}
 </style>
 </head>
 <body>
 
-<!-- ══ LOGIN ══ -->
+<!-- LOGIN -->
 <div id="loginScreen">
-  <div class="login-wrap">
-    <div class="login-brand">
-      <div><span class="brand-pill">⚙ HK HOTEL OPERATIONS</span></div>
-      <h1 style="margin-top:16px">KỸ THUẬT & VẬN HÀNH</h1>
+  <div class="lw">
+    <div class="lb">
+      <div><span class="badge">⚙ HK HOTEL OPERATIONS</span></div>
+      <h1 style="margin-top:12px">KỸ THUẬT & VẬN HÀNH</h1>
       <p>Hệ thống Quản Trị Vận Hành Kỹ Thuật, Cơ Điện, Phòng và PCCC Khách Sạn HK</p>
     </div>
-    <div class="login-card">
-      <div class="input-wrap">
-        <span class="icon">👤</span>
-        <input type="text" id="loginId" placeholder="Mã nhân viên (VD: KT01)" autocomplete="off"/>
-      </div>
-      <div class="input-wrap">
-        <span class="icon">🔒</span>
-        <input type="password" id="loginPass" placeholder="Mật khẩu"/>
-      </div>
+    <div class="lcard">
+      <div class="iw"><span class="ic">👤</span><input type="text" id="loginId" placeholder="Mã nhân viên (VD: KT01)" autocomplete="off"/></div>
+      <div class="iw"><span class="ic">🔒</span><input type="password" id="loginPass" placeholder="Mật khẩu"/></div>
       <button class="btn-login" onclick="doLogin()">⚡ Đăng Nhập Hệ Thống</button>
-      <div class="login-err" id="loginErr"></div>
+      <div class="lerr" id="loginErr"></div>
     </div>
   </div>
 </div>
 
-<!-- ══ APP SHELL ══ -->
+<!-- APP -->
 <div id="appShell">
-
-  <!-- HEADER -->
-  <div class="top-bar">
-    <div class="top-left">
-      <div>
-        <div class="top-title">HK HOTEL OPERATIONS</div>
-        <div class="top-subtitle">SỔ TAY CƠ ĐIỆN & VẬN HÀNH</div>
-      </div>
-      <div class="net-status">
-        <span class="net-dot"></span>
-        <span id="netLabel">Online</span>
-      </div>
+  <div class="topbar">
+    <div class="tl">
+      <div><div class="ttitle">HK HOTEL OPERATIONS</div><div class="tsub">SỔ TAY CƠ ĐIỆN & VẬN HÀNH</div></div>
+      <div class="netstatus"><span class="ndot"></span><span id="netLabel">Online</span></div>
     </div>
-    <div class="top-right">
-      <div class="user-block">
-        <div class="avatar" id="userAvatar">?</div>
-        <div>
-          <div class="user-name" id="userName">—</div>
-          <div class="user-role" id="userRole">—</div>
-        </div>
-        <button class="btn-logout" onclick="doLogout()" title="Đăng xuất">🚪</button>
+    <div class="tr">
+      <div class="ublock">
+        <div class="avatar" id="uAvatar">?</div>
+        <div><div class="uname" id="uName">—</div><div class="urole" id="uRole">—</div></div>
+        <button class="btn-lo" onclick="doLogout()" title="Đăng xuất">🚪</button>
       </div>
     </div>
   </div>
 
-  <!-- TABS -->
-  <div class="tab-bar">
-    <div class="tab-btn active" data-tab="checkNgay">📋 Hàng Ngày</div>
-    <div class="tab-btn" data-tab="hangMuc">🔧 Hạng Mục</div>
-    <div class="tab-btn" data-tab="suaChua">🛏 Sửa Chữa</div>
-    <div class="tab-btn" data-tab="dinhKy">🗓 Định Kỳ</div>
-    <div class="tab-btn" data-tab="mayPhat">⚡ Máy Phát</div>
-    <div class="tab-btn" data-tab="pccc">🔥 PCCC</div>
+  <div class="tabbar">
+    <div class="tbtn active" data-tab="dashboard">🏠 Tổng Quan</div>
+    <div class="tbtn" data-tab="checkNgay">📋 Hàng Ngày</div>
+    <div class="tbtn" data-tab="hangMuc">🔧 Hạng Mục</div>
+    <div class="tbtn" data-tab="suaChua">🛏 Sửa Chữa</div>
+    <div class="tbtn" data-tab="dinhKy">🗓 Định Kỳ</div>
+    <div class="tbtn" data-tab="mayPhat">⚡ Máy Phát</div>
+    <div class="tbtn" data-tab="pccc">🔥 PCCC</div>
   </div>
 
-  <!-- CONTENT -->
   <div class="content">
 
-    <!-- TAB: CHECK HÀNG NGÀY -->
-    <div class="tab-panel active" id="tab-checkNgay">
-      <div class="ctrl-row">
-        <div class="date-input-wrap">
-          <label>Ngày kiểm tra</label>
-          <input type="date" id="dateCheckNgay"/>
-        </div>
-        <button class="btn-sm btn-today" onclick="setToday('dateCheckNgay');loadCheckNgay()">Hôm nay</button>
-        <button class="btn-sm btn-add" onclick="openModal('mCheckNgay')">+ Thêm mới</button>
+    <!-- DASHBOARD -->
+    <div class="tpanel active" id="tab-dashboard">
+      <div class="dash-welcome">
+        <div class="dw-sub">Chào mừng trở lại</div>
+        <div class="dw-title" id="dw-name">—</div>
+        <div class="dw-date" id="dw-date">—</div>
       </div>
-      <div id="checkNgayContent"><div class="loading"><div class="spin"></div>Đang tải...</div></div>
+      <div class="stats-row" id="statsRow">
+        <div class="ld"><div class="spin"></div>Đang tải...</div>
+      </div>
+      <div class="dash-section">
+        <div class="dash-sh"><h3>📋 Kiểm Tra Hôm Nay</h3><a onclick="switchTab('checkNgay')">Xem tất cả →</a></div>
+        <div id="dash-checkNgay"><div class="ld"><div class="spin"></div></div></div>
+      </div>
+      <div class="dash-section">
+        <div class="dash-sh"><h3>🔧 Hạng Mục Đang Xử Lý</h3><a onclick="switchTab('hangMuc')">Xem tất cả →</a></div>
+        <div id="dash-hangMuc"><div class="ld"><div class="spin"></div></div></div>
+      </div>
+      <div class="dash-section">
+        <div class="dash-sh"><h3>⚡ Máy Phát Gần Nhất</h3><a onclick="switchTab('mayPhat')">Xem tất cả →</a></div>
+        <div id="dash-mayPhat"><div class="ld"><div class="spin"></div></div></div>
+      </div>
+      <div class="dash-section">
+        <div class="dash-sh"><h3>🔥 PCCC Gần Nhất</h3><a onclick="switchTab('pccc')">Xem tất cả →</a></div>
+        <div id="dash-pccc"><div class="ld"><div class="spin"></div></div></div>
+      </div>
     </div>
 
-    <!-- TAB: HẠNG MỤC -->
-    <div class="tab-panel" id="tab-hangMuc">
-      <div class="ctrl-row">
-        <div class="filter-row" style="margin:0;flex:1">
+    <!-- CHECK NGÀY -->
+    <div class="tpanel" id="tab-checkNgay">
+      <div class="crow">
+        <div class="diw"><label>Ngày</label><input type="date" id="dateCheckNgay"/></div>
+        <button class="bsm bt" onclick="setToday('dateCheckNgay');loadCheckNgay()">Hôm nay</button>
+        <button class="bsm ba" onclick="openMod('mCN')">+ Thêm mới</button>
+      </div>
+      <div id="cnContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
+    </div>
+
+    <!-- HẠNG MỤC -->
+    <div class="tpanel" id="tab-hangMuc">
+      <div class="crow">
+        <div class="frow" style="margin:0;flex:1">
           <div class="chip active" onclick="filterHM('all',this)">Tất cả</div>
-          <div class="chip" onclick="filterHM('Chờ xử lý',this)">⏳ Chờ xử lý</div>
+          <div class="chip" onclick="filterHM('Chờ xử lý',this)">⏳ Chờ</div>
           <div class="chip" onclick="filterHM('Đang làm',this)">🔧 Đang làm</div>
-          <div class="chip" onclick="filterHM('Hoàn thành',this)">✅ Hoàn thành</div>
+          <div class="chip" onclick="filterHM('Hoàn thành',this)">✅ Xong</div>
         </div>
-        <button class="btn-sm btn-add" onclick="openModal('mHangMuc')">+ Thêm</button>
+        <button class="bsm ba" onclick="openMod('mHM')">+ Thêm</button>
       </div>
-      <div id="hangMucContent"><div class="loading"><div class="spin"></div>Đang tải...</div></div>
+      <div id="hmContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
-    <!-- TAB: SỬA CHỮA -->
-    <div class="tab-panel" id="tab-suaChua">
-      <div class="ctrl-row">
-        <div class="date-input-wrap">
-          <label>Ngày</label>
-          <input type="date" id="dateSuaChua"/>
-        </div>
-        <button class="btn-sm btn-today" onclick="setToday('dateSuaChua');loadSuaChua()">Hôm nay</button>
-        <button class="btn-sm btn-add" onclick="openModal('mSuaChua')">+ Thêm</button>
+    <!-- SỬA CHỮA -->
+    <div class="tpanel" id="tab-suaChua">
+      <div class="crow">
+        <div class="diw"><label>Ngày</label><input type="date" id="dateSC"/></div>
+        <button class="bsm bt" onclick="setToday('dateSC');loadSC()">Hôm nay</button>
+        <button class="bsm ba" onclick="openMod('mSC')">+ Thêm</button>
       </div>
-      <div id="suaChuaContent"><div class="loading"><div class="spin"></div>Đang tải...</div></div>
+      <div id="scContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
-    <!-- TAB: ĐỊNH KỲ -->
-    <div class="tab-panel" id="tab-dinhKy">
-      <div class="ctrl-row">
-        <div class="date-input-wrap">
-          <label>Ngày</label>
-          <input type="date" id="dateDinhKy"/>
-        </div>
-        <button class="btn-sm btn-today" onclick="setToday('dateDinhKy');loadDinhKy()">Hôm nay</button>
-        <button class="btn-sm btn-add" onclick="openModal('mDinhKy')">+ Thêm</button>
+    <!-- ĐỊNH KỲ -->
+    <div class="tpanel" id="tab-dinhKy">
+      <div class="crow">
+        <div class="diw"><label>Ngày</label><input type="date" id="dateDK"/></div>
+        <button class="bsm bt" onclick="setToday('dateDK');loadDK()">Hôm nay</button>
+        <button class="bsm ba" onclick="openMod('mDK')">+ Thêm</button>
       </div>
-      <div id="dinhKyContent"><div class="loading"><div class="spin"></div>Đang tải...</div></div>
+      <div id="dkContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
-    <!-- TAB: MÁY PHÁT -->
-    <div class="tab-panel" id="tab-mayPhat">
-      <div class="ctrl-row">
-        <div class="date-input-wrap">
-          <label>Ngày</label>
-          <input type="date" id="dateMayPhat"/>
-        </div>
-        <button class="btn-sm btn-today" onclick="setToday('dateMayPhat');loadMayPhat()">Hôm nay</button>
-        <button class="btn-sm btn-add" onclick="openModal('mMayPhat')">+ Log mới</button>
-        <button class="btn-sm btn-export" onclick="exportCSV('Log_MayPhatDien','mayphat')">⬇ CSV</button>
+    <!-- MÁY PHÁT -->
+    <div class="tpanel" id="tab-mayPhat">
+      <div class="crow">
+        <div class="diw"><label>Ngày</label><input type="date" id="dateMP"/></div>
+        <button class="bsm bt" onclick="setToday('dateMP');loadMP()">Hôm nay</button>
+        <button class="bsm ba" onclick="openMod('mMP')">+ Log mới</button>
+        <button class="bsm be" onclick="exportCSV('Log_MayPhatDien','mayphat')">⬇ CSV</button>
       </div>
-      <div id="mayPhatContent"><div class="loading"><div class="spin"></div>Đang tải...</div></div>
+      <div id="mpContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
-    <!-- TAB: PCCC -->
-    <div class="tab-panel" id="tab-pccc">
-      <div class="ctrl-row">
-        <div class="date-input-wrap">
-          <label>Ngày</label>
-          <input type="date" id="datePCCC"/>
-        </div>
-        <button class="btn-sm btn-today" onclick="setToday('datePCCC');loadPCCC()">Hôm nay</button>
-        <button class="btn-sm btn-add" onclick="openModal('mPCCC')">+ Kiểm tra</button>
-        <button class="btn-sm btn-export" onclick="exportCSV('Log_PCCC','pccc')">⬇ CSV</button>
+    <!-- PCCC -->
+    <div class="tpanel" id="tab-pccc">
+      <div class="crow">
+        <div class="diw"><label>Ngày</label><input type="date" id="datePCCC"/></div>
+        <button class="bsm bt" onclick="setToday('datePCCC');loadPCCC()">Hôm nay</button>
+        <button class="bsm ba" onclick="openMod('mPCCC')">+ Kiểm tra</button>
+        <button class="bsm be" onclick="exportCSV('Log_PCCC','pccc')">⬇ CSV</button>
       </div>
-      <div id="pcccContent"><div class="loading"><div class="spin"></div>Đang tải...</div></div>
+      <div id="pcccContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
   </div>
 </div>
 
-<!-- ══ MODALS ══ -->
-
-<!-- Modal Check Ngày -->
-<div class="overlay" id="mCheckNgay">
+<!-- MODALS -->
+<div class="ov" id="mCN">
   <div class="modal">
-    <div class="modal-hd">
-      <div class="modal-title">📋 Ghi Nhận Kiểm Tra</div>
-      <button class="modal-close" onclick="closeModal('mCheckNgay')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="field"><label>Khu vực / Vị trí</label><input id="cn_vitri" placeholder="VD: Tầng 2 — Máy lạnh phòng 201"/></div>
-      <div class="field"><label>Nội dung nghiệp vụ</label><textarea id="cn_noidung" placeholder="Mô tả công việc kiểm tra..."></textarea></div>
+    <div class="mhd"><div class="mtitle">📋 Ghi Nhận Kiểm Tra</div><button class="mclose" onclick="closeMod('mCN')">✕</button></div>
+    <div class="mbody">
+      <div class="field"><label>Khu vực / Vị trí</label><input id="cn_vt" placeholder="VD: Tầng 2 — Máy lạnh phòng 201"/></div>
+      <div class="field"><label>Nội dung nghiệp vụ</label><textarea id="cn_nd" placeholder="Mô tả công việc kiểm tra..."></textarea></div>
       <div class="field"><label>Tình trạng</label>
-        <div class="radio-row">
-          <div class="radio-card ok" onclick="pick(this,'cn_tt','Bình thường')">✓ Bình thường</div>
-          <div class="radio-card fault" onclick="pick(this,'cn_tt','Có lỗi')">✗ Có lỗi</div>
-          <div class="radio-card pending" onclick="pick(this,'cn_tt','Cần theo dõi')">⚑ Theo dõi</div>
-        </div>
-        <input type="hidden" id="cn_tt"/>
+        <div class="rrow">
+          <div class="rc ok" onclick="pick(this,'cn_tt','Bình thường')">✓ Bình thường</div>
+          <div class="rc fault" onclick="pick(this,'cn_tt','Có lỗi')">✗ Có lỗi</div>
+          <div class="rc pending" onclick="pick(this,'cn_tt','Cần theo dõi')">⚑ Theo dõi</div>
+        </div><input type="hidden" id="cn_tt"/>
       </div>
-      <div class="field"><label>Ghi chú</label><textarea id="cn_ghichu" placeholder="Mô tả chi tiết nếu phát hiện lỗi..."></textarea></div>
+      <div class="field"><label>Ghi chú</label><textarea id="cn_gc" placeholder="Chi tiết nếu phát hiện lỗi..."></textarea></div>
     </div>
-    <div class="modal-ft">
-      <button class="btn-full btn-secondary" onclick="closeModal('mCheckNgay')">Huỷ</button>
-      <button class="btn-full btn-primary" onclick="saveCheckNgay()">Lưu</button>
-    </div>
+    <div class="mft"><button class="bf bsec" onclick="closeMod('mCN')">Huỷ</button><button class="bf bpri" onclick="saveCN()">Lưu</button></div>
   </div>
 </div>
 
-<!-- Modal Hạng Mục -->
-<div class="overlay" id="mHangMuc">
+<div class="ov" id="mHM">
   <div class="modal">
-    <div class="modal-hd">
-      <div class="modal-title">🔧 Hạng Mục Xử Lý</div>
-      <button class="modal-close" onclick="closeModal('mHangMuc')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="field"><label>Hạng mục</label><input id="hm_hangmuc" placeholder="VD: Nước, Điện, Thang máy..."/></div>
-      <div class="field"><label>Nội dung</label><textarea id="hm_noidung" placeholder="Mô tả công việc cần xử lý..."></textarea></div>
+    <div class="mhd"><div class="mtitle">🔧 Hạng Mục Xử Lý</div><button class="mclose" onclick="closeMod('mHM')">✕</button></div>
+    <div class="mbody">
+      <div class="field"><label>Hạng mục</label><input id="hm_hm" placeholder="VD: Nước, Điện, Thang máy..."/></div>
+      <div class="field"><label>Nội dung</label><textarea id="hm_nd" placeholder="Mô tả công việc cần xử lý..."></textarea></div>
       <div class="field"><label>Trạng thái</label>
-        <div class="radio-row">
-          <div class="radio-card pending" onclick="pick(this,'hm_tt','Chờ xử lý')">⏳ Chờ xử lý</div>
-          <div class="radio-card blue" onclick="pick(this,'hm_tt','Đang làm')">🔧 Đang làm</div>
-          <div class="radio-card ok" onclick="pick(this,'hm_tt','Hoàn thành')">✅ Hoàn thành</div>
-        </div>
-        <input type="hidden" id="hm_tt"/>
+        <div class="rrow">
+          <div class="rc pending" onclick="pick(this,'hm_tt','Chờ xử lý')">⏳ Chờ</div>
+          <div class="rc blue" onclick="pick(this,'hm_tt','Đang làm')">🔧 Đang làm</div>
+          <div class="rc ok" onclick="pick(this,'hm_tt','Hoàn thành')">✅ Xong</div>
+        </div><input type="hidden" id="hm_tt"/>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="field"><label>Ngày bắt đầu</label><input type="date" id="hm_batdau"/></div>
-        <div class="field"><label>Ngày kết thúc</label><input type="date" id="hm_ketthuc"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="field"><label>Ngày bắt đầu</label><input type="date" id="hm_bd"/></div>
+        <div class="field"><label>Ngày kết thúc</label><input type="date" id="hm_kt"/></div>
       </div>
-      <div class="field"><label>Ghi chú</label><textarea id="hm_ghichu"></textarea></div>
+      <div class="field"><label>Ghi chú</label><textarea id="hm_gc"></textarea></div>
     </div>
-    <div class="modal-ft">
-      <button class="btn-full btn-secondary" onclick="closeModal('mHangMuc')">Huỷ</button>
-      <button class="btn-full btn-primary" onclick="saveHangMuc()">Lưu</button>
-    </div>
+    <div class="mft"><button class="bf bsec" onclick="closeMod('mHM')">Huỷ</button><button class="bf bpri" onclick="saveHM()">Lưu</button></div>
   </div>
 </div>
 
-<!-- Modal Sửa Chữa -->
-<div class="overlay" id="mSuaChua">
+<div class="ov" id="mSC">
   <div class="modal">
-    <div class="modal-hd">
-      <div class="modal-title">🛏 Sửa Chữa Phòng</div>
-      <button class="modal-close" onclick="closeModal('mSuaChua')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="field"><label>Hạng mục</label><input id="sc_hangmuc" placeholder="VD: Điện, Nước, Nội thất..."/></div>
-      <div class="field"><label>Nội dung công việc</label><textarea id="sc_noidung" placeholder="Mô tả chi tiết..."></textarea></div>
+    <div class="mhd"><div class="mtitle">🛏 Sửa Chữa Phòng</div><button class="mclose" onclick="closeMod('mSC')">✕</button></div>
+    <div class="mbody">
+      <div class="field"><label>Hạng mục</label><input id="sc_hm" placeholder="VD: Điện, Nước, Nội thất..."/></div>
+      <div class="field"><label>Nội dung công việc</label><textarea id="sc_nd" placeholder="Mô tả chi tiết..."></textarea></div>
       <div class="field"><label>Tình trạng</label>
-        <div class="radio-row">
-          <div class="radio-card pending" onclick="pick(this,'sc_tt','Chờ sửa')">⏳ Chờ sửa</div>
-          <div class="radio-card blue" onclick="pick(this,'sc_tt','Đang sửa')">🔧 Đang sửa</div>
-          <div class="radio-card ok" onclick="pick(this,'sc_tt','Đã xong')">✅ Đã xong</div>
-        </div>
-        <input type="hidden" id="sc_tt"/>
+        <div class="rrow">
+          <div class="rc pending" onclick="pick(this,'sc_tt','Chờ sửa')">⏳ Chờ sửa</div>
+          <div class="rc blue" onclick="pick(this,'sc_tt','Đang sửa')">🔧 Đang sửa</div>
+          <div class="rc ok" onclick="pick(this,'sc_tt','Đã xong')">✅ Đã xong</div>
+        </div><input type="hidden" id="sc_tt"/>
       </div>
-      <div class="field"><label>Ghi chú</label><textarea id="sc_ghichu"></textarea></div>
+      <div class="field"><label>Ghi chú</label><textarea id="sc_gc"></textarea></div>
     </div>
-    <div class="modal-ft">
-      <button class="btn-full btn-secondary" onclick="closeModal('mSuaChua')">Huỷ</button>
-      <button class="btn-full btn-primary" onclick="saveSuaChua()">Lưu</button>
-    </div>
+    <div class="mft"><button class="bf bsec" onclick="closeMod('mSC')">Huỷ</button><button class="bf bpri" onclick="saveSC()">Lưu</button></div>
   </div>
 </div>
 
-<!-- Modal Định Kỳ -->
-<div class="overlay" id="mDinhKy">
+<div class="ov" id="mDK">
   <div class="modal">
-    <div class="modal-hd">
-      <div class="modal-title">🗓 Kiểm Tra Định Kỳ</div>
-      <button class="modal-close" onclick="closeModal('mDinhKy')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="field"><label>Hạng mục</label><input id="dk_hangmuc" placeholder="VD: Máy lạnh, Thang máy..."/></div>
+    <div class="mhd"><div class="mtitle">🗓 Kiểm Tra Định Kỳ</div><button class="mclose" onclick="closeMod('mDK')">✕</button></div>
+    <div class="mbody">
+      <div class="field"><label>Hạng mục</label><input id="dk_hm" placeholder="VD: Máy lạnh, Thang máy..."/></div>
       <div class="field"><label>Tầng / Khu vực</label><input id="dk_tang" placeholder="VD: Tầng 3, Tầng hầm..."/></div>
-      <div class="field"><label>Nội dung kiểm tra</label><textarea id="dk_noidung" placeholder="Mô tả..."></textarea></div>
+      <div class="field"><label>Nội dung kiểm tra</label><textarea id="dk_nd" placeholder="Mô tả..."></textarea></div>
       <div class="field"><label>Tình trạng</label>
-        <div class="radio-row">
-          <div class="radio-card ok" onclick="pick(this,'dk_tt','Bình thường')">✓ Bình thường</div>
-          <div class="radio-card fault" onclick="pick(this,'dk_tt','Có lỗi')">✗ Có lỗi</div>
-          <div class="radio-card pending" onclick="pick(this,'dk_tt','Cần bảo trì')">⚑ Bảo trì</div>
-        </div>
-        <input type="hidden" id="dk_tt"/>
+        <div class="rrow">
+          <div class="rc ok" onclick="pick(this,'dk_tt','Bình thường')">✓ Bình thường</div>
+          <div class="rc fault" onclick="pick(this,'dk_tt','Có lỗi')">✗ Có lỗi</div>
+          <div class="rc pending" onclick="pick(this,'dk_tt','Cần bảo trì')">⚑ Bảo trì</div>
+        </div><input type="hidden" id="dk_tt"/>
       </div>
-      <div class="field"><label>Ghi chú</label><textarea id="dk_ghichu"></textarea></div>
+      <div class="field"><label>Ghi chú</label><textarea id="dk_gc"></textarea></div>
     </div>
-    <div class="modal-ft">
-      <button class="btn-full btn-secondary" onclick="closeModal('mDinhKy')">Huỷ</button>
-      <button class="btn-full btn-primary" onclick="saveDinhKy()">Lưu</button>
-    </div>
+    <div class="mft"><button class="bf bsec" onclick="closeMod('mDK')">Huỷ</button><button class="bf bpri" onclick="saveDK()">Lưu</button></div>
   </div>
 </div>
 
-<!-- Modal Máy Phát -->
-<div class="overlay" id="mMayPhat">
+<div class="ov" id="mMP">
   <div class="modal">
-    <div class="modal-hd">
-      <div class="modal-title">⚡ Máy Phát Điện</div>
-      <button class="modal-close" onclick="closeModal('mMayPhat')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="field"><label>Thời gian chạy</label><input id="mp_thoigian" placeholder="VD: 2h30"/></div>
-      <div class="field"><label>Trạng thái máy</label>
-        <div class="radio-row">
-          <div class="radio-card ok" onclick="pick(this,'mp_tt','Hoạt động tốt')">✓ Tốt</div>
-          <div class="radio-card fault" onclick="pick(this,'mp_tt','Có sự cố')">✗ Sự cố</div>
-          <div class="radio-card pending" onclick="pick(this,'mp_tt','Cần kiểm tra')">⚑ Cần KT</div>
-        </div>
-        <input type="hidden" id="mp_tt"/>
+    <div class="mhd"><div class="mtitle">⚡ Máy Phát Điện</div><button class="mclose" onclick="closeMod('mMP')">✕</button></div>
+    <div class="mbody">
+      <div class="field"><label>Thời gian chạy</label><input id="mp_tg" placeholder="VD: 2h30"/></div>
+      <div class="field"><label>Trạng thái</label>
+        <div class="rrow">
+          <div class="rc ok" onclick="pick(this,'mp_tt','Hoạt động tốt')">✓ Tốt</div>
+          <div class="rc fault" onclick="pick(this,'mp_tt','Có sự cố')">✗ Sự cố</div>
+          <div class="rc pending" onclick="pick(this,'mp_tt','Cần kiểm tra')">⚑ Cần KT</div>
+        </div><input type="hidden" id="mp_tt"/>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="field"><label>Điện áp (V)</label><input id="mp_dienap" placeholder="VD: 220V"/></div>
-        <div class="field"><label>Acquy</label>
-          <select id="mp_acquy"><option value="">-- Chọn --</option><option>Tốt</option><option>Yếu</option><option>Cần thay</option></select>
-        </div>
-        <div class="field"><label>Máy phát</label><input id="mp_mayphat" placeholder="Tình trạng"/></div>
-        <div class="field"><label>Dầu máy phát</label>
-          <select id="mp_dau"><option value="">-- Chọn --</option><option>Đủ</option><option>Cần châm thêm</option><option>Cần thay</option></select>
-        </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="field"><label>Điện áp (V)</label><input id="mp_da" placeholder="VD: 220V"/></div>
+        <div class="field"><label>Acquy</label><select id="mp_aq"><option value="">-- Chọn --</option><option>Tốt</option><option>Yếu</option><option>Cần thay</option></select></div>
+        <div class="field"><label>Máy phát</label><input id="mp_mp" placeholder="Tình trạng"/></div>
+        <div class="field"><label>Dầu</label><select id="mp_dau"><option value="">-- Chọn --</option><option>Đủ</option><option>Cần châm thêm</option><option>Cần thay</option></select></div>
       </div>
-      <div class="field"><label>Ghi chú</label><textarea id="mp_ghichu"></textarea></div>
+      <div class="field"><label>Ghi chú</label><textarea id="mp_gc"></textarea></div>
     </div>
-    <div class="modal-ft">
-      <button class="btn-full btn-secondary" onclick="closeModal('mMayPhat')">Huỷ</button>
-      <button class="btn-full btn-primary" onclick="saveMayPhat()">Lưu</button>
-    </div>
+    <div class="mft"><button class="bf bsec" onclick="closeMod('mMP')">Huỷ</button><button class="bf bpri" onclick="saveMP()">Lưu</button></div>
   </div>
 </div>
 
-<!-- Modal PCCC -->
-<div class="overlay" id="mPCCC">
+<div class="ov" id="mPCCC">
   <div class="modal">
-    <div class="modal-hd">
-      <div class="modal-title">🔥 Kiểm Tra PCCC</div>
-      <button class="modal-close" onclick="closeModal('mPCCC')">✕</button>
-    </div>
-    <div class="modal-body">
-      <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Nhấn vào từng thiết bị để chọn tình trạng (⬜ → ✅ Tốt → ❌ Lỗi)</p>
-      <div class="pccc-grid" id="pcccGrid"></div>
+    <div class="mhd"><div class="mtitle">🔥 Kiểm Tra PCCC</div><button class="mclose" onclick="closeMod('mPCCC')">✕</button></div>
+    <div class="mbody">
+      <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Nhấn vào từng thiết bị → ✅ Tốt → ❌ Lỗi</p>
+      <div class="pgrid" id="pcccGrid"></div>
       <div class="field"><label>Tình trạng chung</label>
-        <div class="radio-row">
-          <div class="radio-card ok" onclick="pick(this,'pccc_tt','Bình thường')">✓ Bình thường</div>
-          <div class="radio-card fault" onclick="pick(this,'pccc_tt','Có lỗi')">✗ Có lỗi</div>
-          <div class="radio-card pending" onclick="pick(this,'pccc_tt','Cần kiểm tra')">⚑ Cần KT</div>
-        </div>
-        <input type="hidden" id="pccc_tt"/>
+        <div class="rrow">
+          <div class="rc ok" onclick="pick(this,'pc_tt','Bình thường')">✓ Bình thường</div>
+          <div class="rc fault" onclick="pick(this,'pc_tt','Có lỗi')">✗ Có lỗi</div>
+          <div class="rc pending" onclick="pick(this,'pc_tt','Cần kiểm tra')">⚑ Cần KT</div>
+        </div><input type="hidden" id="pc_tt"/>
       </div>
-      <div class="field"><label>Ghi chú</label><textarea id="pccc_ghichu"></textarea></div>
+      <div class="field"><label>Ghi chú</label><textarea id="pc_gc"></textarea></div>
     </div>
-    <div class="modal-ft">
-      <button class="btn-full btn-secondary" onclick="closeModal('mPCCC')">Huỷ</button>
-      <button class="btn-full btn-primary" onclick="savePCCC()">Lưu</button>
-    </div>
+    <div class="mft"><button class="bf bsec" onclick="closeMod('mPCCC')">Huỷ</button><button class="bf bpri" onclick="savePCCC()">Lưu</button></div>
   </div>
 </div>
 
 <div id="toast"></div>
 
 <script>
-const GAS = 'https://script.google.com/macros/s/AKfycbwKIWgB-MedjJKKEED--9JxLOqV30-M2EpAHGrowQ-AnRWq6t5E6R9MZIVulFoaSv1Z/exec';
-let user = null, _ci = 0;
-const PCCC_ITEMS = ['Đầu Vòi','Cuộn Dây','Bình PCCC','Đèn Exit','Đèn Sự Cố','Bơm Chữa Cháy','Bơm Bù Áp'];
-let pcccSt = {}, hmFilter = 'all';
+const GAS='https://script.google.com/macros/s/AKfycbwKIWgB-MedjJKKEED--9JxLOqV30-M2EpAHGrowQ-AnRWq6t5E6R9MZIVulFoaSv1Z/exec';
+let user=null,_ci=0,hmFilter='all',pcccSt={};
+const PCCC_ITEMS=['Đầu Vòi','Cuộn Dây','Bình PCCC','Đèn Exit','Đèn Sự Cố','Bơm Chữa Cháy','Bơm Bù Áp'];
+const DAYS=['CN','T2','T3','T4','T5','T6','T7'];
+const MONTHS=['tháng 1','tháng 2','tháng 3','tháng 4','tháng 5','tháng 6','tháng 7','tháng 8','tháng 9','tháng 10','tháng 11','tháng 12'];
 
-// ── JSONP ──
 function callGAS(p){
   return new Promise((res,rej)=>{
-    const cb='_cb'+(++_ci);
-    p.callback=cb;
+    const cb='_cb'+(++_ci);p.callback=cb;
     const qs=Object.entries(p).map(([k,v])=>encodeURIComponent(k)+'='+encodeURIComponent(v)).join('&');
-    const s=document.createElement('script');
-    s.src=GAS+'?'+qs;
+    const s=document.createElement('script');s.src=GAS+'?'+qs;
     const t=setTimeout(()=>{clean();rej(new Error('Timeout'));},15000);
     window[cb]=d=>{clean();res(d);};
     function clean(){clearTimeout(t);delete window[cb];s.parentNode&&s.parentNode.removeChild(s);}
-    s.onerror=()=>{clean();rej(new Error('Network error'));};
+    s.onerror=()=>{clean();rej(new Error('Lỗi mạng'));};
     document.head.appendChild(s);
   });
 }
 
-// ── UTILS ──
-function today(){const d=new Date();return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
+function today(){const d=new Date();return`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
 function p2(n){return String(n).padStart(2,'0');}
 function setToday(id){document.getElementById(id).value=today();}
 function fmtD(s){if(!s)return'—';const d=new Date(s+'T00:00:00');return`${p2(d.getDate())}/${p2(d.getMonth()+1)}/${d.getFullYear()}`;}
-function showToast(msg,type='ok'){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.className='show '+type;
-  setTimeout(()=>{t.className='';},2600);
-}
-function pick(el,hid,val){
-  el.parentElement.querySelectorAll('.radio-card').forEach(b=>b.classList.remove('sel'));
-  el.classList.add('sel');
-  document.getElementById(hid).value=val;
-}
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.overlay').forEach(o=>{
-  o.addEventListener('click',e=>{if(e.target===o)closeModal(o.id);});
-});
+function fmtDayVN(){const d=new Date();return`${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;}
 
-function statusCls(s){
-  const m={'Bình thường':'ok','Hoạt động tốt':'ok','Hoàn thành':'ok','Đã xong':'ok','Tốt':'ok',
-    'Có lỗi':'fault','Có sự cố':'fault',
-    'Cần theo dõi':'pending','Cần bảo trì':'pending','Cần kiểm tra':'pending',
-    'Chờ xử lý':'pending','Chờ sửa':'pending','Đang làm':'inprogress','Đang sửa':'inprogress'};
-  return m[s]||'';
+function toast(msg,type='ok'){const t=document.getElementById('toast');t.textContent=msg;t.className='show '+type;setTimeout(()=>{t.className='';},2600);}
+function pick(el,hid,val){el.parentElement.querySelectorAll('.rc').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');document.getElementById(hid).value=val;}
+function openMod(id){
+  if(id==='mPCCC'){
+    pcccSt={};document.getElementById('pc_tt').value='';document.getElementById('pc_gc').value='';
+    document.querySelectorAll('#mPCCC .rc').forEach(b=>b.classList.remove('sel'));
+    document.getElementById('pcccGrid').innerHTML=PCCC_ITEMS.map(n=>`<div class="pi" onclick="tgPCCC('${n}',this)"><div class="pil">${n}</div><div class="pio">⬜</div></div>`).join('');
+  }
+  document.getElementById(id).classList.add('open');
 }
-function pill(s){
-  if(!s)return'<span class="pill">—</span>';
-  const c=statusCls(s)||'pending';
-  return`<span class="pill ${c}"><span class="pill-dot"></span>${s}</span>`;
-}
-function empty(msg='Chưa có dữ liệu'){
-  return`<div class="empty"><div class="empty-icon">📭</div><div class="empty-text">${msg}</div></div>`;
-}
-function loading(){return`<div class="loading"><div class="spin"></div>Đang tải...</div>`;}
+function closeMod(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)closeMod(o.id);}));
 
-// ── LOGIN ──
+function scls(s){const m={'Bình thường':'ok','Hoạt động tốt':'ok','Hoàn thành':'ok','Đã xong':'ok','Tốt':'ok','Có lỗi':'fault','Có sự cố':'fault','Cần theo dõi':'pending','Cần bảo trì':'pending','Cần kiểm tra':'pending','Chờ xử lý':'pending','Chờ sửa':'pending','Đang làm':'inprog','Đang sửa':'inprog'};return m[s]||'';}
+function pill(s){if(!s)return'<span class="pill gray">—</span>';const c=scls(s)||'gray';return`<span class="pill ${c}"><span class="pd"></span>${s}</span>`;}
+function empty(msg){return`<div class="empty"><div class="ei">📭</div><div class="et">${msg}</div></div>`;}
+function ld(){return`<div class="ld"><div class="spin"></div>Đang tải...</div>`;}
+
+// LOGIN
 async function doLogin(){
   const manv=document.getElementById('loginId').value.trim();
   const pass=document.getElementById('loginPass').value.trim();
@@ -791,427 +535,311 @@ async function doLogin(){
   document.getElementById('loginErr').textContent='Đang xác thực...';
   try{
     const r=await callGAS({action:'login',manv,pass});
-    if(r.success){
+    if(r&&r.success){
       user=r;
-      const initials=(r.hoten||'?').split(' ').map(w=>w[0]).slice(-2).join('').toUpperCase();
-      document.getElementById('userAvatar').textContent=initials;
-      document.getElementById('userName').textContent=r.hoten;
-      document.getElementById('userRole').textContent=r.vaitro==='manager'?'Quản Lý':'Kỹ Thuật Viên';
+      const ini=(r.hoten||'?').split(' ').map(w=>w[0]).slice(-2).join('').toUpperCase();
+      document.getElementById('uAvatar').textContent=ini;
+      document.getElementById('uName').textContent=r.hoten;
+      document.getElementById('uRole').textContent=r.vaitro==='manager'?'Quản Lý':'Kỹ Thuật Viên';
+      document.getElementById('dw-name').textContent=r.hoten;
+      document.getElementById('dw-date').textContent=fmtDayVN();
       document.getElementById('loginScreen').style.display='none';
       document.getElementById('appShell').style.display='flex';
       initApp();
-    }else{document.getElementById('loginErr').textContent=r.msg||'Sai thông tin đăng nhập';}
-  }catch(e){document.getElementById('loginErr').textContent='Lỗi kết nối. Vui lòng thử lại.';}
+    }else{document.getElementById('loginErr').textContent=(r&&r.msg)||'Sai thông tin đăng nhập';}
+  }catch(e){document.getElementById('loginErr').textContent='Lỗi kết nối. Thử lại.';}
 }
 document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-function doLogout(){
-  user=null;
-  document.getElementById('loginScreen').style.display='flex';
-  document.getElementById('appShell').style.display='none';
-  document.getElementById('loginId').value='';
-  document.getElementById('loginPass').value='';
-  document.getElementById('loginErr').textContent='';
+function doLogout(){user=null;document.getElementById('loginScreen').style.display='flex';document.getElementById('appShell').style.display='none';document.getElementById('loginId').value='';document.getElementById('loginPass').value='';document.getElementById('loginErr').textContent='';}
+
+// TABS
+function switchTab(tab){
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`.tbtn[data-tab="${tab}"]`).classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  loadTab(tab);
 }
-
-// ── TABS ──
-document.querySelectorAll('.tab-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-    const loaders={checkNgay:loadCheckNgay,hangMuc:loadHangMuc,suaChua:loadSuaChua,dinhKy:loadDinhKy,mayPhat:loadMayPhat,pccc:loadPCCC};
-    loaders[btn.dataset.tab]&&loaders[btn.dataset.tab]();
-  });
-});
-
+document.querySelectorAll('.tbtn').forEach(btn=>btn.addEventListener('click',()=>switchTab(btn.dataset.tab)));
+function loadTab(t){
+  if(t==='dashboard')loadDashboard();
+  else if(t==='checkNgay')loadCheckNgay();
+  else if(t==='hangMuc')loadHM();
+  else if(t==='suaChua')loadSC();
+  else if(t==='dinhKy')loadDK();
+  else if(t==='mayPhat')loadMP();
+  else if(t==='pccc')loadPCCC();
+}
 function initApp(){
-  ['dateCheckNgay','dateSuaChua','dateDinhKy','dateMayPhat','datePCCC'].forEach(setToday);
-  document.getElementById('hm_batdau').value=today();
-  loadCheckNgay();loadHangMuc();
+  ['dateCheckNgay','dateSC','dateDK','dateMP','datePCCC'].forEach(setToday);
+  document.getElementById('hm_bd').value=today();
+  loadDashboard();
 }
 
-// ══ MODULE 1: CHECK HÀNG NGÀY ══
+// ══ DASHBOARD ══
+async function loadDashboard(){
+  const d=today();
+  // Load stats & previews in parallel
+  try{
+    const [rCN,rHM,rMP,rPC]=await Promise.all([
+      callGAS({action:'getLog',sheet:'Log_CheckNgay',from:d,to:d}),
+      callGAS({action:'getLog',sheet:'Log_HangMuc'}),
+      callGAS({action:'getLog',sheet:'Log_MayPhatDien',from:d,to:d}),
+      callGAS({action:'getLog',sheet:'Log_PCCC',from:d,to:d})
+    ]);
+    const cn=rCN.success?rCN.data:[];
+    const hm=rHM.success?rHM.data:[];
+    const mp=rMP.success?rMP.data:[];
+    const pc=rPC.success?rPC.data:[];
+
+    // Stats
+    const cnOk=cn.filter(r=>r.TinhTrang==='Bình thường').length;
+    const cnFault=cn.filter(r=>r.TinhTrang==='Có lỗi').length;
+    const hmPending=hm.filter(r=>r.TrangThai==='Chờ xử lý'||r.TrangThai==='Đang làm').length;
+    document.getElementById('statsRow').innerHTML=`
+      <div class="stat-card ok"><div class="stat-num">${cnOk}</div><div class="stat-label">Check OK hôm nay</div></div>
+      <div class="stat-card fault"><div class="stat-num">${cnFault}</div><div class="stat-label">Phát hiện lỗi</div></div>
+      <div class="stat-card blue"><div class="stat-num">${cn.length}</div><div class="stat-label">Tổng check hôm nay</div></div>
+      <div class="stat-card pending"><div class="stat-num">${hmPending}</div><div class="stat-label">Hạng mục tồn</div></div>
+      <div class="stat-card ok"><div class="stat-num">${mp.length}</div><div class="stat-label">Log máy phát hôm nay</div></div>
+      <div class="stat-card ${pc.length>0?'ok':'fault'}"><div class="stat-num">${pc.length}</div><div class="stat-label">PCCC hôm nay</div></div>`;
+
+    // Preview: Check Ngày (max 4)
+    const elCN=document.getElementById('dash-checkNgay');
+    if(!cn.length){elCN.innerHTML=empty('Chưa có kiểm tra nào hôm nay');}
+    else{elCN.innerHTML=`<div class="cgrid">${cn.slice(-4).reverse().map(r=>cardCN(r)).join('')}</div>`;}
+
+    // Preview: Hạng Mục đang tồn (max 4)
+    const elHM=document.getElementById('dash-hangMuc');
+    const hmActive=hm.filter(r=>r.TrangThai!=='Hoàn thành').slice(-4).reverse();
+    if(!hmActive.length){elHM.innerHTML=empty('Không có hạng mục nào đang tồn');}
+    else{elHM.innerHTML=`<div class="cgrid">${hmActive.map(r=>cardHM(r)).join('')}</div>`;}
+
+    // Preview: Máy Phát
+    const elMP=document.getElementById('dash-mayPhat');
+    if(!mp.length){elMP.innerHTML=empty('Chưa có log máy phát hôm nay');}
+    else{elMP.innerHTML=`<div class="cgrid">${mp.slice(-2).reverse().map(r=>cardMP(r)).join('')}</div>`;}
+
+    // Preview: PCCC
+    const elPC=document.getElementById('dash-pccc');
+    if(!pc.length){elPC.innerHTML=empty('Chưa có kiểm tra PCCC hôm nay');}
+    else{elPC.innerHTML=`<div class="cgrid">${pc.slice(-2).reverse().map(r=>cardPC(r)).join('')}</div>`;}
+
+  }catch(e){
+    document.getElementById('statsRow').innerHTML=empty('Lỗi tải dữ liệu');
+  }
+}
+
+// ══ CARD BUILDERS ══
+function cardCN(r){
+  const cls=scls(r.TinhTrang);
+  return`<div class="card ${cls}"><div class="ci">
+    <div class="czl">Khu vực / Hạng mục kiểm tra</div>
+    <div class="cz">${r.ViTri||'—'}</div>
+    <div class="ctl">Nội dung nghiệp vụ</div>
+    <div class="ct">${r.NoiDungCongViec||'—'}</div>
+    <div class="cmg">
+      <div><div class="cml">Nhân viên thực hiện</div><div class="cmv">• ${r.HoTen||'—'} (${r.MaNV||'—'})</div></div>
+      <div><div class="cml">Ngày hoàn thiện</div><div class="cmv">📅 ${fmtD(r.Ngay)}</div></div>
+    </div>
+    <div class="csla">
+      <div class="si ${r.TinhTrang==='Có lỗi'?'w':'g'}">Tình trạng: <span>${r.TinhTrang||'—'}</span></div>
+      <div class="si">Giờ: <span>${(r.ThoiGian||'').split(' ')[0]||'—'}</span></div>
+    </div>
+    <div class="cft"><div class="cnote">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>${pill(r.TinhTrang)}</div>
+  </div></div>`;
+}
+function cardHM(r){
+  const cls=r.TrangThai==='Hoàn thành'?'ok':r.TrangThai==='Đang làm'?'inprog':'pending';
+  return`<div class="card ${cls}"><div class="ci">
+    <div class="czl">Hạng mục</div>
+    <div class="cz">${r.HangMuc||'—'}</div>
+    <div class="ctl">Nội dung công việc</div>
+    <div class="ct">${r.NoiDung||'—'}</div>
+    <div class="cmg">
+      <div><div class="cml">Nhân viên thực hiện</div><div class="cmv">• ${r.HoTen||'—'} (${r.MaNV||'—'})</div></div>
+      <div><div class="cml">Tiến độ</div><div class="cmv">${pill(r.TrangThai)}</div></div>
+    </div>
+    <div class="csla">
+      ${r.NgayBatDau?`<div class="si">Bắt đầu: <span>${fmtD(r.NgayBatDau)}</span></div>`:''}
+      ${r.NgayKetThuc?`<div class="si w">Hạn chót: <span>${fmtD(r.NgayKetThuc)}</span></div>`:''}
+    </div>
+    <div class="cft"><div class="cnote">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div></div>
+  </div></div>`;
+}
+function cardMP(r){
+  const cls=scls(r.TrangThai);
+  return`<div class="card ${cls}"><div class="ci">
+    <div class="czl">Hệ thống điện dự phòng</div>
+    <div class="cz">Máy Phát Điện</div>
+    <div class="cmg">
+      <div><div class="cml">Nhân viên thực hiện</div><div class="cmv">• ${r.HoTen||'—'}</div></div>
+      <div><div class="cml">Ngày vận hành</div><div class="cmv">📅 ${fmtD(r.Ngay)}</div></div>
+    </div>
+    <div class="csla">
+      <div class="si">Thời gian chạy: <span>${r.ThoiGianChay||'—'}</span></div>
+      <div class="si ${r.TinhTrangAcquy==='Cần thay'?'w':''}">Acquy: <span>${r.TinhTrangAcquy||'—'}</span></div>
+      <div class="si ${r.DauMayPhat==='Cần thay'||r.DauMayPhat==='Cần châm thêm'?'w':'g'}">Dầu: <span>${r.DauMayPhat||'—'}</span></div>
+      <div class="si">Điện áp: <span>${r.DienAp||'—'}</span></div>
+    </div>
+    <div class="cft"><div class="cnote">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>${pill(r.TrangThai)}</div>
+  </div></div>`;
+}
+function cardPC(r){
+  const cls=scls(r.TinhTrang);
+  const items=PCCC_ITEMS.map(n=>{const v=r[n.replace(/ /g,'')]||'—';const c=v==='Tốt'?'ok':v==='Lỗi'?'fault':'gray';return`<span class="pill ${c}" style="font-size:9px">${n}: ${v}</span>`;}).join(' ');
+  return`<div class="card ${cls}"><div class="ci">
+    <div class="czl">Hệ thống PCCC</div>
+    <div class="cz">Kiểm tra tháng ${r.Thang||'—'}</div>
+    <div class="cmg">
+      <div><div class="cml">Người kiểm tra</div><div class="cmv">• ${r.HoTen||'—'}</div></div>
+      <div><div class="cml">Ngày kiểm tra</div><div class="cmv">📅 ${fmtD(r.Ngay)}</div></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">${items}</div>
+    <div class="cft"><div class="cnote">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>${pill(r.TinhTrang)}</div>
+  </div></div>`;
+}
+
+// ══ MODULE: CHECK NGÀY ══
 async function loadCheckNgay(){
-  document.getElementById('checkNgayContent').innerHTML=loading();
   const d=document.getElementById('dateCheckNgay').value||today();
+  document.getElementById('cnContent').innerHTML=ld();
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_CheckNgay',from:d,to:d});
-    renderCheckNgay(r.success?r.data:[],d);
-  }catch(e){document.getElementById('checkNgayContent').innerHTML=empty('Lỗi kết nối');}
+    const data=r.success?r.data:[];
+    const el=document.getElementById('cnContent');
+    if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra nào ngày ${fmtD(d)}`);return;}
+    el.innerHTML=`<div class="sh"><h2>Kết Quả Kiểm Tra</h2><span class="cbadge">${data.length} mục</span></div><div class="cgrid">${data.map(r=>cardCN(r)).join('')}</div>`;
+  }catch(e){document.getElementById('cnContent').innerHTML=empty('Lỗi kết nối');}
 }
-function renderCheckNgay(data,d){
-  const el=document.getElementById('checkNgayContent');
-  if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra nào ngày ${fmtD(d)}`);return;}
-  const cls={'Bình thường':'ok','Có lỗi':'fault','Cần theo dõi':'pending'};
-  const html=`<div class="sec-head"><h2>Kết Quả Kiểm Tra</h2><span class="count-badge">${data.length} mục</span></div>
-  <div class="cards-grid">${data.map(r=>`
-  <div class="card ${cls[r.TinhTrang]||''}">
-    <div class="card-inner">
-      <div class="card-zone-label">Khu vực / Hạng mục kiểm tra</div>
-      <div class="card-zone">${r.ViTri||'—'}</div>
-      <div class="card-task-label">Nội dung nghiệp vụ</div>
-      <div class="card-task">${r.NoiDungCongViec||'—'}</div>
-      <div class="card-meta-grid">
-        <div class="card-meta-item">
-          <div class="card-meta-label">Nhân viên thực hiện</div>
-          <div class="card-meta-val">• ${r.HoTen||'—'} (${r.MaNV||'—'})</div>
-        </div>
-        <div class="card-meta-item">
-          <div class="card-meta-label">Ngày hoàn thiện</div>
-          <div class="card-meta-val">📅 ${fmtD(r.Ngay)}</div>
-        </div>
-      </div>
-      <div class="card-sla">
-        <div class="sla-item ${r.TinhTrang==='Có lỗi'?'warn':'ok'}">Tình trạng: <span>${r.TinhTrang||'—'}</span></div>
-        <div class="sla-item">Giờ ghi: <span>${(r.ThoiGian||'').split(' ')[0]||'—'}</span></div>
-      </div>
-      <div class="card-footer">
-        <div class="card-note">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>
-        <div class="card-actions">${pill(r.TinhTrang)}</div>
-      </div>
-    </div>
-  </div>`).join('')}</div>`;
-  el.innerHTML=html;
-}
-async function saveCheckNgay(){
+async function saveCN(){
   const d=document.getElementById('dateCheckNgay').value||today();
-  const data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,
-    ViTri:document.getElementById('cn_vitri').value.trim(),
-    NoiDungCongViec:document.getElementById('cn_noidung').value.trim(),
-    TinhTrang:document.getElementById('cn_tt').value,
-    GhiChu:document.getElementById('cn_ghichu').value.trim()};
-  if(!data.ViTri||!data.TinhTrang){showToast('Nhập đủ vị trí và tình trạng','err');return;}
-  try{
-    const r=await callGAS({action:'saveLog',sheet:'Log_CheckNgay',data:JSON.stringify(data)});
-    if(r.success){closeModal('mCheckNgay');showToast('✓ Đã lưu!');loadCheckNgay();}
-    else showToast(r.msg||'Lỗi lưu','err');
-  }catch(e){showToast('Lỗi kết nối','err');}
+  const data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,ViTri:document.getElementById('cn_vt').value.trim(),NoiDungCongViec:document.getElementById('cn_nd').value.trim(),TinhTrang:document.getElementById('cn_tt').value,GhiChu:document.getElementById('cn_gc').value.trim()};
+  if(!data.ViTri||!data.TinhTrang){toast('Nhập đủ vị trí và tình trạng','err');return;}
+  try{const r=await callGAS({action:'saveLog',sheet:'Log_CheckNgay',data:JSON.stringify(data)});if(r.success){closeMod('mCN');toast('✓ Đã lưu!');loadCheckNgay();}else toast(r.msg||'Lỗi','err');}catch(e){toast('Lỗi kết nối','err');}
 }
 
-// ══ MODULE 2: HẠNG MỤC ══
+// ══ MODULE: HẠNG MỤC ══
 let hmData=[];
-async function loadHangMuc(){
-  document.getElementById('hangMucContent').innerHTML=loading();
-  try{
-    const r=await callGAS({action:'getLog',sheet:'Log_HangMuc'});
-    hmData=r.success?r.data:[];renderHangMuc();
-  }catch(e){document.getElementById('hangMucContent').innerHTML=empty('Lỗi kết nối');}
+async function loadHM(){
+  document.getElementById('hmContent').innerHTML=ld();
+  try{const r=await callGAS({action:'getLog',sheet:'Log_HangMuc'});hmData=r.success?r.data:[];renderHM();}
+  catch(e){document.getElementById('hmContent').innerHTML=empty('Lỗi kết nối');}
 }
-function filterHM(f,el){
-  hmFilter=f;
-  document.querySelectorAll('.filter-row .chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');renderHangMuc();
-}
-function renderHangMuc(){
-  const el=document.getElementById('hangMucContent');
+function filterHM(f,el){hmFilter=f;document.querySelectorAll('#tab-hangMuc .chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderHM();}
+function renderHM(){
+  const el=document.getElementById('hmContent');
   let data=hmData;
   if(hmFilter!=='all')data=data.filter(r=>r.TrangThai===hmFilter);
   if(!data.length){el.innerHTML=empty('Không có hạng mục nào');return;}
-  const cls={'Chờ xử lý':'pending','Đang làm':'inprogress','Hoàn thành':'ok'};
-  const html=`<div class="sec-head"><h2>Hạng Mục Xử Lý</h2><span class="count-badge">${data.length} mục</span></div>
-  <div class="cards-grid">${data.slice().reverse().map(r=>`
-  <div class="card ${cls[r.TrangThai]||''}">
-    <div class="card-inner">
-      <div class="card-zone-label">Hạng mục</div>
-      <div class="card-zone">${r.HangMuc||'—'}</div>
-      <div class="card-task-label">Nội dung công việc</div>
-      <div class="card-task">${r.NoiDung||'—'}</div>
-      <div class="card-meta-grid">
-        <div class="card-meta-item">
-          <div class="card-meta-label">Nhân viên thực hiện</div>
-          <div class="card-meta-val">• ${r.HoTen||'—'} (${r.MaNV||'—'})</div>
-        </div>
-        <div class="card-meta-item">
-          <div class="card-meta-label">Tiến độ</div>
-          <div class="card-meta-val">${pill(r.TrangThai)}</div>
-        </div>
-      </div>
-      <div class="card-sla">
-        ${r.NgayBatDau?`<div class="sla-item">Bắt đầu: <span>${fmtD(r.NgayBatDau)}</span></div>`:''}
-        ${r.NgayKetThuc?`<div class="sla-item ${r.TrangThai!=='Hoàn thành'?'warn':'ok'}">Hạn chót: <span>${fmtD(r.NgayKetThuc)}</span></div>`:''}
-      </div>
-      <div class="card-footer">
-        <div class="card-note">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>
-      </div>
-    </div>
-  </div>`).join('')}</div>`;
-  el.innerHTML=html;
+  el.innerHTML=`<div class="sh"><h2>Hạng Mục Xử Lý</h2><span class="cbadge">${data.length} mục</span></div><div class="cgrid">${data.slice().reverse().map(r=>cardHM(r)).join('')}</div>`;
 }
-async function saveHangMuc(){
-  const data={Ngay:today(),MaNV:user.manv,HoTen:user.hoten,
-    HangMuc:document.getElementById('hm_hangmuc').value.trim(),
-    NoiDung:document.getElementById('hm_noidung').value.trim(),
-    TrangThai:document.getElementById('hm_tt').value,
-    NgayBatDau:document.getElementById('hm_batdau').value,
-    NgayKetThuc:document.getElementById('hm_ketthuc').value,
-    GhiChu:document.getElementById('hm_ghichu').value.trim()};
-  if(!data.HangMuc||!data.TrangThai){showToast('Nhập đủ hạng mục và trạng thái','err');return;}
-  try{
-    const r=await callGAS({action:'saveLog',sheet:'Log_HangMuc',data:JSON.stringify(data)});
-    if(r.success){closeModal('mHangMuc');showToast('✓ Đã lưu!');loadHangMuc();}
-    else showToast(r.msg||'Lỗi','err');
-  }catch(e){showToast('Lỗi kết nối','err');}
+async function saveHM(){
+  const data={Ngay:today(),MaNV:user.manv,HoTen:user.hoten,HangMuc:document.getElementById('hm_hm').value.trim(),NoiDung:document.getElementById('hm_nd').value.trim(),TrangThai:document.getElementById('hm_tt').value,NgayBatDau:document.getElementById('hm_bd').value,NgayKetThuc:document.getElementById('hm_kt').value,GhiChu:document.getElementById('hm_gc').value.trim()};
+  if(!data.HangMuc||!data.TrangThai){toast('Nhập đủ hạng mục và trạng thái','err');return;}
+  try{const r=await callGAS({action:'saveLog',sheet:'Log_HangMuc',data:JSON.stringify(data)});if(r.success){closeMod('mHM');toast('✓ Đã lưu!');loadHM();}else toast(r.msg||'Lỗi','err');}catch(e){toast('Lỗi kết nối','err');}
 }
 
-// ══ MODULE 3: SỬA CHỮA ══
-async function loadSuaChua(){
-  document.getElementById('suaChuaContent').innerHTML=loading();
-  const d=document.getElementById('dateSuaChua').value||today();
+// ══ MODULE: SỬA CHỮA ══
+async function loadSC(){
+  const d=document.getElementById('dateSC').value||today();
+  document.getElementById('scContent').innerHTML=ld();
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_SuaChuaPhong',from:d,to:d});
     const data=r.success?r.data:[];
-    const el=document.getElementById('suaChuaContent');
+    const el=document.getElementById('scContent');
     if(!data.length){el.innerHTML=empty(`Chưa có phiếu sửa chữa ngày ${fmtD(d)}`);return;}
-    const cls={'Chờ sửa':'pending','Đang sửa':'inprogress','Đã xong':'ok'};
-    el.innerHTML=`<div class="sec-head"><h2>Sửa Chữa Phòng</h2><span class="count-badge">${data.length}</span></div>
-    <div class="cards-grid">${data.map(r=>`
-    <div class="card ${cls[r.TinhTrang]||''}">
-      <div class="card-inner">
-        <div class="card-zone-label">Hạng mục sửa chữa</div>
-        <div class="card-zone">${r.HangMuc||'—'}</div>
-        <div class="card-task-label">Nội dung công việc</div>
-        <div class="card-task">${r.NoiDungCongViec||'—'}</div>
-        <div class="card-meta-grid">
-          <div class="card-meta-item">
-            <div class="card-meta-label">Nhân viên thực hiện</div>
-            <div class="card-meta-val">• ${r.HoTen||'—'}</div>
-          </div>
-          <div class="card-meta-item">
-            <div class="card-meta-label">Tình trạng</div>
-            <div class="card-meta-val">${pill(r.TinhTrang)}</div>
-          </div>
-        </div>
-        <div class="card-footer">
-          <div class="card-note">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>
-        </div>
-      </div>
-    </div>`).join('')}</div>`;
-  }catch(e){document.getElementById('suaChuaContent').innerHTML=empty('Lỗi kết nối');}
+    const cls={'Chờ sửa':'pending','Đang sửa':'inprog','Đã xong':'ok'};
+    el.innerHTML=`<div class="sh"><h2>Sửa Chữa Phòng</h2><span class="cbadge">${data.length}</span></div><div class="cgrid">${data.map(r=>`<div class="card ${cls[r.TinhTrang]||''}"><div class="ci"><div class="czl">Hạng mục sửa chữa</div><div class="cz">${r.HangMuc||'—'}</div><div class="ctl">Nội dung công việc</div><div class="ct">${r.NoiDungCongViec||'—'}</div><div class="cmg"><div><div class="cml">Nhân viên</div><div class="cmv">• ${r.HoTen||'—'}</div></div><div><div class="cml">Tình trạng</div><div class="cmv">${pill(r.TinhTrang)}</div></div></div><div class="cft"><div class="cnote">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div></div></div></div>`).join('')}</div>`;
+  }catch(e){document.getElementById('scContent').innerHTML=empty('Lỗi kết nối');}
 }
-async function saveSuaChua(){
-  const d=document.getElementById('dateSuaChua').value||today();
-  const data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,
-    HangMuc:document.getElementById('sc_hangmuc').value.trim(),
-    NoiDungCongViec:document.getElementById('sc_noidung').value.trim(),
-    TinhTrang:document.getElementById('sc_tt').value,
-    GhiChu:document.getElementById('sc_ghichu').value.trim()};
-  if(!data.HangMuc||!data.TinhTrang){showToast('Nhập đủ hạng mục và tình trạng','err');return;}
-  try{
-    const r=await callGAS({action:'saveLog',sheet:'Log_SuaChuaPhong',data:JSON.stringify(data)});
-    if(r.success){closeModal('mSuaChua');showToast('✓ Đã lưu!');loadSuaChua();}
-    else showToast(r.msg||'Lỗi','err');
-  }catch(e){showToast('Lỗi kết nối','err');}
+async function saveSC(){
+  const d=document.getElementById('dateSC').value||today();
+  const data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,HangMuc:document.getElementById('sc_hm').value.trim(),NoiDungCongViec:document.getElementById('sc_nd').value.trim(),TinhTrang:document.getElementById('sc_tt').value,GhiChu:document.getElementById('sc_gc').value.trim()};
+  if(!data.HangMuc||!data.TinhTrang){toast('Nhập đủ hạng mục và tình trạng','err');return;}
+  try{const r=await callGAS({action:'saveLog',sheet:'Log_SuaChuaPhong',data:JSON.stringify(data)});if(r.success){closeMod('mSC');toast('✓ Đã lưu!');loadSC();}else toast(r.msg||'Lỗi','err');}catch(e){toast('Lỗi kết nối','err');}
 }
 
-// ══ MODULE 4: ĐỊNH KỲ ══
-async function loadDinhKy(){
-  document.getElementById('dinhKyContent').innerHTML=loading();
-  const d=document.getElementById('dateDinhKy').value||today();
+// ══ MODULE: ĐỊNH KỲ ══
+async function loadDK(){
+  const d=document.getElementById('dateDK').value||today();
+  document.getElementById('dkContent').innerHTML=ld();
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_DinhKy',from:d,to:d});
     const data=r.success?r.data:[];
-    const el=document.getElementById('dinhKyContent');
+    const el=document.getElementById('dkContent');
     if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra định kỳ ngày ${fmtD(d)}`);return;}
     const cls={'Bình thường':'ok','Có lỗi':'fault','Cần bảo trì':'pending'};
-    el.innerHTML=`<div class="sec-head"><h2>Kiểm Tra Định Kỳ</h2><span class="count-badge">${data.length}</span></div>
-    <div class="cards-grid">${data.map(r=>`
-    <div class="card ${cls[r.TinhTrang]||''}">
-      <div class="card-inner">
-        <div class="card-zone-label">Hạng mục định kỳ</div>
-        <div class="card-zone">${r.HangMuc||'—'}${r.Tang?' · '+r.Tang:''}</div>
-        <div class="card-task-label">Nội dung kiểm tra</div>
-        <div class="card-task">${r.NoiDungCongViec||'—'}</div>
-        <div class="card-meta-grid">
-          <div class="card-meta-item">
-            <div class="card-meta-label">Nhân viên thực hiện</div>
-            <div class="card-meta-val">• ${r.HoTen||'—'}</div>
-          </div>
-          <div class="card-meta-item">
-            <div class="card-meta-label">Ngày hoàn thiện</div>
-            <div class="card-meta-val">📅 ${fmtD(r.Ngay)}</div>
-          </div>
-        </div>
-        <div class="card-footer">
-          <div class="card-note">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>
-          <div class="card-actions">${pill(r.TinhTrang)}</div>
-        </div>
-      </div>
-    </div>`).join('')}</div>`;
-  }catch(e){document.getElementById('dinhKyContent').innerHTML=empty('Lỗi kết nối');}
+    el.innerHTML=`<div class="sh"><h2>Kiểm Tra Định Kỳ</h2><span class="cbadge">${data.length}</span></div><div class="cgrid">${data.map(r=>`<div class="card ${cls[r.TinhTrang]||''}"><div class="ci"><div class="czl">Hạng mục định kỳ</div><div class="cz">${r.HangMuc||'—'}${r.Tang?' · '+r.Tang:''}</div><div class="ctl">Nội dung kiểm tra</div><div class="ct">${r.NoiDungCongViec||'—'}</div><div class="cmg"><div><div class="cml">Nhân viên</div><div class="cmv">• ${r.HoTen||'—'}</div></div><div><div class="cml">Ngày</div><div class="cmv">📅 ${fmtD(r.Ngay)}</div></div></div><div class="cft"><div class="cnote">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>${pill(r.TinhTrang)}</div></div></div>`).join('')}</div>`;
+  }catch(e){document.getElementById('dkContent').innerHTML=empty('Lỗi kết nối');}
 }
-async function saveDinhKy(){
-  const d=document.getElementById('dateDinhKy').value||today();
-  const data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,
-    HangMuc:document.getElementById('dk_hangmuc').value.trim(),
-    Tang:document.getElementById('dk_tang').value.trim(),
-    NoiDungCongViec:document.getElementById('dk_noidung').value.trim(),
-    TinhTrang:document.getElementById('dk_tt').value,
-    GhiChu:document.getElementById('dk_ghichu').value.trim()};
-  if(!data.HangMuc||!data.TinhTrang){showToast('Nhập đủ hạng mục và tình trạng','err');return;}
-  try{
-    const r=await callGAS({action:'saveLog',sheet:'Log_DinhKy',data:JSON.stringify(data)});
-    if(r.success){closeModal('mDinhKy');showToast('✓ Đã lưu!');loadDinhKy();}
-    else showToast(r.msg||'Lỗi','err');
-  }catch(e){showToast('Lỗi kết nối','err');}
+async function saveDK(){
+  const d=document.getElementById('dateDK').value||today();
+  const data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,HangMuc:document.getElementById('dk_hm').value.trim(),Tang:document.getElementById('dk_tang').value.trim(),NoiDungCongViec:document.getElementById('dk_nd').value.trim(),TinhTrang:document.getElementById('dk_tt').value,GhiChu:document.getElementById('dk_gc').value.trim()};
+  if(!data.HangMuc||!data.TinhTrang){toast('Nhập đủ hạng mục và tình trạng','err');return;}
+  try{const r=await callGAS({action:'saveLog',sheet:'Log_DinhKy',data:JSON.stringify(data)});if(r.success){closeMod('mDK');toast('✓ Đã lưu!');loadDK();}else toast(r.msg||'Lỗi','err');}catch(e){toast('Lỗi kết nối','err');}
 }
 
-// ══ MODULE 5: MÁY PHÁT ══
-async function loadMayPhat(){
-  document.getElementById('mayPhatContent').innerHTML=loading();
-  const d=document.getElementById('dateMayPhat').value||today();
+// ══ MODULE: MÁY PHÁT ══
+async function loadMP(){
+  const d=document.getElementById('dateMP').value||today();
+  document.getElementById('mpContent').innerHTML=ld();
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_MayPhatDien',from:d,to:d});
     const data=r.success?r.data:[];
-    const el=document.getElementById('mayPhatContent');
+    const el=document.getElementById('mpContent');
     if(!data.length){el.innerHTML=empty(`Chưa có log máy phát ngày ${fmtD(d)}`);return;}
-    const cls={'Hoạt động tốt':'ok','Có sự cố':'fault','Cần kiểm tra':'pending'};
-    el.innerHTML=`<div class="sec-head"><h2>Máy Phát Điện</h2><span class="count-badge">${data.length}</span></div>
-    <div class="cards-grid">${data.map(r=>`
-    <div class="card ${cls[r.TrangThai]||''}">
-      <div class="card-inner">
-        <div class="card-zone-label">Hệ thống điện dự phòng</div>
-        <div class="card-zone">Máy Phát Điện</div>
-        <div class="card-meta-grid">
-          <div class="card-meta-item">
-            <div class="card-meta-label">Nhân viên thực hiện</div>
-            <div class="card-meta-val">• ${r.HoTen||'—'}</div>
-          </div>
-          <div class="card-meta-item">
-            <div class="card-meta-label">Ngày vận hành</div>
-            <div class="card-meta-val">📅 ${fmtD(r.Ngay)}</div>
-          </div>
-        </div>
-        <div class="card-sla">
-          <div class="sla-item">Thời gian chạy: <span>${r.ThoiGianChay||'—'}</span></div>
-          <div class="sla-item ${r.DienAp&&parseInt(r.DienAp)<200?'warn':'ok'}">Điện áp: <span>${r.DienAp||'—'}</span></div>
-          <div class="sla-item ${r.TinhTrangAcquy==='Cần thay'?'warn':''}">Acquy: <span>${r.TinhTrangAcquy||'—'}</span></div>
-          <div class="sla-item ${r.DauMayPhat==='Cần thay'?'warn':''}" >Dầu: <span>${r.DauMayPhat||'—'}</span></div>
-        </div>
-        <div class="card-footer">
-          <div class="card-note">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>
-          <div class="card-actions">${pill(r.TrangThai)}</div>
-        </div>
-      </div>
-    </div>`).join('')}</div>`;
-  }catch(e){document.getElementById('mayPhatContent').innerHTML=empty('Lỗi kết nối');}
+    el.innerHTML=`<div class="sh"><h2>Máy Phát Điện</h2><span class="cbadge">${data.length}</span></div><div class="cgrid">${data.map(r=>cardMP(r)).join('')}</div>`;
+  }catch(e){document.getElementById('mpContent').innerHTML=empty('Lỗi kết nối');}
 }
-async function saveMayPhat(){
-  const d=document.getElementById('dateMayPhat').value||today();
-  const data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,
-    ThoiGianChay:document.getElementById('mp_thoigian').value.trim(),
-    TrangThai:document.getElementById('mp_tt').value,
-    DienAp:document.getElementById('mp_dienap').value.trim(),
-    TinhTrangAcquy:document.getElementById('mp_acquy').value,
-    MayPhat:document.getElementById('mp_mayphat').value.trim(),
-    DauMayPhat:document.getElementById('mp_dau').value,
-    GhiChu:document.getElementById('mp_ghichu').value.trim()};
-  if(!data.TrangThai){showToast('Chọn trạng thái máy','err');return;}
-  try{
-    const r=await callGAS({action:'saveLog',sheet:'Log_MayPhatDien',data:JSON.stringify(data)});
-    if(r.success){closeModal('mMayPhat');showToast('✓ Đã lưu!');loadMayPhat();}
-    else showToast(r.msg||'Lỗi','err');
-  }catch(e){showToast('Lỗi kết nối','err');}
+async function saveMP(){
+  const d=document.getElementById('dateMP').value||today();
+  const data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,ThoiGianChay:document.getElementById('mp_tg').value.trim(),TrangThai:document.getElementById('mp_tt').value,DienAp:document.getElementById('mp_da').value.trim(),TinhTrangAcquy:document.getElementById('mp_aq').value,MayPhat:document.getElementById('mp_mp').value.trim(),DauMayPhat:document.getElementById('mp_dau').value,GhiChu:document.getElementById('mp_gc').value.trim()};
+  if(!data.TrangThai){toast('Chọn trạng thái máy','err');return;}
+  try{const r=await callGAS({action:'saveLog',sheet:'Log_MayPhatDien',data:JSON.stringify(data)});if(r.success){closeMod('mMP');toast('✓ Đã lưu!');loadMP();}else toast(r.msg||'Lỗi','err');}catch(e){toast('Lỗi kết nối','err');}
 }
 
-// ══ MODULE 6: PCCC ══
+// ══ MODULE: PCCC ══
 async function loadPCCC(){
-  document.getElementById('pcccContent').innerHTML=loading();
   const d=document.getElementById('datePCCC').value||today();
+  document.getElementById('pcccContent').innerHTML=ld();
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_PCCC',from:d,to:d});
     const data=r.success?r.data:[];
     const el=document.getElementById('pcccContent');
     if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra PCCC ngày ${fmtD(d)}`);return;}
-    const cls={'Bình thường':'ok','Có lỗi':'fault','Cần kiểm tra':'pending'};
-    el.innerHTML=`<div class="sec-head"><h2>Kiểm Tra PCCC</h2><span class="count-badge">${data.length}</span></div>
-    <div class="cards-grid">${data.map(r=>{
-      const items=PCCC_ITEMS.map(n=>{
-        const v=r[n.replace(/ /g,'')]||'—';
-        const c=v==='Tốt'?'ok':v==='Lỗi'?'fault':'';
-        return`<span class="pill ${c}" style="font-size:10px">${n}: ${v}</span>`;
-      }).join(' ');
-      return`<div class="card ${cls[r.TinhTrang]||''}">
-        <div class="card-inner">
-          <div class="card-zone-label">Hệ thống PCCC</div>
-          <div class="card-zone">Kiểm Tra Tháng ${r.Thang||'—'}</div>
-          <div class="card-meta-grid">
-            <div class="card-meta-item">
-              <div class="card-meta-label">Người kiểm tra</div>
-              <div class="card-meta-val">• ${r.HoTen||'—'}</div>
-            </div>
-            <div class="card-meta-item">
-              <div class="card-meta-label">Ngày kiểm tra</div>
-              <div class="card-meta-val">📅 ${fmtD(r.Ngay)}</div>
-            </div>
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">${items}</div>
-          <div class="card-footer">
-            <div class="card-note">${r.GhiChu?'Ghi chú: '+r.GhiChu:''}</div>
-            <div class="card-actions">${pill(r.TinhTrang)}</div>
-          </div>
-        </div>
-      </div>`;
-    }).join('')}</div>`;
+    el.innerHTML=`<div class="sh"><h2>Kiểm Tra PCCC</h2><span class="cbadge">${data.length}</span></div><div class="cgrid">${data.map(r=>cardPC(r)).join('')}</div>`;
   }catch(e){document.getElementById('pcccContent').innerHTML=empty('Lỗi kết nối');}
 }
-
-function openModal(id){
-  if(id==='mPCCC'){
-    pcccSt={};
-    document.getElementById('pccc_tt').value='';
-    document.getElementById('pccc_ghichu').value='';
-    document.querySelectorAll('#mPCCC .radio-card').forEach(b=>b.classList.remove('sel'));
-    document.getElementById('pcccGrid').innerHTML=PCCC_ITEMS.map(n=>`
-      <div class="pccc-item" id="pci_${n.replace(/ /g,'_')}" onclick="togglePCCC('${n}',this)">
-        <div class="pi-label">${n}</div>
-        <div class="pi-icon">⬜</div>
-      </div>`).join('');
-  }
-  document.getElementById(id).classList.add('open');
-}
-function togglePCCC(name,el){
-  const states=['','Tốt','Lỗi'];
-  const cur=pcccSt[name]||'';
-  const idx=(states.indexOf(cur)+1)%states.length;
-  pcccSt[name]=states[idx];
-  const icons={'':'⬜','Tốt':'✅','Lỗi':'❌'};
-  el.querySelector('.pi-icon').textContent=icons[states[idx]];
-  el.className='pccc-item '+(states[idx]==='Tốt'?'ok':states[idx]==='Lỗi'?'fault':'');
+function tgPCCC(name,el){
+  const states=['','Tốt','Lỗi'];const cur=pcccSt[name]||'';const idx=(states.indexOf(cur)+1)%states.length;
+  pcccSt[name]=states[idx];const icons={'':'⬜','Tốt':'✅','Lỗi':'❌'};
+  el.querySelector('.pio').textContent=icons[states[idx]];
+  el.className='pi '+(states[idx]==='Tốt'?'ok':states[idx]==='Lỗi'?'fault':'');
 }
 async function savePCCC(){
   const d=document.getElementById('datePCCC').value||today();
-  const [y,m]=d.split('-');
-  const fields={};
-  PCCC_ITEMS.forEach(n=>{fields[n.replace(/ /g,'')]=pcccSt[n]||'—';});
-  const data={Thang:`${m}/${y}`,Ngay:d,MaNV:user.manv,HoTen:user.hoten,
-    ...fields,
-    TinhTrang:document.getElementById('pccc_tt').value,
-    GhiChu:document.getElementById('pccc_ghichu').value.trim()};
-  if(!data.TinhTrang){showToast('Chọn tình trạng chung','err');return;}
-  try{
-    const r=await callGAS({action:'saveLog',sheet:'Log_PCCC',data:JSON.stringify(data)});
-    if(r.success){closeModal('mPCCC');showToast('✓ Đã lưu!');loadPCCC();}
-    else showToast(r.msg||'Lỗi','err');
-  }catch(e){showToast('Lỗi kết nối','err');}
+  const[y,m]=d.split('-');
+  const fields={};PCCC_ITEMS.forEach(n=>{fields[n.replace(/ /g,'')]=pcccSt[n]||'—';});
+  const data={Thang:`${m}/${y}`,Ngay:d,MaNV:user.manv,HoTen:user.hoten,...fields,TinhTrang:document.getElementById('pc_tt').value,GhiChu:document.getElementById('pc_gc').value.trim()};
+  if(!data.TinhTrang){toast('Chọn tình trạng chung','err');return;}
+  try{const r=await callGAS({action:'saveLog',sheet:'Log_PCCC',data:JSON.stringify(data)});if(r.success){closeMod('mPCCC');toast('✓ Đã lưu!');loadPCCC();}else toast(r.msg||'Lỗi','err');}catch(e){toast('Lỗi kết nối','err');}
 }
 
 // ══ EXPORT CSV ══
 async function exportCSV(sheet,prefix){
-  showToast('Đang xuất dữ liệu...');
+  toast('Đang xuất...');
   try{
     const r=await callGAS({action:'getLog',sheet});
-    if(!r.success||!r.data.length){showToast('Không có dữ liệu','err');return;}
+    if(!r.success||!r.data.length){toast('Không có dữ liệu','err');return;}
     const keys=Object.keys(r.data[0]);
     const rows=[keys.join(','),...r.data.map(row=>keys.map(k=>`"${String(row[k]||'').replace(/"/g,'""')}"`).join(','))];
     const blob=new Blob(['\uFEFF'+rows.join('\n')],{type:'text/csv;charset=utf-8'});
-    const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-    a.download=`${prefix}_${today()}.csv`;a.click();
-    showToast('✓ Đã xuất CSV!');
-  }catch(e){showToast('Lỗi xuất file','err');}
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`${prefix}_${today()}.csv`;a.click();
+    toast('✓ Đã xuất CSV!');
+  }catch(e){toast('Lỗi xuất file','err');}
 }
 
-// Network status
 window.addEventListener('online',()=>document.getElementById('netLabel').textContent='Online');
 window.addEventListener('offline',()=>document.getElementById('netLabel').textContent='Offline');
 </script>
