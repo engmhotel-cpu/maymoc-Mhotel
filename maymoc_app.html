@@ -30,18 +30,17 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .lcard{background:var(--surface);border-radius:var(--r);padding:28px;box-shadow:var(--shadow-md);border:1px solid var(--border);}
 .iw{position:relative;margin-bottom:14px;}
 .iw .ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;}
-.iw input{width:100%;padding:11px 13px 11px 40px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;}
+.iw input{width:100%;padding:11px 13px 11px 40px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:14px;font-family:'Inter',sans-serif;outline:none;}
 .iw input:focus{border-color:var(--accent);}
 .iw input::placeholder{color:#9CA3AF;}
-.btn-login{width:100%;padding:12px;background:var(--accent);color:#fff;font-weight:700;font-size:14px;border:none;border-radius:var(--rs);cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;}
+.btn-login{width:100%;padding:12px;background:var(--accent);color:#fff;font-weight:700;font-size:14px;border:none;border-radius:var(--rs);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;}
 .btn-login:hover{background:var(--accent-dark);}
 .lerr{color:var(--warn);font-size:12px;text-align:center;margin-top:10px;min-height:16px;}
 
-/* APP */
+/* APP SHELL */
 #appShell{display:none;flex-direction:column;min-height:100vh;}
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;height:56px;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
 .tl{display:flex;align-items:center;gap:10px;}
-.tbrand{background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;padding:3px 10px;border-radius:20px;}
 .ttitle{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--text);}
 .tsub{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-weight:600;}
 .netstatus{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);background:var(--surface2);padding:4px 9px;border-radius:20px;border:1px solid var(--border);}
@@ -52,71 +51,58 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .uname{font-size:12px;font-weight:600;color:var(--text);}
 .urole{font-size:10px;color:var(--muted);}
-.btn-lo{background:none;border:none;color:var(--muted);cursor:pointer;padding:3px;font-size:15px;transition:color .2s;}
-.btn-lo:hover{color:var(--warn);}
+.btn-lo{background:none;border:none;color:var(--muted);cursor:pointer;padding:3px;font-size:15px;}
 
-/* TABS */
+/* NAVIGATION */
 .tabbar{background:var(--surface);border-bottom:2px solid var(--border);display:flex;position:sticky;top:56px;z-index:199;}
-.tbtn{flex:1;text-align:center;padding:14px 10px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .2s;text-transform:uppercase;letter-spacing:.5px;}
+.tbtn{flex:1;text-align:center;padding:14px 10px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;text-transform:uppercase;letter-spacing:.5px;}
 .tbtn.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--surface2);}
-.tbtn:hover{color:var(--text);}
 
 /* CONTENT */
 .content{flex:1;padding:16px;max-width:960px;margin:0 auto;width:100%;padding-bottom:40px;}
 .tpanel{display:none;}
 .tpanel.active{display:block;}
 
-/* CTRL ROW */
 .crow{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
 .diw{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:6px 11px;box-shadow:var(--shadow);}
-.diw label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;}
+.diw label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;white-space:nowrap;}
 .diw input[type=date]{background:none;border:none;color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;}
-.bsm{padding:7px 12px;border-radius:var(--rs);font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .2s;white-space:nowrap;}
-.bt{background:var(--accent-dim2);color:var(--accent);}
-.bt:hover{background:var(--accent);color:#fff;}
+.bsm{padding:7px 12px;border-radius:var(--rs);font-size:11px;font-weight:600;cursor:pointer;border:none;white-space:nowrap;}
 .ba{background:var(--accent);color:#fff;display:flex;align-items:center;gap:4px;}
-.ba:hover{background:var(--accent-dark);}
 .be{background:var(--surface);color:var(--muted);border:1px solid var(--border);box-shadow:var(--shadow);}
-.be:hover{border-color:var(--accent);color:var(--accent);}
 
-/* FILTER CHIPS */
 .frow{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;background:var(--surface3);padding:4px;border-radius:30px;width:fit-content;}
-.chip{padding:6px 16px;border-radius:20px;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;text-transform:uppercase;}
+.chip{padding:6px 16px;border-radius:20px;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;text-transform:uppercase;}
 .chip.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow);}
 
-/* SECTION HEAD */
 .sh{display:flex;align-items:center;gap:8px;margin:0 0 12px;}
-.sh h2{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;}
+.sh h2{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--blue);text-transform:uppercase;}
 .cbadge{background:var(--blue-dim);color:var(--blue);font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;}
 
 /* CARDS */
 .cgrid{display:grid;grid-template-columns:1fr;gap:12px;}
 @media(min-width:600px){.cgrid{grid-template-columns:1fr 1fr;}}
-
-.card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .2s,transform .15s;border-left:4px solid var(--border);position:relative;}
+.card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;border-left:4px solid var(--border);}
 .card.ok{border-left-color:var(--ok);}
 .card.fault{border-left-color:var(--warn);}
 .card.pending{border-left-color:var(--pending);}
 .card.inprog{border-left-color:var(--blue);}
 .ci{padding:14px 15px;}
-
 .czl{font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px;}
 .cz{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.2;}
-.ctl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.ctl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:3px;}
 .ct{font-size:13px;color:var(--text);line-height:1.5;margin-bottom:10px;}
 .cmg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;}
-.cml{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+.cml{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:2px;}
 .cmv{font-size:12px;color:var(--text);font-weight:500;}
 .csla{background:var(--surface2);border-radius:var(--rs);padding:7px 10px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px;}
 .si{font-size:11px;color:var(--muted);}
 .si span{font-weight:700;}
-.si.w span{color:var(--warn);}
-.si.g span{color:var(--ok);}
 .cft{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--border);}
 .cnote{font-size:11px;color:var(--muted);font-style:italic;flex:1;margin-right:6px;}
 
 /* PILLS */
-.pill{display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;}
+.pill{display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase;}
 .pill.ok{background:var(--accent-dim2);color:var(--ok);}
 .pill.fault{background:var(--warn-dim);color:var(--warn);}
 .pill.pending{background:var(--pending-dim);color:var(--pending);}
@@ -126,31 +112,22 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
 /* DASHBOARD */
 .dash-welcome{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);border-radius:var(--r);padding:20px;color:#fff;margin-bottom:16px;position:relative;overflow:hidden;}
-.dash-welcome::after{content:'⚙';position:absolute;right:-10px;top:-10px;font-size:80px;opacity:.08;}
-.dw-sub{font-size:11px;opacity:.8;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;}
+.dw-sub{font-size:11px;opacity:.8;margin-bottom:4px;text-transform:uppercase;}
 .dw-title{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;margin-bottom:2px;}
 .dw-date{font-size:12px;opacity:.75;}
-
 .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
-@media(min-width:500px){.stats-row{grid-template-columns:repeat(3,1fr);}}
-@media(min-width:700px){.stats-row{grid-template-columns:repeat(6,1fr);}}
+@media(min-width:600px){.stats-row{grid-template-columns:repeat(4,1fr);}}
 .stat-card{background:var(--surface);border-radius:var(--r);padding:14px 12px;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center;border-top:3px solid var(--border);}
 .stat-card.ok {border-top-color:var(--ok);}
 .stat-card.fault {border-top-color:var(--warn);}
 .stat-card.pending {border-top-color:var(--pending);}
 .stat-card.blue {border-top-color:var(--blue);}
-.stat-num{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;line-height:1;}
-.stat-card.ok .stat-num{color:var(--ok);}
-.stat-card.fault .stat-num{color:var(--warn);}
-.stat-card.pending .stat-num{color:var(--pending);}
-.stat-card.blue .stat-num{color:var(--blue);}
-.stat-label{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:4px;}
-
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;}
+.stat-label{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-top:4px;}
 .dash-section{margin-bottom:20px;}
 .dash-sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.dash-sh h3{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;}
+.dash-sh h3{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--blue);text-transform:uppercase;}
 
-/* EMPTY / LOADING */
 .empty{text-align:center;padding:30px 20px;background:var(--surface);border-radius:var(--r);border:1.5px dashed var(--border);width:100%;}
 .ei{font-size:32px;margin-bottom:6px;opacity:.35;}
 .et{font-size:12px;color:var(--muted);}
@@ -166,27 +143,23 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 @media(min-width:600px){.modal{border-radius:var(--r);margin:16px;max-height:88vh;}}
 .mhd{padding:16px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .mtitle{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--text);}
-.mclose{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:2px;}
+.mclose{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;}
 .mbody{padding:18px;overflow-y:auto;flex:1;}
 .mft{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0;}
 
-/* FORM */
 .field{margin-bottom:14px;}
-.field label{display:block;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px;}
+.field label{display:block;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:5px;}
 .field input,.field select,.field textarea{width:100%;padding:10px 12px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);}
-.field textarea{resize:vertical;min-height:70px;}
 .rrow{display:flex;gap:7px;flex-wrap:wrap;}
 .rc{flex:1;min-width:80px;padding:9px 7px;border-radius:var(--rs);border:2px solid var(--border);text-align:center;cursor:pointer;font-size:11px;font-weight:600;color:var(--muted);background:var(--surface2);user-select:none;}
 .rc.ok.sel{border-color:var(--ok);background:var(--accent-dim2);color:var(--ok);}
 .rc.fault.sel{border-color:var(--warn);background:var(--warn-dim);color:var(--warn);}
 .rc.pending.sel{border-color:var(--pending);background:var(--pending-dim);color:var(--pending);}
 .rc.blue.sel{border-color:var(--blue);background:var(--blue-dim);color:var(--blue);}
-.bf{width:100%;padding:11px;border-radius:var(--rs);font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:'Inter',sans-serif;}
+.bf{width:100%;padding:11px;border-radius:var(--rs);font-size:13px;font-weight:700;border:none;cursor:pointer;}
 .bpri{background:var(--accent);color:#fff;}
 .bsec{background:var(--surface2);color:var(--text);border:1.5px solid var(--border);}
 
-/* PCCC GRID */
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px;}
 .pi{background:var(--surface2);border:2px solid var(--border);border-radius:var(--rs);padding:10px 7px;text-align:center;cursor:pointer;}
 .pil{font-size:10px;color:var(--muted);font-weight:600;margin-bottom:5px;}
@@ -195,8 +168,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .pi.ok .pil{color:var(--ok);}
 .pi.fault{border-color:var(--warn);background:var(--warn-dim);}
 .pi.fault .pil{color:var(--warn);}
-
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 18px;border-radius:30px;font-size:12px;font-weight:500;opacity:0;transition:all .3s;z-index:1000;box-shadow:0 8px 20px rgba(0,0,0,.2);pointer-events:none;}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 18px;border-radius:30px;font-size:12px;font-weight:500;opacity:0;transition:all .3s;z-index:1000;}
 #toast.show{opacity:1;}
 #toast.ok{background:var(--accent);}
 #toast.err{background:var(--warn);}
@@ -209,7 +181,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     <div class="lb">
       <div><span class="badge">⚙ HK HOTEL OPERATIONS</span></div>
       <h1 style="margin-top:12px">KỸ THUẬT & VẬN HÀNH</h1>
-      <p>Hệ thống Quản Trị Vận Hành Bản Gộp 4 Nhóm Giao Diện Gọn Gàng</p>
+      <p>Hệ thống Quản Trị Vận Hành 4 Tab Không Lỗi Bộ Lọc Ngày</p>
     </div>
     <div class="lcard">
       <div class="iw"><span class="ic">👤</span><input type="text" id="loginId" placeholder="Mã nhân viên (VD: KT01)"/></div>
@@ -243,7 +215,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   </div>
 
   <div class="content">
-
     <div class="tpanel active" id="tab-dashboard">
       <div class="dash-welcome">
         <div class="dw-sub">Chào mừng trở lại</div>
@@ -251,14 +222,14 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
         <div class="dw-date" id="dw-date">—</div>
       </div>
       <div class="stats-row" id="statsRow">
-        <div class="ld"><div class="spin"></div>Đang tải dữ liệu...</div>
+        <div class="ld"><div class="spin"></div>Đang kết nối tổng đài...</div>
       </div>
       <div class="dash-section">
         <div class="dash-sh"><h3>📋 Nhật Ký Kiểm Tra Hôm Nay</h3></div>
         <div id="dash-checkNgay"><div class="ld"><div class="spin"></div></div></div>
       </div>
       <div class="dash-section">
-        <div class="dash-sh"><h3>🔧 Sự Cố Sự Việc Đang Xử Lý</h3></div>
+        <div class="dash-sh"><h3>🔧 Sự Cố Phòng Khách Mới Báo</h3></div>
         <div id="dash-suachua"><div class="ld"><div class="spin"></div></div></div>
       </div>
     </div>
@@ -302,7 +273,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       </div>
       <div id="hethongContent"></div>
     </div>
-
   </div>
 </div>
 
@@ -311,22 +281,22 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     <div class="mhd"><div class="mtitle" id="titleModKiemTra">Phiếu Kiểm Tra</div><button class="mclose" onclick="closeMod('modKiemTra')">✕</button></div>
     <div class="mbody">
       <div id="form-cn">
-        <div class="field"><label>Khu vực / Vị trí</label><input id="cn_vt" placeholder="VD: Sảnh chính, Phòng bơm tầng hầm"/></div>
-        <div class="field"><label>Nội dung nghiệp vụ</label><textarea id="cn_nd" placeholder="Mô tả công việc kiểm tra..."></textarea></div>
+        <div class="field"><label>Khu vực / Vị trí</label><input id="cn_vt" placeholder="VD: Sảnh chính, Phòng kỹ thuật tầng hầm"/></div>
+        <div class="field"><label>Nội dung nghiệp vụ</label><textarea id="cn_nd" placeholder="Mô tả công việc kiểm tra hằng ngày..."></textarea></div>
       </div>
       <div id="form-dk" style="display:none">
-        <div class="field"><label>Hạng mục định kỳ</label><input id="dk_hm" placeholder="VD: Máy lạnh Chiller, Hệ thống lọc nước"/></div>
-        <div class="field"><label>Tầng / Khu vực</label><input id="dk_tang" placeholder="VD: Tầng mái, Tầng hầm B1"/></div>
-        <div class="field"><label>Nội dung bảo trì</label><textarea id="dk_nd" placeholder="Chi tiết các bước thực hiện..."></textarea></div>
+        <div class="field"><label>Hạng mục định kỳ</label><input id="dk_hm" placeholder="VD: Hệ thống bơm áp lực, Chiller"/></div>
+        <div class="field"><label>Tầng / Khu vực</label><input id="dk_tang" placeholder="VD: Tầng mái, Phòng máy B2"/></div>
+        <div class="field"><label>Nội dung bảo trì</label><textarea id="dk_nd" placeholder="Các đầu mục bảo dưỡng kỹ thuật..."></textarea></div>
       </div>
-      <div class="field"><label>Tình trạng kết quả</label>
+      <div class="field"><label>Kết quả kiểm tra</label>
         <div class="rrow">
           <div class="rc ok" onclick="pickStatus(this,'kt_tt','Bình thường')">✓ Bình thường</div>
           <div class="rc fault" onclick="pickStatus(this,'kt_tt','Có lỗi')">✗ Có lỗi</div>
           <div class="rc pending" onclick="pickStatus(this,'kt_tt','Cần theo dõi')">⚑ Theo dõi</div>
         </div><input type="hidden" id="kt_tt"/>
       </div>
-      <div class="field"><label>Ghi chú mở rộng</label><textarea id="kt_gc" placeholder="Ghi chú chi tiết nếu có..."></textarea></div>
+      <div class="field"><label>Ghi chú mở rộng</label><textarea id="kt_gc"></textarea></div>
     </div>
     <div class="mft"><button class="bf bsec" onclick="closeMod('modKiemTra')">Huỷ</button><button class="bf bpri" onclick="saveFormKiemTra()">Lưu phiếu</button></div>
   </div>
@@ -334,12 +304,12 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
 <div class="ov" id="modSuaChua">
   <div class="modal">
-    <div class="mhd"><div class="mtitle" id="titleModSuaChua">Phiếu Ghi Nhận</div><button class="mclose" onclick="closeMod('modSuaChua')">✕</button></div>
+    <div class="mhd"><div class="mtitle" id="titleModSuaChua">Báo Cáo Kỹ Thuật</div><button class="mclose" onclick="closeMod('modSuaChua')">✕</button></div>
     <div class="mbody">
       <div id="form-sc">
-        <div class="field"><label>Hạng mục lỗi phòng</label><input id="sc_hm" placeholder="VD: Nghẹt lavabo phòng 304, Hỏng khóa từ"/></div>
-        <div class="field"><label>Nội dung công việc</label><textarea id="sc_nd" placeholder="Chi tiết xử lý sự cố phòng..."></textarea></div>
-        <div class="field"><label>Tình trạng</label>
+        <div class="field"><label>Hạng mục hư hại phòng</label><input id="sc_hm" placeholder="VD: Hỏng tivi phòng 204, Rò rỉ vòi nước"/></div>
+        <div class="field"><label>Nội dung công việc</label><textarea id="sc_nd" placeholder="Phương án hoặc tiến trình sửa chữa..."></textarea></div>
+        <div class="field"><label>Tình trạng phòng</label>
           <div class="rrow">
             <div class="rc pending" onclick="pickStatus(this,'sc_tt','Chờ sửa')">⏳ Chờ sửa</div>
             <div class="rc blue" onclick="pickStatus(this,'sc_tt','Đang sửa')">🔧 Đang sửa</div>
@@ -348,9 +318,9 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
         </div>
       </div>
       <div id="form-hm" style="display:none">
-        <div class="field"><label>Hạng mục dự án</label><input id="hm_hm" placeholder="VD: Sơn lại hành lang T4, Bảo dưỡng thang máy"/></div>
-        <div class="field"><label>Nội dung triển khai</label><textarea id="hm_nd" placeholder="Mô tả chi tiết hạng mục lớn..."></textarea></div>
-        <div class="field"><label>Trạng thái tiến độ</label>
+        <div class="field"><label>Tên hạng mục chung</label><input id="hm_hm" placeholder="VD: Sơn sửa sảnh chính, Vệ sinh bể nước ngầm"/></div>
+        <div class="field"><label>Nội dung triển khai</label><textarea id="hm_nd" placeholder="Tiến độ công việc lớn..."></textarea></div>
+        <div class="field"><label>Trạng thái hạng mục</label>
           <div class="rrow">
             <div class="rc pending" onclick="pickStatus(this,'hm_tt','Chờ xử lý')">⏳ Chờ xử lý</div>
             <div class="rc blue" onclick="pickStatus(this,'hm_tt','Đang làm')">🔧 Đang làm</div>
@@ -359,10 +329,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
           <div class="field"><label>Ngày bắt đầu</label><input type="date" id="hm_bd"/></div>
-          <div class="field"><label>Hạn chót (KT)</label><input type="date" id="hm_kt"/></div>
+          <div class="field"><label>Ngày hoàn thiện</label><input type="date" id="hm_kt"/></div>
         </div>
       </div>
-      <div class="field"><label>Ghi chú / Vật tư</label><textarea id="sch_gc"></textarea></div>
+      <div class="field"><label>Ghi chú vật tư thêm</label><textarea id="sch_gc"></textarea></div>
     </div>
     <div class="mft"><button class="bf bsec" onclick="closeMod('modSuaChua')">Huỷ</button><button class="bf bpri" onclick="saveFormSuaChua()">Lưu lại</button></div>
   </div>
@@ -370,83 +340,67 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
 <div class="ov" id="modHeThong">
   <div class="modal">
-    <div class="mhd"><div class="mtitle" id="titleModHeThong">Vận Hành Hệ Thống</div><button class="mclose" onclick="closeMod('modHeThong')">✕</button></div>
+    <div class="mhd"><div class="mtitle" id="titleModHeThong">Vận Hành Hệ Thống An Toàn</div><button class="mclose" onclick="closeMod('modHeThong')">✕</button></div>
     <div class="mbody">
       <div id="form-mp">
-        <div class="field"><label>Thời gian nổ máy chạy (Phút/Giờ)</label><input id="mp_tg" placeholder="VD: 30 phút, 1 giờ"/></div>
-        <div class="field"><label>Điện áp tải ổn định (V)</label><input id="mp_da" placeholder="VD: 220V / 380V"/></div>
+        <div class="field"><label>Thời gian chạy thử máy</label><input id="mp_tg" placeholder="VD: 20 phút, 1 giờ"/></div>
+        <div class="field"><label>Điện áp đầu ra (V)</label><input id="mp_da" placeholder="VD: 220V / 380V"/></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="field"><label>Tình trạng Bình Acquy</label><select id="mp_aq"><option>Tốt</option><option>Yếu - Cần sạc</option><option>Hỏng - Cần thay</option></select></div>
-          <div class="field"><label>Mức dầu dự phòng</label><select id="mp_dau"><option>Đủ</option><option>Vơi - Cần châm thêm</option></select></div>
+          <div class="field"><label>Tình trạng Acquy</label><select id="mp_aq"><option>Tốt</option><option>Yếu</option></select></div>
+          <div class="field"><label>Mức dầu máy phát</label><select id="mp_dau"><option>Đủ</option><option>Vơi</option></select></div>
         </div>
-        <div class="field"><label>Tình trạng chung máy phát</label><input id="mp_mp" placeholder="VD: Máy nổ êm, không khói đen"/></div>
-        <div class="field"><label>Kết luận máy phát</label>
+        <div class="field"><label>Hiện trạng máy phát</label><input id="mp_mp" placeholder="VD: Nổ đều ổn định"/></div>
+        <div class="field"><label>Kết luận chung máy phát</label>
           <div class="rrow">
             <div class="rc ok" onclick="pickStatus(this,'mp_tt','Hoạt động tốt')">✓ Tốt</div>
             <div class="rc fault" onclick="pickStatus(this,'mp_tt','Có sự cố')">✗ Sự cố</div>
-            <div class="rc pending" onclick="pickStatus(this,'mp_tt','Cần kiểm tra')">⚑ Cần xem lại</div>
           </div><input type="hidden" id="mp_tt"/>
         </div>
       </div>
       <div id="form-pc" style="display:none">
-        <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Bấm chọn tình trạng nhanh từng thiết bị phòng cháy:</p>
         <div class="pgrid" id="pcccGrid"></div>
         <div class="field"><label>Tình trạng chung hệ PCCC</label>
           <div class="rrow">
             <div class="rc ok" onclick="pickStatus(this,'pc_tt','Bình thường')">✓ Bình thường</div>
             <div class="rc fault" onclick="pickStatus(this,'pc_tt','Có lỗi')">✗ Có lỗi</div>
-            <div class="rc pending" onclick="pickStatus(this,'pc_tt','Cần kiểm tra')">⚑ Cần bảo dưỡng</div>
           </div><input type="hidden" id="pc_tt"/>
         </div>
       </div>
-      <div class="field"><label>Ghi chú vận hành hệ thống</label><textarea id="ht_gc"></textarea></div>
+      <div class="field"><label>Ghi chú kỹ thuật</label><textarea id="ht_gc"></textarea></div>
     </div>
-    <div class="mft"><button class="bf bsec" onclick="closeMod('modHeThong')">Huỷ</button><button class="bf bpri" onclick="saveFormHeThong()">Lưu log</button></div>
+    <div class="mft"><button class="bf bsec" onclick="closeMod('modHeThong')">Huỷ</button><button class="bf bpri" onclick="saveFormHeThong()">Lưu nhật ký</button></div>
   </div>
 </div>
 
 <div id="toast"></div>
 
 <script>
-// LINK WEB APP KHÔNG ĐỔI
-const GAS='https://script.google.com/macros/s/AKfycbwKIWgB-MedjJKKEED--9JxLOqV30-M2EpAHGrowQ-AnRWq6t5E6R9MZIVulFoaSv1Z/exec';
-
 let user=null, _ci=0, isSaving=false;
-let curSubKiemTra='cn'; // 'cn' hoặc 'dk'
-let curSubSuaChua='sc';  // 'sc' hoặc 'hm'
-let curSubHeThong='mp';  // 'mp' hoặc 'pc'
+let curSubKiemTra='cn', curSubSuaChua='sc', curSubHeThong='mp';
 let pcccSt={};
-
 const PCCC_ITEMS=['Đầu Vòi','Cuộn Dây','Bình PCCC','Đèn Exit','Đèn Sự Cố','Bơm Chữa Cháy','Bơm Bù Áp'];
-const DAYS=['CN','T2','T3','T4','T5','T6','T7'];
-const MONTHS=['tháng 1','tháng 2','tháng 3','tháng 4','tháng 5','tháng 6','tháng 7','tháng 8','tháng 9','tháng 10','tháng 11','tháng 12'];
 
 function callGAS(p){
   return new Promise((res,rej)=>{
     const cb='_cb'+(++_ci); p.callback=cb;
     const qs=Object.entries(p).map(([k,v])=>encodeURIComponent(k)+'='+encodeURIComponent(v)).join('&');
     const s=document.createElement('script'); s.src=GAS+'?'+qs;
-    const t=setTimeout(()=>{clean();rej(new Error('Hệ thống bận, vui lòng thử lại'));},15000);
+    const t=setTimeout(()=>{clean();rej(new Error('Hệ thống quá tải'));},15000);
     window[cb]=d=>{clean();res(d);};
     function clean(){clearTimeout(t);delete window[cb];s.parentNode&&s.parentNode.removeChild(s);}
-    s.onerror=()=>{clean();rej(new Error('Lỗi đường truyền mạng'));};
+    s.onerror=()=>{clean();rej(new Error('Lỗi mạng kết nối'));};
     document.head.appendChild(s);
   });
 }
 
-function norm(obj){
-  const out={};
-  for(const k in obj){
-    const key=String(k).trim();
-    out[key]=typeof obj[k]==='string'?obj[k].trim():obj[k];
-  }
-  return out;
-}
-function normArr(arr){return Array.isArray(arr)?arr.map(norm):[];}
-
 function fld(obj,...keys){
   for(const k of keys){
-    if(obj[k]!==undefined&&obj[k]!==null&&obj[k]!=='')return String(obj[k]).trim();
+    const cleanK = String(k).toLowerCase().replace(/ /g,'');
+    for(const realKey in obj) {
+      if(String(realKey).toLowerCase().replace(/ /g,'') === cleanK && obj[realKey]!==undefined && obj[realKey]!==null && obj[realKey]!=='') {
+        return String(obj[realKey]).trim();
+      }
+    }
   }
   return '';
 }
@@ -454,62 +408,49 @@ function fld(obj,...keys){
 function today(){const d=new Date();return`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
 function p2(n){return String(n).padStart(2,'0');}
 function setToday(id){document.getElementById(id).value=today();}
-
 function fmtD(s){
   if(!s)return'—';
-  let clean = String(s).trim().split(' ')[0];
-  if(clean.includes('/')){
-    let p=clean.split('/');
-    if(p.length===3 && p[2].length===4) return `${p[0]}/${p[1]}/${p[2]}`;
-  }
-  if(clean.includes('-')){
-    let p=clean.split('-');
-    if(p.length===3 && p[0].length===4) return `${p[2]}/${p[1]}/${p[0]}`;
-  }
+  let clean=String(s).trim().split(' ')[0];
+  if(clean.includes('/')){ let p=clean.split('/'); if(p.length===3) return `${p[0]}/${p[1]}/${p[2]}`;}
+  if(clean.includes('-')){ let p=clean.split('-'); if(p.length===3) return `${p[2]}/${p[1]}/${p[0]}`;}
   return s;
 }
-function fmtDayVN(){const d=new Date();return`${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;}
 
 function toast(msg,type='ok'){const t=document.getElementById('toast');t.textContent=msg;t.className='show '+type;setTimeout(()=>{t.className='';},2600);}
 function pickStatus(el,hid,val){el.parentElement.querySelectorAll('.rc').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');document.getElementById(hid).value=val;}
-
 function openMod(id){document.getElementById(id).classList.add('open');}
 function closeMod(id){document.getElementById(id).classList.remove('open');}
 
 function scls(s){
-  if(!s)return'';
-  const m={'bình thường':'ok','hoạt động tốt':'ok','hoàn thành':'ok','đã xong':'ok','tốt':'ok','có lỗi':'fault','có sự cố':'fault','cần theo dõi':'pending','cần bảo trì':'pending','cần kiểm tra':'pending','chờ xử lý':'pending','chờ sửa':'pending','đang làm':'inprog','đang sửa':'inprog'};
-  const sl=s.toLowerCase().trim();
-  if(m[sl])return m[sl];
+  if(!s)return''; const sl=s.toLowerCase();
   if(sl.includes('thường')||sl.includes('tốt')||sl.includes('thành')||sl.includes('xong'))return'ok';
   if(sl.includes('lỗi')||sl.includes('sự cố'))return'fault';
   return'pending';
 }
-function pill(s){if(!s)return'<span class="pill gray">—</span>';const c=scls(s)||'gray';return`<span class="pill ${c}"><span class="pd"></span>${s}</span>`;}
+function pill(s){if(!s)return'<span class="pill gray">—</span>';return`<span class="pill ${scls(s)}"><span class="pd"></span>${s}</span>`;}
 function empty(msg){return`<div class="empty"><div class="ei">📭</div><div class="et">${msg}</div></div>`;}
-function ld(){return`<div class="ld"><div class="spin"></div>Đang tải dữ liệu từ Google Sheet...</div>`;}
+function ld(){return`<div class="ld"><div class="spin"></div>Đang đồng bộ cơ sở dữ liệu...</div>`;}
 
 // LOGIN
 async function doLogin(){
   const manv=document.getElementById('loginId').value.trim();
   const pass=document.getElementById('loginPass').value.trim();
-  if(!manv||!pass){document.getElementById('loginErr').textContent='Vui lòng nhập đầy đủ';return;}
-  document.getElementById('loginErr').textContent='Đang kết nối hệ thống...';
+  if(!manv||!pass){document.getElementById('loginErr').textContent='Hãy nhập thông tin đăng nhập';return;}
+  document.getElementById('loginErr').textContent='Đang đồng bộ khóa cấu trúc...';
   try{
     const r=await callGAS({action:'login',manv,pass});
     if(r&&r.success){
       user=r;
-      const ini=(r.hoten||'?').split(' ').map(w=>w[0]).slice(-2).join('').toUpperCase();
-      document.getElementById('uAvatar').textContent=ini;
+      document.getElementById('uAvatar').textContent=(r.hoten||'?').split(' ').pop()[0].toUpperCase();
       document.getElementById('uName').textContent=r.hoten;
-      document.getElementById('uRole').textContent=r.vaitro==='manager'?'Quản Lý':'Kỹ Thuật Viên';
+      document.getElementById('uRole').textContent=r.vaitro==='manager'?'Quản Lý':'Kỹ Thuật';
       document.getElementById('dw-name').textContent=r.hoten;
-      document.getElementById('dw-date').textContent=fmtDayVN();
+      document.getElementById('dw-date').textContent=today().split('-').reverse().join('/');
       document.getElementById('loginScreen').style.display='none';
       document.getElementById('appShell').style.display='flex';
       initApp();
-    }else{document.getElementById('loginErr').textContent=(r&&r.msg)||'Sai thông tin';}
-  }catch(e){document.getElementById('loginErr').textContent='Lỗi hệ thống';}
+    }else{document.getElementById('loginErr').textContent=(r&&r.msg)||'Sai tài khoản hoặc mật khẩu';}
+  }catch(e){document.getElementById('loginErr').textContent='Lỗi mạng xác thực';}
 }
 function doLogout(){user=null;document.getElementById('loginScreen').style.display='flex';document.getElementById('appShell').style.display='none';}
 
@@ -518,193 +459,149 @@ function initApp(){
   loadDashboard();
 }
 
-// CHUYỂN TAB LỚN
 function switchTab(tab){
   document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('active'));
-  const targetBtn = Array.from(document.querySelectorAll('.tbtn')).find(b => b.textContent.toLowerCase().includes(tab.toLowerCase()));
+  const targetBtn = Array.from(document.querySelectorAll('.tbtn')).find(b=>b.textContent.toLowerCase().includes(tab.toLowerCase()));
   if(targetBtn) targetBtn.classList.add('active');
   document.getElementById('tab-'+tab).classList.add('active');
   
-  if(tab==='dashboard') loadDashboard();
-  else if(tab==='kiemtra') loadKiemTra();
-  else if(tab==='suachua') loadSuaChua();
-  else if(tab==='hethong') loadHeThong();
+  if(tab=='dashboard') loadDashboard();
+  else if(tab=='kiemtra') loadKiemTra();
+  else if(tab=='suachua') loadSuaChua();
+  else if(tab=='hethong') loadHeThong();
 }
 
-// CHUYỂN CHIP CON TAB 2: KIỂM TRA
-function switchSubKiemTra(sub){
-  curSubKiemTra = sub;
-  document.querySelectorAll('#tab-kiemtra .chip').forEach(c=>c.classList.remove('active'));
-  document.getElementById('sub-'+sub).classList.add('active');
-  loadKiemTra();
-}
+function switchSubKiemTra(sub){ curSubKiemTra=sub; document.querySelectorAll('#tab-kiemtra .chip').forEach(c=>c.classList.remove('active')); document.getElementById('sub-'+sub).classList.add('active'); loadKiemTra(); }
+function switchSubSuaChua(sub){ curSubSuaChua=sub; document.querySelectorAll('#tab-suachua .chip').forEach(c=>c.classList.remove('active')); document.getElementById('sub-'+sub).classList.add('active'); loadSuaChua(); }
+function switchSubHeThong(sub){ curSubHeThong=sub; document.querySelectorAll('#tab-hethong .chip').forEach(c=>c.classList.remove('active')); document.getElementById('sub-'+sub).classList.add('active'); loadHeThong(); }
 
-// CHUYỂN CHIP CON TAB 3: SỬA CHỮA
-function switchSubSuaChua(sub){
-  curSubSuaChua = sub;
-  document.querySelectorAll('#tab-suachua .chip').forEach(c=>c.classList.remove('active'));
-  document.getElementById('sub-'+sub).classList.add('active');
-  
-  // Hạng mục tổng hợp không cần lịch ngày hiển thị
-  if(sub==='hm') document.getElementById('dateSuaChuaContainer').style.visibility = 'hidden';
-  else document.getElementById('dateSuaChuaContainer').style.visibility = 'visible';
-  loadSuaChua();
-}
-
-// CHUYỂN CHIP CON TAB 4: HỆ THỐNG
-function switchSubHeThong(sub){
-  curSubHeThong = sub;
-  document.querySelectorAll('#tab-hethong .chip').forEach(c=>c.classList.remove('active'));
-  document.getElementById('sub-'+sub).classList.add('active');
-  loadHeThong();
-}
-
-// 🏠 TOÀN BỘ LOGIC TAB TỔNG QUAN (LOAD TUẦN TỰ MƯỢT MÀ)
+// DASHBOARD
 async function loadDashboard(){
-  const d=today();
-  document.getElementById('statsRow').innerHTML = ld();
+  const d=today(); document.getElementById('statsRow').innerHTML=ld();
   try{
     const rCN=await callGAS({action:'getLog',sheet:'Log_CheckNgay',from:d,to:d});
     const rSC=await callGAS({action:'getLog',sheet:'Log_SuaChuaPhong',from:d,to:d});
-    const cn=normArr(rCN.success?rCN.data:[]);
-    const sc=normArr(rSC.success?rSC.data:[]);
-
+    const cn=rCN.success?rCN.data:[]; const sc=rSC.success?rSC.data:[];
+    
     const cnOk=cn.filter(r=>fld(r,'TinhTrang').toLowerCase().includes('thường')).length;
     const cnFault=cn.filter(r=>fld(r,'TinhTrang').toLowerCase().includes('lỗi')).length;
-    const scPending=sc.filter(r=>!fld(r,'TinhTrang').toLowerCase().includes('xong')).length;
-
+    
     document.getElementById('statsRow').innerHTML=`
-      <div class="stat-card ok"><div class="stat-num">${cnOk}</div><div class="stat-label">Kiểm Tra OK</div></div>
-      <div class="stat-card fault"><div class="stat-num">${cnFault}</div><div class="stat-label">Sự Cố Lỗi Hôm Nay</div></div>
-      <div class="stat-card blue"><div class="stat-num">${cn.length}</div><div class="stat-label">Tổng Mục Đã Check</div></div>
-      <div class="stat-card pending"><div class="stat-num">${scPending}</div><div class="stat-label">Sửa Chữa Phòng Tồn</div></div>`;
-
-    const elCN=document.getElementById('dash-checkNgay');
-    if(!cn.length) elCN.innerHTML=empty('Không ghi nhận lượt kiểm tra nào hôm nay');
-    else elCN.innerHTML=`<div class="cgrid">${cn.slice(-2).reverse().map(r=>cardCN(r)).join('')}</div>`;
-
-    const elSC=document.getElementById('dash-suachua');
-    if(!sc.length) elSC.innerHTML=empty('Hôm nay không phát sinh phòng hư hỏng');
-    else elSC.innerHTML=`<div class="cgrid">${sc.slice(-2).reverse().map(r=>cardSC(r)).join('')}</div>`;
-
-  }catch(e){document.getElementById('statsRow').innerHTML=empty('Kết nối Google Sheet thất bại');}
+      <div class="stat-card ok"><div class="stat-num">${cnOk}</div><div class="stat-label">Kiểm Tra Bình Thường</div></div>
+      <div class="stat-card fault"><div class="stat-num">${cnFault}</div><div class="stat-label">Sự Cố Hệ Thống</div></div>
+      <div class="stat-card blue"><div class="stat-num">${cn.length}</div><div class="stat-label">Tổng Hạng Mục Check</div></div>
+      <div class="stat-card pending"><div class="stat-num">${sc.filter(r=>!fld(r,'TinhTrang').toLowerCase().includes('xong')).length}</div><div class="stat-label">Phiếu Sửa Phòng Tồn</div></div>`;
+      
+    document.getElementById('dash-checkNgay').innerHTML=cn.length?`<div class="cgrid">${cn.slice(-2).reverse().map(r=>cardCN(r)).join('')}</div>`:empty('Chưa ghi nhận dữ liệu kiểm tra hôm nay');
+    document.getElementById('dash-suachua').innerHTML=sc.length?`<div class="cgrid">${sc.slice(-2).reverse().map(r=>cardSC(r)).join('')}</div>`:empty('Hôm nay phòng ốc an toàn, không có sự cố');
+  }catch(e){document.getElementById('statsRow').innerHTML=empty('Lỗi liên kết đám mây');}
 }
 
-// BUILD CÁC THẺ CARD HIỂN THỊ
 function cardCN(r){
   return`<div class="card ${scls(fld(r,'TinhTrang'))}"><div class="ci">
-    <div class="czl">Vị trí kiểm tra</div><div class="cz">${fld(r,'ViTri')||'—'}</div>
-    <div class="ctl">Nghiệp vụ thực hiện</div><div class="ct">${fld(r,'NoiDungCongViec')||'—'}</div>
+    <div class="czl">Vị trí thực địa</div><div class="cz">${fld(r,'ViTri')||'—'}</div>
+    <div class="ctl">Nhiệm vụ kiểm tra</div><div class="ct">${fld(r,'NoiDungCongViec')||'—'}</div>
     <div class="cmg">
-      <div><div class="cml">Kỹ thuật viên</div><div class="cmv">${fld(r,'HoTen')}</div></div>
+      <div><div class="cml">Nhân viên</div><div class="cmv">${fld(r,'HoTen')}</div></div>
       <div><div class="cml">Thời gian</div><div class="cmv">📅 ${fmtD(fld(r,'Ngay'))}</div></div>
     </div>
     <div class="cft"><div class="cnote">${fld(r,'GhiChu')?'Ghi chú: '+fld(r,'GhiChu'):''}</div>${pill(fld(r,'TinhTrang'))}</div>
   </div></div>`;
 }
-
 function cardDK(r){
   return`<div class="card ${scls(fld(r,'TinhTrang'))}"><div class="ci">
-    <div class="czl">Hạng mục định kỳ</div><div class="cz">${fld(r,'HangMuc')} · ${fld(r,'Tang')}</div>
-    <div class="ctl">Nội dung thực hiện</div><div class="ct">${fld(r,'NoiDungCongViec')||'—'}</div>
+    <div class="czl">Bảo trì định kỳ</div><div class="cz">${fld(r,'HangMuc')} · ${fld(r,'Tang')}</div>
+    <div class="ctl">Nội dung kỹ thuật</div><div class="ct">${fld(r,'NoiDungCongViec')||'—'}</div>
     <div class="cmg">
-      <div><div class="cml">Người bảo trì</div><div class="cmv">${fld(r,'HoTen')}</div></div>
-      <div><div class="cml">Ngày thực hiện</div><div class="cmv">📅 ${fmtD(fld(r,'Ngay'))}</div></div>
+      <div><div class="cml">Nhân viên thực hiện</div><div class="cmv">${fld(r,'HoTen')}</div></div>
+      <div><div class="cml">Ngày bảo dưỡng</div><div class="cmv">📅 ${fmtD(fld(r,'Ngay'))}</div></div>
     </div>
-    <div class="cft"><div class="cnote">${fld(r,'GhiChu')?'Ghi chú: '+fld(r,'GhiChu'):''}</div>${pill(fld(r,'TinhTrang'))}</div>
+    <div class="cft"><div class="cnote">${fld(r,'GhiChu')?'Nhận xét: '+fld(r,'GhiChu'):''}</div>${pill(fld(r,'TinhTrang'))}</div>
   </div></div>`;
 }
-
 function cardSC(r){
   return`<div class="card ${scls(fld(r,'TinhTrang'))}"><div class="ci">
-    <div class="czl">Sửa chữa khu vực</div><div class="cz">${fld(r,'HangMuc')}</div>
-    <div class="ctl">Chi tiết việc làm</div><div class="ct">${fld(r,'NoiDungCongViec')||'—'}</div>
+    <div class="czl">Khu vực sự cố phòng</div><div class="cz">${fld(r,'HangMuc')}</div>
+    <div class="ctl">Nội dung khắc phục</div><div class="ct">${fld(r,'NoiDungCongViec')||'—'}</div>
     <div class="cmg">
-      <div><div class="cml">Nhân viên sửa</div><div class="cmv">${fld(r,'HoTen')}</div></div>
-      <div><div class="cml">Trạng thái</div><div class="cmv">${pill(fld(r,'TinhTrang'))}</div></div>
+      <div><div class="cml">Kỹ thuật viên</div><div class="cmv">${fld(r,'HoTen')}</div></div>
+      <div><div class="cml">Trạng thái phiếu</div><div class="cmv">${pill(fld(r,'TinhTrang'))}</div></div>
     </div>
     <div class="cft"><div class="cnote">${fld(r,'GhiChu')?'Vật tư: '+fld(r,'GhiChu'):''}</div></div>
   </div></div>`;
 }
-
 function cardHM(r){
-  return`<div class="card ${scls(fld(r,'TrangThai'))}"><div class="ci">
-    <div class="czl">Hạng mục công trình</div><div class="cz">${fld(r,'HangMuc')}</div>
-    <div class="ctl">Nội dung dự án</div><div class="ct">${fld(r,'NoiDung')||'—'}</div>
+  const st=fld(r,'TrangThai','TinhTrang');
+  return`<div class="card ${scls(st)}"><div class="ci">
+    <div class="czl">Hạng mục chung khách sạn</div><div class="cz">${fld(r,'HangMuc')}</div>
+    <div class="ctl">Kế hoạch triển khai</div><div class="ct">${fld(r,'NoiDung')||'—'}</div>
     <div class="cmg">
-      <div><div class="cml">Phụ trách</div><div class="cmv">${fld(r,'HoTen')}</div></div>
-      <div><div class="cml">Tiến độ</div><div class="cmv">${pill(fld(r,'TrangThai'))}</div></div>
+      <div><div class="cml">Phụ trách chính</div><div class="cmv">${fld(r,'HoTen')}</div></div>
+      <div><div class="cml">Tiến độ</div><div class="cmv">${pill(st)}</div></div>
     </div>
     <div class="csla">
       <div class="si">Bắt đầu: <span>${fmtD(fld(r,'NgayBatDau'))}</span></div>
-      <div class="si w">Hạn cuối: <span>${fmtD(fld(r,'NgayKetThuc'))}</span></div>
+      <div class="si">Kết thúc: <span>${fmtD(fld(r,'NgayKetThuc'))}</span></div>
     </div>
     <div class="cft"><div class="cnote">${fld(r,'GhiChu')?'Ghi chú: '+fld(r,'GhiChu'):''}</div></div>
   </div></div>`;
 }
-
 function cardMP(r){
-  return`<div class="card ${scls(fld(r,'TrangThai'))}"><div class="ci">
-    <div class="czl">Hệ thống cơ điện</div><div class="cz">Log Vận Hành Máy Phát Điện</div>
+  const st=fld(r,'TrangThai','TinhTrang');
+  return`<div class="card ${scls(st)}"><div class="ci">
+    <div class="czl">Hệ thống cơ điện dự phòng</div><div class="cz">Máy Phát Điện Trung Tâm</div>
     <div class="cmg">
-      <div><div class="cml">Người chạy máy</div><div class="cmv">${fld(r,'HoTen')}</div></div>
-      <div><div class="cml">Ngày vận hành</div><div class="cmv">📅 ${fmtD(fld(r,'Ngay'))}</div></div>
+      <div><div class="cml">Kỹ sư vận hành</div><div class="cmv">${fld(r,'HoTen')}</div></div>
+      <div><div class="cml">Ngày chạy thử</div><div class="cmv">📅 ${fmtD(fld(r,'Ngay'))}</div></div>
     </div>
     <div class="csla">
       <div class="si">Thời gian nổ: <span>${fld(r,'ThoiGianChay')}</span></div>
       <div class="si">Điện áp: <span>${fld(r,'DienAp')}</span></div>
       <div class="si">Acquy: <span>${fld(r,'TinhTrangAcquy')}</span></div>
-      <div class="si">Dầu máy: <span>${fld(r,'DauMayPhat')}</span></div>
+      <div class="si">Mức dầu: <span>${fld(r,'DauMayPhat')}</span></div>
     </div>
-    <div class="cft"><div class="cnote">${fld(r,'GhiChu')?'Nhận xét: '+fld(r,'GhiChu'):''}</div>${pill(fld(r,'TrangThai'))}</div>
+    <div class="cft"><div class="cnote">${fld(r,'GhiChu')?'Ghi chú máy: '+fld(r,'GhiChu'):''}</div>${pill(st)}</div>
   </div></div>`;
 }
-
 function cardPC(r){
+  const st=fld(r,'TinhTrang','TrangThai');
   const items=PCCC_ITEMS.map(n=>{
-    const key=n.replace(/ /g,''); const v=fld(r,key);
+    const v=fld(r,n.replace(/ /g,''));
     return`<span class="pill ${v==='Tốt'?'ok':'fault'}" style="font-size:9px">${n}: ${v||'—'}</span>`;
   }).join(' ');
-  return`<div class="card ${scls(fld(r,'TinhTrang'))}"><div class="ci">
-    <div class="czl">Hệ thống an toàn</div><div class="cz">Kiểm Tra Thiết Bị PCCC Tháng ${fld(r,'Thang')}</div>
+  return`<div class="card ${scls(st)}"><div class="ci">
+    <div class="czl">An toàn phòng cháy chữa cháy</div><div class="cz">Báo Cáo Thiết Bị Tháng ${fld(r,'Thang')}</div>
     <div class="cmg">
       <div><div class="cml">Người kiểm tra</div><div class="cmv">${fld(r,'HoTen')}</div></div>
-      <div><div class="cml">Ngày kiểm</div><div class="cmv">📅 ${fmtD(fld(r,'Ngay'))}</div></div>
+      <div><div class="cml">Ngày lập phiếu</div><div class="cmv">📅 ${fmtD(fld(r,'Ngay'))}</div></div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">${items}</div>
-    <div class="cft"><div class="cnote">${fld(r,'GhiChu')?'Ghi chú: '+fld(r,'GhiChu'):''}</div>${pill(fld(r,'TinhTrang'))}</div>
+    <div class="cft"><div class="cnote">${fld(r,'GhiChu')?'Ghi chú hệ thống: '+fld(r,'GhiChu'):''}</div>${pill(st)}</div>
   </div></div>`;
 }
 
-// 📋 LOGIC TAB 2: KIỂM TRA
+// LOAD KIỂM TRA
 async function loadKiemTra(){
-  const d=document.getElementById('dateKiemTra').value || today();
-  document.getElementById('kiemtraContent').innerHTML=ld();
+  const d=document.getElementById('dateKiemTra').value||today(); document.getElementById('kiemtraContent').innerHTML=ld();
   try{
-    if(curSubKiemTra==='cn'){
-      const r=await callGAS({action:'getLog',sheet:'Log_CheckNgay',from:d,to:d});
-      const data=normArr(r.success?r.data:[]);
-      if(!data.length) document.getElementById('kiemtraContent').innerHTML=empty(`Chưa có log hằng ngày cho ngày ${fmtD(d)}`);
-      else document.getElementById('kiemtraContent').innerHTML=`<div class="sh"><h2>Nhật Ký Hằng Ngày</h2><span class="cbadge">${data.length} phiếu</span></div><div class="cgrid">${data.map(r=>cardCN(r)).join('')}</div>`;
-    }else{
-      const r=await callGAS({action:'getLog',sheet:'Log_DinhKy',from:d,to:d});
-      const data=normArr(r.success?r.data:[]);
-      if(!data.length) document.getElementById('kiemtraContent').innerHTML=empty(`Không có lịch bảo trì định kỳ ngày ${fmtD(d)}`);
-      else document.getElementById('kiemtraContent').innerHTML=`<div class="sh"><h2>Kiểm Tra Định Kỳ</h2><span class="cbadge">${data.length} mục</span></div><div class="cgrid">${data.map(r=>cardDK(r)).join('')}</div>`;
-    }
-  }catch(e){document.getElementById('kiemtraContent').innerHTML=empty('Lỗi tải dữ liệu');}
+    const sheet=curSubKiemTra==='cn'?'Log_CheckNgay':'Log_DinhKy';
+    const r=await callGAS({action:'getLog',sheet,from:d,to:d});
+    const data=r.success?r.data:[];
+    if(!data.length){ document.getElementById('kiemtraContent').innerHTML=empty(`Không tìm thấy dữ liệu ngày ${fmtD(d)}`); return;}
+    document.getElementById('kiemtraContent').innerHTML=`<div class="sh"><h2>Danh Sách Bản Ghi</h2><span class="cbadge">${data.length} phiếu</span></div><div class="cgrid">${data.map(item=>curSubKiemTra==='cn'?cardCN(item):cardDK(item)).join('')}</div>`;
+  }catch(e){document.getElementById('kiemtraContent').innerHTML=empty('Lỗi đồng bộ tab kiểm tra');}
 }
 
 function openFormKiemTra(){
   document.getElementById('kt_tt').value=''; document.getElementById('kt_gc').value='';
   document.querySelectorAll('#modKiemTra .rc').forEach(b=>b.classList.remove('sel'));
   if(curSubKiemTra==='cn'){
-    document.getElementById('titleModKiemTra').textContent='📋 Thêm Nhật Ký Hằng Ngày';
+    document.getElementById('titleModKiemTra').textContent='📋 Nhật Ký Kiểm Tra Hằng Ngày';
     document.getElementById('form-cn').style.display='block'; document.getElementById('form-dk').style.display='none';
     document.getElementById('cn_vt').value=''; document.getElementById('cn_nd').value='';
   }else{
-    document.getElementById('titleModKiemTra').textContent='🗓 Ghi Nhận Kiểm Tra Định Kỳ';
+    document.getElementById('titleModKiemTra').textContent='🗓 Lập Phiếu Bảo Trì Định Kỳ';
     document.getElementById('form-cn').style.display='none'; document.getElementById('form-dk').style.display='block';
     document.getElementById('dk_hm').value=''; document.getElementById('dk_tang').value=''; document.getElementById('dk_nd').value='';
   }
@@ -714,56 +611,38 @@ function openFormKiemTra(){
 async function saveFormKiemTra(){
   if(isSaving)return;
   const d=document.getElementById('dateKiemTra').value||today();
-  let sheet='', data={Ngay: d, MaNV: user.manv, HoTen: user.hoten, GhiChu: document.getElementById('kt_gc').value.trim()};
-  
+  let sheet=curSubKiemTra==='cn'?'Log_CheckNgay':'Log_DinhKy';
+  let data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,GhiChu:document.getElementById('kt_gc').value.trim(),TinhTrang:document.getElementById('kt_tt').value};
   if(curSubKiemTra==='cn'){
-    sheet='Log_CheckNgay';
-    data.ViTri=document.getElementById('cn_vt').value.trim();
-    data.NoiDungCongViec=document.getElementById('cn_nd').value.trim();
-    data.TinhTrang=document.getElementById('kt_tt').value;
-    if(!data.ViTri||!data.TinhTrang){toast('Nhập đầy đủ thông tin bắt buộc','err');return;}
+    data.ViTri=document.getElementById('cn_vt').value.trim(); data.NoiDungCongViec=document.getElementById('cn_nd').value.trim();
+    if(!data.ViTri||!data.TinhTrang){toast('Vui lòng điền đủ mục bắt buộc','err');return;}
   }else{
-    sheet='Log_DinhKy';
-    data.HangMuc=document.getElementById('dk_hm').value.trim();
-    data.Tang=document.getElementById('dk_tang').value.trim();
-    data.NoiDungCongViec=document.getElementById('dk_nd').value.trim();
-    data.TinhTrang=document.getElementById('kt_tt').value;
-    if(!data.HangMuc||!data.TinhTrang){toast('Nhập đầy đủ thông tin bắt buộc','err');return;}
+    data.HangMuc=document.getElementById('dk_hm').value.trim(); data.Tang=document.getElementById('dk_tang').value.trim(); data.NoiDungCongViec=document.getElementById('dk_nd').value.trim();
+    if(!data.HangMuc||!data.TinhTrang){toast('Vui lòng điền đủ mục bắt buộc','err');return;}
   }
-  
   isSaving=true;
   try{
     const r=await callGAS({action:'saveLog',sheet,data:JSON.stringify(data)});
-    if(r.success){closeMod('modKiemTra'); toast('✓ Ghi nhận phiếu thành công!'); loadKiemTra();}
-    else toast(r.msg,'err');
-  }catch(e){toast('Lỗi kết nối mạng','err');}
-  finally{isSaving=false;}
+    if(r.success){closeMod('modKiemTra'); toast('✓ Lưu trữ thành công!'); loadKiemTra();}else toast(r.msg,'err');
+  }catch(e){toast('Lỗi kết nối lưu','err');}finally{isSaving=false;}
 }
 
-// 🔧 LOGIC TAB 3: SỬA CHỮA
+// SỬA CHỮA
 async function loadSuaChua(){
-  const d=document.getElementById('dateSuaChua').value || today();
-  document.getElementById('suachuaContent').innerHTML=ld();
+  const d=document.getElementById('dateSuaChua').value||today(); document.getElementById('suachuaContent').innerHTML=ld();
   try{
-    if(curSubSuaChua==='sc'){
-      const r=await callGAS({action:'getLog',sheet:'Log_SuaChuaPhong',from:d,to:d});
-      const data=normArr(r.success?r.data:[]);
-      if(!data.length) document.getElementById('suachuaContent').innerHTML=empty(`Phòng ốc thông suốt, không có sự cố ngày ${fmtD(d)}`);
-      else document.getElementById('suachuaContent').innerHTML=`<div class="sh"><h2>Sửa Chữa Phòng Khách</h2><span class="cbadge">${data.length} sự việc</span></div><div class="cgrid">${data.map(r=>cardSC(r)).join('')}</div>`;
-    }else{
-      const r=await callGAS({action:'getLog',sheet:'Log_HangMuc'});
-      const data=normArr(r.success?r.data:[]);
-      if(!data.length) document.getElementById('suachuaContent').innerHTML=empty('Không có dự án/hạng mục chung nào tồn đọng');
-      else document.getElementById('suachuaContent').innerHTML=`<div class="sh"><h2>Hạng Mục Công Trình Chung</h2><span class="cbadge">${data.length} mục</span></div><div class="cgrid">${data.slice().reverse().map(r=>cardHM(r)).join('')}</div>`;
-    }
-  }catch(e){document.getElementById('suachuaContent').innerHTML=empty('Lỗi tải dữ liệu');}
+    const sheet=curSubSuaChua==='sc'?'Log_SuaChuaPhong':'Log_HangMuc';
+    const r=curSubSuaChua==='sc'?await callGAS({action:'getLog',sheet,from:d,to:d}):await callGAS({action:'getLog',sheet});
+    const data=r.success?r.data:[];
+    if(!data.length){ document.getElementById('suachuaContent').innerHTML=empty('Không phát sinh bản ghi nào thuộc bộ lọc này'); return;}
+    document.getElementById('suachuaContent').innerHTML=`<div class="sh"><h2>Danh Sách Nhật Ký</h2><span class="cbadge">${data.length} mục</span></div><div class="cgrid">${data.slice().reverse().map(item=>curSubSuaChua==='sc'?cardSC(item):cardHM(item)).join('')}</div>`;
+  }catch(e){document.getElementById('suachuaContent').innerHTML=empty('Lỗi đồng bộ tab sửa chữa');}
 }
 
 function openFormSuaChua(){
-  document.getElementById('sch_gc').value='';
-  document.querySelectorAll('#modSuaChua .rc').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('sch_gc').value=''; document.querySelectorAll('#modSuaChua .rc').forEach(b=>b.classList.remove('sel'));
   if(curSubSuaChua==='sc'){
-    document.getElementById('titleModSuaChua').textContent='🛏 Báo Cáo Sự Cố Phòng Khách';
+    document.getElementById('titleModSuaChua').textContent='🛏 Ghi Nhận Sự Cố Phòng Khách Sạn';
     document.getElementById('form-sc').style.display='block'; document.getElementById('form-hm').style.display='none';
     document.getElementById('sc_hm').value=''; document.getElementById('sc_nd').value=''; document.getElementById('sc_tt').value='';
   }else{
@@ -777,70 +656,48 @@ function openFormSuaChua(){
 
 async function saveFormSuaChua(){
   if(isSaving)return;
-  let sheet='', data={MaNV: user.manv, HoTen: user.hoten, GhiChu: document.getElementById('sch_gc').value.trim()};
-  
+  let sheet=curSubSuaChua==='sc'?'Log_SuaChuaPhong':'Log_HangMuc';
+  let data={MaNV:user.manv,HoTen:user.hoten,GhiChu:document.getElementById('sch_gc').value.trim()};
   if(curSubSuaChua==='sc'){
-    sheet='Log_SuaChuaPhong';
-    data.Ngay = document.getElementById('dateSuaChua').value || today();
-    data.HangMuc = document.getElementById('sc_hm').value.trim();
-    data.NoiDungCongViec = document.getElementById('sc_nd').value.trim();
-    data.TinhTrang = document.getElementById('sc_tt').value;
-    if(!data.HangMuc||!data.TinhTrang){toast('Vui lòng điền đủ mục và trạng thái','err');return;}
+    data.Ngay=document.getElementById('dateSuaChua').value||today(); data.HangMuc=document.getElementById('sc_hm').value.trim(); data.NoiDungCongViec=document.getElementById('sc_nd').value.trim(); data.TinhTrang=document.getElementById('sc_tt').value;
+    if(!data.HangMuc||!data.TinhTrang){toast('Điền đủ hạng mục phòng và tình trạng','err');return;}
   }else{
-    sheet='Log_HangMuc';
-    data.Ngay = today();
-    data.HangMuc = document.getElementById('hm_hm').value.trim();
-    data.NoiDung = document.getElementById('hm_nd').value.trim();
-    data.TrangThai = document.getElementById('hm_tt').value;
-    data.NgayBatDau = document.getElementById('hm_bd').value;
-    data.NgayKetThuc = document.getElementById('hm_kt').value;
-    if(!data.HangMuc||!data.TrangThai){toast('Vui lòng điền đủ mục và tiến độ','err');return;}
+    data.Ngay=today(); data.HangMuc=document.getElementById('hm_hm').value.trim(); data.NoiDung=document.getElementById('hm_nd').value.trim(); data.TrangThai=document.getElementById('hm_tt').value; data.NgayBatDau=document.getElementById('hm_bd').value; data.NgayKetThuc=document.getElementById('hm_kt').value;
+    if(!data.HangMuc||!data.TrangThai){toast('Điền đủ hạng mục chung và trạng thái','err');return;}
   }
-  
   isSaving=true;
   try{
     const r=await callGAS({action:'saveLog',sheet,data:JSON.stringify(data)});
-    if(r.success){closeMod('modSuaChua'); toast('✓ Đã cập nhật lên hệ thống!'); loadSuaChua();}
-    else toast(r.msg,'err');
-  }catch(e){toast('Mạng chập chờn, thử lại','err');}
-  finally{isSaving=false;}
+    if(r.success){closeMod('modSuaChua'); toast('✓ Hệ thống đã tiếp nhận!'); loadSuaChua();}else toast(r.msg,'err');
+  }catch(e){toast('Lỗi kết nối mạng','err');}finally{isSaving=false;}
 }
 
-// ⚡ LOGIC TAB 4: HỆ THỐNG
+// HỆ THỐNG
 async function loadHeThong(){
-  const d=document.getElementById('dateHeThong').value || today();
-  document.getElementById('hethongContent').innerHTML=ld();
+  const d=document.getElementById('dateHeThong').value||today(); document.getElementById('hethongContent').innerHTML=ld();
   try{
-    if(curSubHeThong==='mp'){
-      const r=await callGAS({action:'getLog',sheet:'Log_MayPhatDien',from:d,to:d});
-      const data=normArr(r.success?r.data:[]);
-      if(!data.length) document.getElementById('hethongContent').innerHTML=empty(`Ngày ${fmtD(d)} không có chạy test máy phát`);
-      else document.getElementById('hethongContent').innerHTML=`<div class="sh"><h2>Log Vận Hành Máy Phát Điện</h2><span class="cbadge">${data.length} lượt</span></div><div class="cgrid">${data.map(r=>cardMP(r)).join('')}</div>`;
-    }else{
-      const r=await callGAS({action:'getLog',sheet:'Log_PCCC',from:d,to:d});
-      const data=normArr(r.success?r.data:[]);
-      if(!data.length) document.getElementById('hethongContent').innerHTML=empty(`Hôm nay chưa có phiếu kiểm PCCC: ${fmtD(d)}`);
-      else document.getElementById('hethongContent').innerHTML=`<div class="sh"><h2>Báo Cáo An Toàn PCCC Khách Sạn</h2><span class="cbadge">${data.length} bản</span></div><div class="cgrid">${data.map(r=>cardPC(r)).join('')}</div>`;
-    }
-  }catch(e){document.getElementById('hethongContent').innerHTML=empty('Lỗi kết nối');}
+    const sheet=curSubHeThong==='mp'?'Log_MayPhatDien':'Log_PCCC';
+    const r=await callGAS({action:'getLog',sheet,from:d,to:d});
+    const data=r.success?r.data:[];
+    if(!data.length){ document.getElementById('hethongContent').innerHTML=empty(`Mục này không có dữ liệu cho ngày ${fmtD(d)}`); return;}
+    document.getElementById('hethongContent').innerHTML=`<div class="sh"><h2>Vận Hành Hệ Thống An Toàn</h2><span class="cbadge">${data.length} phiếu</span></div><div class="cgrid">${data.map(item=>curSubHeThong==='mp'?cardMP(item):cardPC(item)).join('')}</div>`;
+  }catch(e){document.getElementById('hethongContent').innerHTML=empty('Lỗi tải dữ liệu an toàn hệ thống');}
 }
 
 function tgPCCC(name,el){
   const states=['','Tốt','Lỗi']; const cur=pcccSt[name]||''; const idx=(states.indexOf(cur)+1)%states.length;
-  pcccSt[name]=states[idx]; const icons={'':'⬜','Tốt':'✅','Lỗi':'❌'};
-  el.querySelector('.pio').textContent=icons[states[idx]];
+  pcccSt[name]=states[idx]; el.querySelector('.pio').textContent={'':'⬜','Tốt':'✅','Lỗi':'❌'}[states[idx]];
   el.className='pi '+(states[idx]==='Tốt'?'ok':states[idx]==='Lỗi'?'fault':'');
 }
 
 function openFormHeThong(){
-  document.getElementById('ht_gc').value='';
-  document.querySelectorAll('#modHeThong .rc').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('ht_gc').value=''; document.querySelectorAll('#modHeThong .rc').forEach(b=>b.classList.remove('sel'));
   if(curSubHeThong==='mp'){
-    document.getElementById('titleModHeThong').textContent='⚡ Log Vận Hành Kiểm Tra Máy Phát';
+    document.getElementById('titleModHeThong').textContent='⚡ Ghi Nhật Ký Máy Phát Điện';
     document.getElementById('form-mp').style.display='block'; document.getElementById('form-pc').style.display='none';
     document.getElementById('mp_tg').value=''; document.getElementById('mp_da').value=''; document.getElementById('mp_mp').value=''; document.getElementById('mp_tt').value='';
   }else{
-    document.getElementById('titleModHeThong').textContent='🔥 Phiếu Kiểm Tra Hệ Thống PCCC';
+    document.getElementById('titleModHeThong').textContent='🔥 Biên Bản Khảo Sát Hệ Thống PCCC';
     document.getElementById('form-mp').style.display='none'; document.getElementById('form-pc').style.display='block';
     pcccSt={}; document.getElementById('pc_tt').value='';
     document.getElementById('pcccGrid').innerHTML=PCCC_ITEMS.map(n=>`<div class="pi" onclick="tgPCCC('${n}',this)"><div class="pil">${n}</div><div class="pio">⬜</div></div>`).join('');
@@ -851,51 +708,30 @@ function openFormHeThong(){
 async function saveFormHeThong(){
   if(isSaving)return;
   const d=document.getElementById('dateHeThong').value||today();
-  let sheet='', data={Ngay: d, MaNV: user.manv, HoTen: user.hoten, GhiChu: document.getElementById('ht_gc').value.trim()};
-  
+  let sheet=curSubHeThong==='mp'?'Log_MayPhatDien':'Log_PCCC';
+  let data={Ngay:d,MaNV:user.manv,HoTen:user.hoten,GhiChu:document.getElementById('ht_gc').value.trim()};
   if(curSubHeThong==='mp'){
-    sheet='Log_MayPhatDien';
-    data.ThoiGianChay = document.getElementById('mp_tg').value.trim();
-    data.DienAp = document.getElementById('mp_da').value.trim();
-    data.TinhTrangAcquy = document.getElementById('mp_aq').value;
-    data.DauMayPhat = document.getElementById('mp_dau').value;
-    data.MayPhat = document.getElementById('mp_mp').value.trim();
-    data.TrangThai = document.getElementById('mp_tt').value;
-    if(!data.TrangThai){toast('Vui lòng chọn kết luận máy tốt/sự cố','err');return;}
+    data.ThoiGianChay=document.getElementById('mp_tg').value.trim(); data.DienAp=document.getElementById('mp_da').value.trim(); data.TinhTrangAcquy=document.getElementById('mp_aq').value; data.DauMayPhat=document.getElementById('mp_dau').value; data.MayPhat=document.getElementById('mp_mp').value.trim(); data.TrangThai=document.getElementById('mp_tt').value;
+    if(!data.TrangThai){toast('Vui lòng tích chọn kết luận máy tốt/lỗi','err');return;}
   }else{
-    sheet='Log_PCCC';
-    const [y,m] = d.split('-'); data.Thang = `${m}/${y}`;
-    PCCC_ITEMS.forEach(n=>{ data[n.replace(/ /g,'')] = pcccSt[n] || '—'; });
-    data.TinhTrang = document.getElementById('pc_tt').value;
-    if(!data.TinhTrang){toast('Vui lòng tích chọn tình trạng PCCC chung','err');return;}
+    const [y,m]=d.split('-'); data.Thang=`${m}/${y}`; PCCC_ITEMS.forEach(n=>{ data[n.replace(/ /g,'')]=pcccSt[n]||'—'; }); data.TinhTrang=document.getElementById('pc_tt').value;
+    if(!data.TinhTrang){toast('Chọn tình trạng chung của hệ PCCC','err');return;}
   }
-  
   isSaving=true;
   try{
     const r=await callGAS({action:'saveLog',sheet,data:JSON.stringify(data)});
-    if(r.success){closeMod('modHeThong'); toast('✓ Đã lưu thành công log thiết bị!'); loadHeThong();}
-    else toast(r.msg,'err');
-  }catch(e){toast('Lỗi lưu log lên đám mây','err');}
-  finally{isSaving=false;}
+    if(r.success){closeMod('modHeThong'); toast('✓ Log hệ thống thành công!'); loadHeThong();}else toast(r.msg,'err');
+  }catch(e){toast('Lỗi lưu trữ mây thiết bị','err');}finally{isSaving=false;}
 }
 
-// XUẤT CSV LINH HOẠT THEO SUB-CHIP ĐANG ĐỨNG
-function handleExport(){
-  if(curSubHeThong==='mp') exportCSV('Log_MayPhatDien','mayphat');
-  else exportCSV('Log_PCCC','pccc');
-}
-
+function handleExport(){ exportCSV(curSubHeThong==='mp'?'Log_MayPhatDien':'Log_PCCC', curSubHeThong==='mp'?'mayphat':'pccc');}
 async function exportCSV(sheet,prefix){
-  toast('Hệ thống đang xuất file...');
+  toast('Đang xử lý xuất tệp CSV...');
   try{
-    const r=await callGAS({action:'getLog',sheet});
-    if(!r.success||!r.data.length){toast('Không có dữ liệu lịch sử','err');return;}
-    const keys=Object.keys(r.data[0]);
-    const rows=[keys.join(','),...r.data.map(row=>keys.map(k=>`"${String(row[k]||'').replace(/"/g,'""')}"`).join(','))];
-    const blob=new Blob(['\uFEFF'+rows.join('\n')],{type:'text/csv;charset=utf-8'});
-    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`${prefix}_export_${today()}.csv`; a.click();
-    toast('✓ Xuất file CSV thành công!');
-  }catch(e){toast('Lỗi xuất tệp dữ liệu','err');}
+    const r=await callGAS({action:'getLog',sheet}); if(!r.success||!r.data.length){toast('Bảng tính trống dữ liệu','err');return;}
+    const keys=Object.keys(r.data[0]); const rows=[keys.join(','),...r.data.map(row=>keys.map(k=>`"${String(row[k]||'').replace(/"/g,'""')}"`).join(','))];
+    const blob=new Blob(['\uFEFF'+rows.join('\n')],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`${prefix}_report_${today()}.csv`; a.click(); toast('✓ Đã tải file về thiết bị!');
+  }catch(e){toast('Lỗi bóc tách xuất dữ liệu','err');}
 }
 
 window.addEventListener('online',()=>document.getElementById('netLabel').textContent='Online');
