@@ -214,7 +214,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="loginScreen">
   <div class="lw">
     <div class="lb">
@@ -231,7 +230,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   </div>
 </div>
 
-<!-- APP -->
 <div id="appShell">
   <div class="topbar">
     <div class="tl">
@@ -259,7 +257,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
   <div class="content">
 
-    <!-- DASHBOARD -->
     <div class="tpanel active" id="tab-dashboard">
       <div class="dash-welcome">
         <div class="dw-sub">Chào mừng trở lại</div>
@@ -287,7 +284,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       </div>
     </div>
 
-    <!-- CHECK NGÀY -->
     <div class="tpanel" id="tab-checkNgay">
       <div class="crow">
         <div class="diw"><label>Ngày</label><input type="date" id="dateCheckNgay"/></div>
@@ -297,7 +293,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div id="cnContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
-    <!-- HẠNG MỤC -->
     <div class="tpanel" id="tab-hangMuc">
       <div class="crow">
         <div class="frow" style="margin:0;flex:1">
@@ -311,7 +306,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div id="hmContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
-    <!-- SỬA CHỮA -->
     <div class="tpanel" id="tab-suaChua">
       <div class="crow">
         <div class="diw"><label>Ngày</label><input type="date" id="dateSC"/></div>
@@ -321,7 +315,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div id="scContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
-    <!-- ĐỊNH KỲ -->
     <div class="tpanel" id="tab-dinhKy">
       <div class="crow">
         <div class="diw"><label>Ngày</label><input type="date" id="dateDK"/></div>
@@ -331,7 +324,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div id="dkContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
-    <!-- MÁY PHÁT -->
     <div class="tpanel" id="tab-mayPhat">
       <div class="crow">
         <div class="diw"><label>Ngày</label><input type="date" id="dateMP"/></div>
@@ -342,7 +334,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div id="mpContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
-    <!-- PCCC -->
     <div class="tpanel" id="tab-pccc">
       <div class="crow">
         <div class="diw"><label>Ngày</label><input type="date" id="datePCCC"/></div>
@@ -356,7 +347,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   </div>
 </div>
 
-<!-- MODALS -->
 <div class="ov" id="mCN">
   <div class="modal">
     <div class="mhd"><div class="mtitle">📋 Ghi Nhận Kiểm Tra</div><button class="mclose" onclick="closeMod('mCN')">✕</button></div>
@@ -503,7 +493,6 @@ function callGAS(p){
   });
 }
 
-// Normalize data từ Sheets — trim whitespace, fix encoding issues
 function norm(obj){
   const out={};
   for(const k in obj){
@@ -513,16 +502,14 @@ function norm(obj){
   }
   return out;
 }
-// Normalize array — xử lý Date object, timestamp, mọi format ngày từ Sheets
+
 function normArr(arr){
   if(!Array.isArray(arr))return[];
   return arr.map(obj=>{
     const n=norm(obj);
-    // Normalize tất cả date fields về YYYY-MM-DD
     ['Ngay','NgayBatDau','NgayKetThuc','Thang'].forEach(k=>{
       if(n[k]!==undefined&&n[k]!==null&&n[k]!==''){
         const raw=n[k];
-        // Nếu là Date object từ JSON (ISO string như "2026-06-24T00:00:00.000Z")
         if(typeof raw==='string'&&raw.includes('T')){
           n[k]=raw.split('T')[0];
         } else if(k!=='Thang'){
@@ -534,7 +521,6 @@ function normArr(arr){
   });
 }
 
-// Safe field read với fallback keys (handle cả camelCase lẫn PascalCase)
 function fld(obj,...keys){
   for(const k of keys){
     if(obj[k]!==undefined&&obj[k]!==null&&obj[k]!=='')return String(obj[k]).trim();
@@ -546,55 +532,21 @@ function today(){const d=new Date();return`${d.getFullYear()}-${p2(d.getMonth()+
 function p2(n){return String(n).padStart(2,'0');}
 function setToday(id){document.getElementById(id).value=today();}
 
-// ── BULLETPROOF DATE NORMALIZER ──
-// Xử lý mọi định dạng ngày: "2026-06-24", "24/06/2026", "06/24/2026", "20:46 24/06/2026"
 function cleanDateStr(raw){
   if(!raw)return today();
   let s=String(raw).trim();
-  // ISO datetime "2026-06-24T17:00:00.000Z" → lấy phần trước T
-  if(s.includes('T')) s=s.split('T')[0];
-  // Timestamp "HH:MM DD/MM/YYYY" → lấy phần ngày
-  if(/^\d{1,2}:\d{2}\s/.test(s)) s=s.split(' ').slice(1).join(' ');
-  // Đã đúng YYYY-MM-DD
-  if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-  // Dạng có dấu /
+  if(s.includes(' ')) s=s.split(' ')[0];
   if(s.includes('/')){
     const parts=s.split('/');
     if(parts.length===3){
       const[a,b,c]=parts.map(x=>x.trim());
-      if(c.length===4){
-        // Ngày > 12 chắc chắn là DD → DD/MM/YYYY
-        if(parseInt(a)>12) return`${c}-${p2(b)}-${p2(a)}`;
-        // Tháng > 12 chắc chắn là MM/DD/YYYY
-        if(parseInt(b)>12) return`${c}-${p2(a)}-${p2(b)}`;
-        // Mặc định: DD/MM/YYYY (chuẩn VN)
-        return`${c}-${p2(b)}-${p2(a)}`;
-      }
-      if(a.length===4){
-        // YYYY/MM/DD
-        return`${a}-${p2(b)}-${p2(c)}`;
-      }
+      if(c.length===4) return`${c}-${p2(b)}-${p2(a)}`;
+      if(a.length===4) return`${a}-${p2(b)}-${p2(c)}`;
     }
   }
-  // Dạng có dấu - nhưng không đúng format
-  if(s.includes('-')){
-    const parts=s.split('-');
-    if(parts.length===3){
-      const[a,b,c]=parts.map(x=>x.trim());
-      if(a.length===4) return`${a}-${p2(b)}-${p2(c)}`; // YYYY-M-D
-      if(c.length===4) return`${c}-${p2(b)}-${p2(a)}`; // D-M-YYYY
-    }
-  }
-  // Fallback: JS Date parse (dùng UTC để tránh timezone shift)
-  const ts=Date.parse(s);
-  if(!isNaN(ts)){
-    const d=new Date(ts);
-    return`${d.getUTCFullYear()}-${p2(d.getUTCMonth()+1)}-${p2(d.getUTCDate())}`;
-  }
-  return today();
+  return s;
 }
 
-// fmtD: hiển thị YYYY-MM-DD thành DD/MM/YYYY
 function fmtD(s){
   if(!s)return'—';
   const clean=cleanDateStr(String(s));
@@ -602,51 +554,40 @@ function fmtD(s){
     const[y,m,d]=clean.split('-');
     return`${d}/${m}/${y}`;
   }
-  return'—';
+  return s;
 }
 function fmtDayVN(){const d=new Date();return`${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;}
 
 function toast(msg,type='ok'){const t=document.getElementById('toast');t.textContent=msg;t.className='show '+type;setTimeout(()=>{t.className='';},2600);}
 function pick(el,hid,val){el.parentElement.querySelectorAll('.rc').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');document.getElementById(hid).value=val;}
+
 function openMod(id){
   if(id==='mCN'){
-    document.getElementById('cn_vt').value='';
-    document.getElementById('cn_nd').value='';
-    document.getElementById('cn_tt').value='';
-    document.getElementById('cn_gc').value='';
+    document.getElementById('cn_vt').value='';document.getElementById('cn_nd').value='';
+    document.getElementById('cn_tt').value='';document.getElementById('cn_gc').value='';
     document.querySelectorAll('#mCN .rc').forEach(b=>b.classList.remove('sel'));
   }
   if(id==='mHM'){
-    document.getElementById('hm_hm').value='';
-    document.getElementById('hm_nd').value='';
-    document.getElementById('hm_tt').value='';
-    document.getElementById('hm_bd').value=today();
-    document.getElementById('hm_kt').value='';
-    document.getElementById('hm_gc').value='';
+    document.getElementById('hm_hm').value='';document.getElementById('hm_nd').value='';
+    document.getElementById('hm_tt').value='';document.getElementById('hm_bd').value=today();
+    document.getElementById('hm_kt').value='';document.getElementById('hm_gc').value='';
     document.querySelectorAll('#mHM .rc').forEach(b=>b.classList.remove('sel'));
   }
   if(id==='mSC'){
-    document.getElementById('sc_hm').value='';
-    document.getElementById('sc_nd').value='';
-    document.getElementById('sc_tt').value='';
-    document.getElementById('sc_gc').value='';
+    document.getElementById('sc_hm').value='';document.getElementById('sc_nd').value='';
+    document.getElementById('sc_tt').value='';document.getElementById('sc_gc').value='';
     document.querySelectorAll('#mSC .rc').forEach(b=>b.classList.remove('sel'));
   }
   if(id==='mDK'){
-    document.getElementById('dk_hm').value='';
-    document.getElementById('dk_tang').value='';
-    document.getElementById('dk_nd').value='';
-    document.getElementById('dk_tt').value='';
+    document.getElementById('dk_hm').value='';document.getElementById('dk_tang').value='';
+    document.getElementById('dk_nd').value='';document.getElementById('dk_tt').value='';
     document.getElementById('dk_gc').value='';
     document.querySelectorAll('#mDK .rc').forEach(b=>b.classList.remove('sel'));
   }
   if(id==='mMP'){
-    document.getElementById('mp_tg').value='';
-    document.getElementById('mp_tt').value='';
-    document.getElementById('mp_da').value='';
-    document.getElementById('mp_aq').value='';
-    document.getElementById('mp_mp').value='';
-    document.getElementById('mp_dau').value='';
+    document.getElementById('mp_tg').value='';document.getElementById('mp_tt').value='';
+    document.getElementById('mp_da').value='';document.getElementById('mp_aq').value='';
+    document.getElementById('mp_mp').value='';document.getElementById('mp_dau').value='';
     document.getElementById('mp_gc').value='';
     document.querySelectorAll('#mMP .rc').forEach(b=>b.classList.remove('sel'));
   }
@@ -672,7 +613,7 @@ function scls(s){
 }
 function pill(s){if(!s)return'<span class="pill gray">—</span>';const c=scls(s)||'gray';return`<span class="pill ${c}"><span class="pd"></span>${s}</span>`;}
 function empty(msg){return`<div class="empty"><div class="ei">📭</div><div class="et">${msg}</div></div>`;}
-function ld(){return`<div class="ld"><div class="spin"></div>Đang tải...</div>`;}
+function ld(){return`<div class="ld"><div class="spin"></div>Đang tải dữ liệu...</div>`;}
 
 // LOGIN
 async function doLogin(){
@@ -726,9 +667,7 @@ function initApp(){
 // ══ DASHBOARD ══
 async function loadDashboard(){
   const d=cleanDateStr(today());
-  // Load stats & previews in parallel
   try{
-    // JSONP không hỗ trợ parallel tốt — load tuần tự để tránh race condition
     const rCN=await callGAS({action:'getLog',sheet:'Log_CheckNgay',from:d,to:d});
     const rHM=await callGAS({action:'getLog',sheet:'Log_HangMuc'});
     const rMP=await callGAS({action:'getLog',sheet:'Log_MayPhatDien',from:d,to:d});
@@ -738,7 +677,6 @@ async function loadDashboard(){
     const mp=normArr(rMP.success?rMP.data:[]);
     const pc=normArr(rPC.success?rPC.data:[]);
 
-    // Stats — dùng fld() để đọc an toàn, so sánh case-insensitive
     const cnOk=cn.filter(r=>{const t=fld(r,'TinhTrang','tinhtrang');return t.toLowerCase().includes('bình thường')||t.toLowerCase().includes('binh thuong');}).length;
     const cnFault=cn.filter(r=>{const t=fld(r,'TinhTrang','tinhtrang');return t.toLowerCase().includes('lỗi')||t.toLowerCase().includes('loi');}).length;
     const hmPending=hm.filter(r=>{const t=fld(r,'TrangThai','trangthai');const tl=t.toLowerCase();return tl.includes('chờ')||tl.includes('cho')||tl.includes('đang làm')||tl.includes('dang lam');}).length;
@@ -750,23 +688,19 @@ async function loadDashboard(){
       <div class="stat-card ok"><div class="stat-num">${mp.length}</div><div class="stat-label">Log máy phát hôm nay</div></div>
       <div class="stat-card ${pc.length>0?'ok':'fault'}"><div class="stat-num">${pc.length}</div><div class="stat-label">PCCC hôm nay</div></div>`;
 
-    // Preview: Check Ngày (max 4)
     const elCN=document.getElementById('dash-checkNgay');
     if(!cn.length){elCN.innerHTML=empty('Chưa có kiểm tra nào hôm nay');}
     else{elCN.innerHTML=`<div class="cgrid">${cn.slice(-4).reverse().map(r=>cardCN(r)).join('')}</div>`;}
 
-    // Preview: Hạng Mục đang tồn (max 4)
     const elHM=document.getElementById('dash-hangMuc');
-    const hmActive=hm.filter(r=>r.TrangThai!=='Hoàn thành').slice(-4).reverse();
+    const hmActive=hm.filter(r=>fld(r,'TrangThai','trangthai')!=='Hoàn thành').slice(-4).reverse();
     if(!hmActive.length){elHM.innerHTML=empty('Không có hạng mục nào đang tồn');}
     else{elHM.innerHTML=`<div class="cgrid">${hmActive.map(r=>cardHM(r)).join('')}</div>`;}
 
-    // Preview: Máy Phát
     const elMP=document.getElementById('dash-mayPhat');
     if(!mp.length){elMP.innerHTML=empty('Chưa có log máy phát hôm nay');}
     else{elMP.innerHTML=`<div class="cgrid">${mp.slice(-2).reverse().map(r=>cardMP(r)).join('')}</div>`;}
 
-    // Preview: PCCC
     const elPC=document.getElementById('dash-pccc');
     if(!pc.length){elPC.innerHTML=empty('Chưa có kiểm tra PCCC hôm nay');}
     else{elPC.innerHTML=`<div class="cgrid">${pc.slice(-2).reverse().map(r=>cardPC(r)).join('')}</div>`;}
@@ -786,7 +720,6 @@ function cardCN(r){
   const manv=fld(r,'MaNV','manv')||'—';
   const ngay=fld(r,'Ngay','ngay');
   const tg=fld(r,'ThoiGian','thoigian');
-  const gc=fld(r,'GhiChu','ghichu');
   return`<div class="card ${cls}"><div class="ci">
     <div class="czl">Khu vực / Hạng mục kiểm tra</div>
     <div class="cz">${vt}</div>
@@ -797,20 +730,19 @@ function cardCN(r){
       <div><div class="cml">Ngày hoàn thiện</div><div class="cmv">📅 ${fmtD(ngay)}</div></div>
     </div>
     <div class="csla">
-      <div class="si ${tt.includes('lỗi')||tt.includes('loi')?'w':'g'}">Tình trạng: <span>${tt||'—'}</span></div>
-      <div class="si">Giờ: <span>${tg.split(' ')[0]||'—'}</span></div>
+      <div class="si ${tt.toLowerCase().includes('lỗi')?'w':'g'}">Tình trạng: <span>${tt||'—'}</span></div>
+      <div class="si">Giờ: <span>${tg?tg.split(' ')[0]:'—'}</span></div>
     </div>
-    <div class="cft"><div class="cnote">${gc?'Ghi chú: '+gc:''}</div>${pill(tt)}</div>
+    <div class="cft">${pill(tt)}</div>
   </div></div>`;
 }
 function cardHM(r){
   const tt=fld(r,'TrangThai','trangthai');
   const ttl=tt.toLowerCase();
-  const cls=ttl.includes('hoàn thành')||ttl.includes('hoan thanh')?'ok':ttl.includes('đang làm')||ttl.includes('dang lam')?'inprog':'pending';
+  const cls=ttl.includes('hoàn thành')?'ok':ttl.includes('đang làm')?'inprog':'pending';
   const hm=fld(r,'HangMuc','hangmuc')||'—';
   const nd=fld(r,'NoiDung','noidung','NoiDungCongViec','noidungcongviec')||'—';
   const ht=fld(r,'HoTen','hoten')||'—';
-  const manv=fld(r,'MaNV','manv')||'—';
   const bd=fld(r,'NgayBatDau','ngaybatdau');
   const kt=fld(r,'NgayKetThuc','ngayketthuc');
   const gc=fld(r,'GhiChu','ghichu');
@@ -820,7 +752,7 @@ function cardHM(r){
     <div class="ctl">Nội dung công việc</div>
     <div class="ct">${nd}</div>
     <div class="cmg">
-      <div><div class="cml">Nhân viên thực hiện</div><div class="cmv">• ${ht} (${manv})</div></div>
+      <div><div class="cml">Nhân viên thực hiện</div><div class="cmv">• ${ht}</div></div>
       <div><div class="cml">Tiến độ</div><div class="cmv">${pill(tt)}</div></div>
     </div>
     <div class="csla">
@@ -849,8 +781,8 @@ function cardMP(r){
     </div>
     <div class="csla">
       <div class="si">Thời gian chạy: <span>${tgc}</span></div>
-      <div class="si ${acq.includes('thay')?'w':''}">Acquy: <span>${acq}</span></div>
-      <div class="si ${dau.includes('thay')||dau.includes('châm')?'w':'g'}">Dầu: <span>${dau}</span></div>
+      <div class="si ${acq.toLowerCase().includes('thay')?'w':''}">Acquy: <span>${acq}</span></div>
+      <div class="si ${dau.toLowerCase().includes('thay')?'w':'g'}">Dầu: <span>${dau}</span></div>
       <div class="si">Điện áp: <span>${da}</span></div>
     </div>
     <div class="cft"><div class="cnote">${gc?'Ghi chú: '+gc:''}</div>${pill(tt)}</div>
@@ -888,11 +820,6 @@ async function loadCheckNgay(){
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_CheckNgay',from:d,to:d});
     let data=normArr(r.success?r.data:[]);
-    if(data.length===0&&r.success&&r.data&&r.data.length>0){
-      data=normArr(r.data).filter(row=>{const n=fld(row,'Ngay','ngay');return cleanDateStr(n)===d;});
-    } else {
-      data=data.filter(row=>{const n=fld(row,'Ngay','ngay');return!n||cleanDateStr(n)===d;});
-    }
     const el=document.getElementById('cnContent');
     el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra nào ngày ${fmtD(d)}`);return;}
@@ -921,7 +848,7 @@ function renderHM(){
   const el=document.getElementById('hmContent');
   let data=hmData;
   if(hmFilter!=='all')data=data.filter(r=>{
-    const tt=fld(r,'TrangThai','trangthai','Trangthai')||'';
+    const tt=fld(r,'TrangThai','trangthai')||'';
     return tt.toLowerCase().trim()===hmFilter.toLowerCase().trim();
   });
   if(!data.length){el.innerHTML=empty('Không có hạng mục nào');return;}
@@ -943,11 +870,6 @@ async function loadSC(){
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_SuaChuaPhong',from:d,to:d});
     let data=normArr(r.success?r.data:[]);
-    if(data.length===0&&r.success&&r.data&&r.data.length>0){
-      data=normArr(r.data).filter(row=>{const n=fld(row,'Ngay','ngay');return cleanDateStr(n)===d;});
-    } else {
-      data=data.filter(row=>{const n=fld(row,'Ngay','ngay');return!n||cleanDateStr(n)===d;});
-    }
     const el=document.getElementById('scContent');
     el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có phiếu sửa chữa ngày ${fmtD(d)}`);return;}
@@ -980,12 +902,6 @@ async function loadDK(){
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_DinhKy',from:d,to:d});
     let data=normArr(r.success?r.data:[]);
-    // Client-side filter dự phòng nếu server filter bị lệch ngày
-    if(data.length===0&&r.success&&r.data&&r.data.length>0){
-      data=normArr(r.data).filter(row=>{const n=fld(row,'Ngay','ngay');return cleanDateStr(n)===d;});
-    } else {
-      data=data.filter(row=>{const n=fld(row,'Ngay','ngay');return!n||cleanDateStr(n)===d;});
-    }
     const el=document.getElementById('dkContent');
     el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra định kỳ ngày ${fmtD(d)}`);return;}
@@ -1020,11 +936,6 @@ async function loadMP(){
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_MayPhatDien',from:d,to:d});
     let data=normArr(r.success?r.data:[]);
-    if(data.length===0&&r.success&&r.data&&r.data.length>0){
-      data=normArr(r.data).filter(row=>{const n=fld(row,'Ngay','ngay');return cleanDateStr(n)===d;});
-    } else {
-      data=data.filter(row=>{const n=fld(row,'Ngay','ngay');return!n||cleanDateStr(n)===d;});
-    }
     const el=document.getElementById('mpContent');
     el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có log máy phát ngày ${fmtD(d)}`);return;}
@@ -1048,11 +959,6 @@ async function loadPCCC(){
   try{
     const r=await callGAS({action:'getLog',sheet:'Log_PCCC',from:d,to:d});
     let data=normArr(r.success?r.data:[]);
-    if(data.length===0&&r.success&&r.data&&r.data.length>0){
-      data=normArr(r.data).filter(row=>{const n=fld(row,'Ngay','ngay');return cleanDateStr(n)===d;});
-    } else {
-      data=data.filter(row=>{const n=fld(row,'Ngay','ngay');return!n||cleanDateStr(n)===d;});
-    }
     const el=document.getElementById('pcccContent');
     el.innerHTML='';
     if(!data.length){el.innerHTML=empty(`Chưa có kiểm tra PCCC ngày ${fmtD(d)}`);return;}
