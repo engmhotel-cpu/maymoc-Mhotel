@@ -214,6 +214,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 </head>
 <body>
 
+<!-- LOGIN -->
 <div id="loginScreen">
   <div class="lw">
     <div class="lb">
@@ -230,6 +231,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   </div>
 </div>
 
+<!-- APP -->
 <div id="appShell">
   <div class="topbar">
     <div class="tl">
@@ -257,6 +259,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
   <div class="content">
 
+    <!-- DASHBOARD -->
     <div class="tpanel active" id="tab-dashboard">
       <div class="dash-welcome">
         <div class="dw-sub">Chào mừng trở lại</div>
@@ -284,6 +287,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       </div>
     </div>
 
+    <!-- CHECK NGÀY -->
     <div class="tpanel" id="tab-checkNgay">
       <div class="crow">
         <div class="diw"><label>Ngày</label><input type="date" id="dateCheckNgay"/></div>
@@ -293,6 +297,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div id="cnContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
+    <!-- HẠNG MỤC -->
     <div class="tpanel" id="tab-hangMuc">
       <div class="crow">
         <div class="frow" style="margin:0;flex:1">
@@ -306,6 +311,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div id="hmContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
+    <!-- SỬA CHỮA -->
     <div class="tpanel" id="tab-suaChua">
       <div class="crow">
         <div class="diw"><label>Ngày</label><input type="date" id="dateSC"/></div>
@@ -315,6 +321,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div id="scContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
+    <!-- ĐỊNH KỲ -->
     <div class="tpanel" id="tab-dinhKy">
       <div class="crow">
         <div class="diw"><label>Ngày</label><input type="date" id="dateDK"/></div>
@@ -324,6 +331,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div id="dkContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
+    <!-- MÁY PHÁT -->
     <div class="tpanel" id="tab-mayPhat">
       <div class="crow">
         <div class="diw"><label>Ngày</label><input type="date" id="dateMP"/></div>
@@ -334,6 +342,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div id="mpContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
     </div>
 
+    <!-- PCCC -->
     <div class="tpanel" id="tab-pccc">
       <div class="crow">
         <div class="diw"><label>Ngày</label><input type="date" id="datePCCC"/></div>
@@ -347,6 +356,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   </div>
 </div>
 
+<!-- MODALS -->
 <div class="ov" id="mCN">
   <div class="modal">
     <div class="mhd"><div class="mtitle">📋 Ghi Nhận Kiểm Tra</div><button class="mclose" onclick="closeMod('mCN')">✕</button></div>
@@ -480,15 +490,15 @@ const PCCC_ITEMS=['Đầu Vòi','Cuộn Dây','Bình PCCC','Đèn Exit','Đèn S
 const DAYS=['CN','T2','T3','T4','T5','T6','T7'];
 const MONTHS=['tháng 1','tháng 2','tháng 3','tháng 4','tháng 5','tháng 6','tháng 7','tháng 8','tháng 9','tháng 10','tháng 11','tháng 12'];
 
-function callGAS(p){
+function callGAS(p) {
   return new Promise((res,rej)=>{
     const cb='_cb'+(++_ci);p.callback=cb;
     const qs=Object.entries(p).map(([k,v])=>encodeURIComponent(k)+'='+encodeURIComponent(v)).join('&');
     const s=document.createElement('script');s.src=GAS+'?'+qs;
     const t=setTimeout(()=>{clean();rej(new Error('Timeout'));},15000);
-    window[cb]=d=>{clean();res(d);};
-    function clean(){clearTimeout(t);delete window[cb];s.parentNode&&s.parentNode.removeChild(s);}
-    s.onerror=()=>{clean();rej(new Error('Lỗi mạng'));};
+    window[cb]=d=>{clearTimeout(t);clean();res(d);};
+    function clean(){delete window[cb];s.parentNode&&s.parentNode.removeChild(s);}
+    s.onerror=()=>{clearTimeout(t);clean();rej(new Error('Lỗi mạng'));};
     document.head.appendChild(s);
   });
 }
@@ -504,13 +514,10 @@ function norm(obj){
 }
 function normArr(arr){return Array.isArray(arr)?arr.map(norm):[];}
 
-// HÀM CHUẨN HÓA ĐỊNH DẠNG NGÀY ĐỐI CHIẾU FRONTEND TUYỆT ĐỐI
 function cleanDateStr(str) {
   if (!str) return '';
   let s = String(str).trim();
   if (s.includes(' ')) s = s.split(' ')[0];
-  
-  // Xử lý dấu gạch chéo DD/MM/YYYY hoặc MM/DD/YYYY thành YYYY-MM-DD
   if (s.includes('/')) {
     let p = s.split('/');
     if (p.length === 3) {
@@ -663,7 +670,6 @@ async function loadDashboard(){
     const mpFull=normArr(rMP.success?rMP.data:[]);
     const pcFull=normArr(rPC.success?rPC.data:[]);
 
-    // Lọc theo ngày hôm nay trên Dashboard
     const cn = cnFull.filter(r => cleanDateStr(fld(r,'Ngay','ngay')) === d);
     const mp = mpFull.filter(r => cleanDateStr(fld(r,'Ngay','ngay')) === d);
     const pc = pcFull.filter(r => cleanDateStr(fld(r,'Ngay','ngay')) === d);
@@ -702,7 +708,7 @@ async function loadDashboard(){
   }
 }
 
-// ══ CARD BUILDERS ══
+// ══ CARD BUILDERS (AN TOÀN TUYỆT ĐỐI) ══
 function cardCN(r){
   const tt=fld(r,'TinhTrang','tinhtrang');
   const cls=scls(tt);
@@ -711,7 +717,8 @@ function cardCN(r){
   const ht=fld(r,'HoTen','hoten')||'—';
   const manv=fld(r,'MaNV','manv')||'—';
   const ngay=fld(r,'Ngay','ngay');
-  const tg=fld(r,'ThoiGian','thoigian');
+  const rawTg=fld(r,'ThoiGian','thoigian');
+  const tg=rawTg ? String(rawTg).split(' ')[0] : '—';
   const gc=fld(r,'GhiChu','ghichu');
   return`<div class="card ${cls}"><div class="ci">
     <div class="czl">Khu vực / Hạng mục kiểm tra</div>
@@ -724,7 +731,7 @@ function cardCN(r){
     </div>
     <div class="csla">
       <div class="si ${tt.toLowerCase().includes('lỗi')||tt.toLowerCase().includes('loi')?'w':'g'}">Tình trạng: <span>${tt||'—'}</span></div>
-      <div class="si">Giờ: <span>${tg ? tg.split(' ')[0] : '—'}</span></div>
+      <div class="si">Giờ: <span>${tg}</span></div>
     </div>
     <div class="cft"><div class="cnote">${gc?'Ghi chú: '+gc:''}</div>${pill(tt)}</div>
   </div></div>`;
@@ -1061,8 +1068,20 @@ async function exportCSV(sheet,prefix){
   }catch(e){toast('Lỗi xuất file','err');}
 }
 
+// ĐOẠN DEBUG TEST KẾT NỐI AN TOÀN
+async function debugData() {
+    try {
+        const r = await callGAS({action:'getLog',sheet:'Log_SuaChuaPhong'});
+        if(!r.success) alert("Lỗi từ Google Script: " + (r.msg || "Không rõ"));
+        else alert("Đã nhận được " + r.data.length + " dòng dữ liệu lịch sử!");
+    } catch(e) {
+        alert("Lỗi kết nối: " + e.message);
+    }
+}
+
 window.addEventListener('online',()=>document.getElementById('netLabel').textContent='Online');
 window.addEventListener('offline',()=>document.getElementById('netLabel').textContent='Offline');
 </script>
+<button onclick="debugData()" style="position:fixed; bottom:10px; left:10px; z-index:9999; background: #008B7B; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; font-size: 11px; cursor: pointer;">Test Dữ Liệu Thô</button>
 </body>
 </html>
