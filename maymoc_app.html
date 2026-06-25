@@ -338,9 +338,9 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 
   <div class="tabbar">
     <div class="tbtn active" data-tab="dashboard">🏠 Tổng Quan</div>
-    <div class="tbtn" data-tab="dinhky">📋 Định Kỳ</div>
-    <div class="tbtn" data-tab="suachua">🔧 Sửa Chữa</div>
-    <div class="tbtn" data-tab="hethong">⚡ Hệ Thống</div>
+    <div class="tbtn" data-tab="dinhky">📋 Sửa Chữa</div>
+    <div class="tbtn" data-tab="suachua">🔧 Checklist</div>
+    <div class="tbtn" data-tab="hethong">⚡ Định Kỳ</div>
   </div>
 
   <div class="content">
@@ -416,7 +416,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 <!-- MODALS: FORM INPUT -->
 <div class="ov" id="mDK">
   <div class="modal">
-    <div class="mhd"><div class="mtitle">📋 Thêm Kiểm Tra Định Kỳ</div><button class="mclose" onclick="closeMod('mDK')">✕</button></div>
+    <div class="mhd"><div class="mtitle">📋 Thêm Sửa Chữa</div><button class="mclose" onclick="closeMod('mDK')">✕</button></div>
     <div class="mbody">
       <div class="field"><label>Vị trí</label><input id="dk_vitri" placeholder="VD: Tầng 2, Phòng 201..."/></div>
       <div class="field"><label>Hạng mục</label>
@@ -446,7 +446,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 
 <div class="ov" id="mSC">
   <div class="modal">
-    <div class="mhd"><div class="mtitle">🔧 Phiếu Sửa Chữa</div><button class="mclose" onclick="closeMod('mSC')">✕</button></div>
+    <div class="mhd"><div class="mtitle">🔧 Phiếu Checklist</div><button class="mclose" onclick="closeMod('mSC')">✕</button></div>
     <div class="mbody">
       <div class="field"><label>Hạng mục</label><input id="sc_hangmuc" placeholder="VD: Điện, Nước, Máy lạnh..."/></div>
       <div class="field"><label>Nội dung công việc</label><textarea id="sc_noidung" placeholder="Mô tả chi tiết sửa chữa..."></textarea></div>
