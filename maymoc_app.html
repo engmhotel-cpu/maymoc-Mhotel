@@ -262,6 +262,35 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 .cbtn-ok{flex:1;padding:10px;border-radius:var(--rs);background:var(--warn);
   border:none;color:#fff;font-weight:700;cursor:pointer;font-size:13px;}
 
+/* STATUS DROPDOWN PILL */
+.pill-btn{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;
+  border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase;
+  cursor:pointer;border:none;font-family:'Inter',sans-serif;
+  position:relative;transition:opacity .15s;}
+.pill-btn:hover{opacity:.8;}
+.pill-btn.ok{background:var(--adim2);color:var(--acc);}
+.pill-btn.err{background:var(--wdim);color:var(--warn);}
+.pill-btn.pnd{background:var(--pdim);color:var(--pnd);}
+.pill-btn.blu{background:var(--bdim);color:var(--blu);}
+.pill-btn.neu{background:var(--sur3);color:var(--mut);}
+.pill-btn::after{content:'▾';margin-left:2px;font-size:9px;opacity:.7;}
+/* Status dropdown menu */
+.stt-menu{display:none;position:absolute;bottom:calc(100% + 6px);left:0;
+  background:var(--sur);border:1px solid var(--brd);border-radius:var(--rs);
+  box-shadow:var(--shm);z-index:300;min-width:150px;overflow:hidden;}
+.stt-menu.open{display:block;}
+.stt-opt{display:flex;align-items:center;gap:8px;padding:9px 14px;
+  font-size:12px;font-weight:500;cursor:pointer;color:var(--txt);
+  border-bottom:1px solid var(--brd);transition:background .15s;}
+.stt-opt:last-child{border-bottom:none;}
+.stt-opt:hover{background:var(--sur2);}
+.stt-opt .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.stt-opt .dot.ok{background:var(--acc);}
+.stt-opt .dot.err{background:var(--warn);}
+.stt-opt .dot.pnd{background:var(--pnd);}
+.stt-opt .dot.blu{background:var(--blu);}
+.pill-wrap{position:relative;display:inline-block;}
+
 /* TOAST */
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(16px);
   background:var(--txt);color:#fff;padding:10px 18px;border-radius:30px;
@@ -656,19 +685,57 @@ function normArr(arr) {
 }
 
 // ── STATUS HELPERS ────────────────────────────────────
+// Chuẩn hóa status string để so sánh
+function normStatus(s) { return String(s||'').trim().toLowerCase(); }
+
+// Exact match trước, fuzzy sau
 function scls(s) {
   if (!s) return '';
-  const sl = s.toLowerCase().trim();
+  const sl = normStatus(s);
+  if (sl === 'đã kiểm tra' || sl === 'đã sửa')  return 'ok';
+  if (sl === 'cần theo dõi')                      return 'pnd';
+  if (sl === 'sửa chữa')                          return 'err';
+  // fuzzy fallback
   if (sl.includes('đã kiểm tra') || sl.includes('đã sửa')) return 'ok';
-  if (sl.includes('cần theo dõi')) return 'pnd';
-  if (sl.includes('sửa chữa')) return 'err';
+  if (sl.includes('cần theo dõi'))                          return 'pnd';
+  if (sl.includes('sửa chữa'))                              return 'err';
   return 'neu';
 }
+
+// Danh sách trạng thái hợp lệ
+const STATUS_OPTIONS = [
+  { val:'Đã kiểm tra', cls:'ok',  dot:'ok',  label:'✓ Đã kiểm tra' },
+  { val:'Đã sửa',      cls:'ok',  dot:'ok',  label:'✓ Đã sửa'      },
+  { val:'Sửa chữa',    cls:'err', dot:'err', label:'🔧 Sửa chữa'   },
+  { val:'Cần theo dõi',cls:'pnd', dot:'pnd', label:'⚑ Cần theo dõi'},
+];
+
+// pill tĩnh (không click)
 function pill(s) {
   if (!s) return '<span class="pill neu">—</span>';
   const c = scls(s) || 'neu';
   const pulse = c === 'pnd' ? ' pulse' : '';
   return `<span class="pill ${c}"><span class="pdot${pulse}"></span>${s}</span>`;
+}
+
+// pill có thể click để đổi trạng thái
+function pillBtn(s, sheetName, row, refreshFn) {
+  const ri  = row['_rowIndex'] || 0;
+  const sig = (row['ThoiGian'] || '').replace(/'/g,"\'");
+  const c   = scls(s) || 'neu';
+  const mid = `stt_${ri}_${Date.now()}`;
+  const opts = STATUS_OPTIONS.map(o =>
+    `<div class="stt-opt" onclick="event.stopPropagation();doUpdateStatus(
+      '${sheetName}',${ri},'${sig}','${o.val}','${refreshFn}','${mid}')">
+      <span class="dot ${o.dot}"></span>${o.label}
+    </div>`).join('');
+  return `<span class="pill-wrap">
+    <button class="pill-btn ${c}" id="pb_${mid}"
+      onclick="event.stopPropagation();toggleSttMenu('${mid}')">
+      <span class="pdot${c==='pnd'?' pulse':''}"></span>${s||'—'}
+    </button>
+    <div class="stt-menu" id="${mid}">${opts}</div>
+  </span>`;
 }
 function empty(msg) {
   return `<div class="empty"><div class="ei">📭</div><div class="et">${msg}</div></div>`;
@@ -773,7 +840,7 @@ function cardCN(r, refreshFn) {
       </div>
       <div class="cft">
         <div class="cnote">${gc ? 'Ghi chú: ' + gc : ''}</div>
-        ${pill(tt)}
+        ${pillBtn(tt,'Log_CheckNgay',r,rf)}
       </div>
     </div>
   </div>`;
@@ -801,7 +868,7 @@ function cardSC(r) {
       </div>
       <div class="cft">
         <div class="cnote">${gc ? 'Ghi chú: ' + gc : ''}</div>
-        ${pill(tt)}
+        ${pillBtn(tt,'Log_SuaChuaPhong',r,'loadSC')}
       </div>
     </div>
   </div>`;
@@ -832,7 +899,7 @@ function cardMP(r) {
       </div>
       <div class="cft">
         <div class="cnote">${gc ? 'Ghi chú: ' + gc : ''}</div>
-        ${pill(tt)}
+        ${pillBtn(tt,'Log_MayPhatDien',r,'loadMP')}
       </div>
     </div>
   </div>`;
@@ -872,10 +939,64 @@ function cardPCCC(r) {
       </div>
       <div class="cft">
         <div class="cnote">${gc ? 'Ghi chú: ' + gc : ''}</div>
-        ${pill(tt)}
+        ${pillBtn(tt,'Log_PCCC',r,'loadPCCC')}
       </div>
     </div>
   </div>`;
+}
+
+// ── UPDATE STATUS ─────────────────────────────────────
+function toggleSttMenu(mid) {
+  // Đóng tất cả menu khác trước
+  document.querySelectorAll('.stt-menu.open').forEach(m => {
+    if (m.id !== mid) m.classList.remove('open');
+  });
+  document.getElementById(mid).classList.toggle('open');
+}
+// Đóng menu khi click ngoài
+document.addEventListener('click', () => {
+  document.querySelectorAll('.stt-menu.open').forEach(m => m.classList.remove('open'));
+});
+
+async function doUpdateStatus(sheetName, rowIndex, sig, newStatus, refreshFn, mid) {
+  // Đóng dropdown ngay
+  const menu = document.getElementById(mid);
+  if (menu) menu.classList.remove('open');
+
+  // Optimistic UI: cập nhật pill ngay lập tức
+  const pb = document.getElementById('pb_' + mid);
+  if (pb) {
+    const c = scls(newStatus) || 'neu';
+    pb.className = `pill-btn ${c}`;
+    pb.innerHTML = `<span class="pdot${c==='pnd'?' pulse':''}"></span>${newStatus}`;
+  }
+
+  toast('Đang cập nhật...', 'ok');
+  try {
+    const r = await callGAS({
+      action: 'updateStatus',
+      sheet: sheetName,
+      rowIndex: rowIndex,
+      sig: sig,
+      newStatus: newStatus
+    });
+    if (r.success) {
+      toast('✓ Đã đổi → ' + newStatus, 'ok');
+      // Refresh tab tương ứng
+      if (typeof window[refreshFn] === 'function') window[refreshFn]();
+      // Nếu dashboard đang mở, refresh luôn
+      if (document.getElementById('tab-dashboard').classList.contains('active')) {
+        loadDashboard();
+      }
+    } else {
+      toast('Lỗi: ' + (r.msg || 'Không xác định'), 'err');
+      // Revert optimistic UI bằng cách reload
+      if (typeof window[refreshFn] === 'function') window[refreshFn]();
+    }
+  } catch(e) {
+    toast('Lỗi: ' + e.toString(), 'err');
+    if (typeof window[refreshFn] === 'function') window[refreshFn]();
+  }
 }
 
 // ── LOGIN ─────────────────────────────────────────────
@@ -959,14 +1080,16 @@ async function loadDashboard() {
     _dashCNData = normArr(rCN.success ? rCN.data : []);
     _dashSCData = normArr(rSC.success ? rSC.data : []);
 
-    const cnOk  = _dashCNData.filter(r => scls(fld(r,'TinhTrang')) === 'ok').length;
-    const cnErr = _dashCNData.filter(r => {
-      const s = scls(fld(r,'TinhTrang'));
-      return s === 'err' || s === 'pnd';
+    // Dashboard filters — exact match (case-insensitive, trim)
+    const cnOk = _dashCNData.filter(r => {
+      const s = normStatus(fld(r,'TinhTrang'));
+      return s === 'đã kiểm tra' || s === 'đã sửa';
     }).length;
-    const scTon = _dashSCData.filter(r => {
-      const tt = fld(r,'TinhTrang').toLowerCase();
-      return !tt.includes('đã sửa') && !tt.includes('đã kiểm tra');
+    const cnErr = _dashCNData.filter(r => {
+      return normStatus(fld(r,'TinhTrang')) === 'sửa chữa';
+    }).length;
+    const scTon = _dashCNData.filter(r => {
+      return normStatus(fld(r,'TinhTrang')) === 'cần theo dõi';
     }).length;
 
     document.getElementById('statsGrid').innerHTML = `
@@ -1008,19 +1131,19 @@ function showStatDetail(type) {
   let title = '', items = [];
   if (type === 'ok') {
     title = '✅ Hạng Mục OK hôm nay';
-    items = _dashCNData.filter(r => scls(fld(r,'TinhTrang')) === 'ok');
+    items = _dashCNData.filter(r => {
+      const s = normStatus(fld(r,'TinhTrang'));
+      return s === 'đã kiểm tra' || s === 'đã sửa';
+    });
   } else if (type === 'err') {
-    title = '⚠️ Hạng Mục Lỗi / Cần Theo Dõi';
-    items = _dashCNData.filter(r => { const s = scls(fld(r,'TinhTrang')); return s === 'err' || s === 'pnd'; });
+    title = '🔧 Hạng Mục Đang Sửa Chữa';
+    items = _dashCNData.filter(r => normStatus(fld(r,'TinhTrang')) === 'sửa chữa');
   } else if (type === 'all') {
     title = '📋 Tổng Đã Check hôm nay';
     items = _dashCNData;
   } else if (type === 'ton') {
-    title = '🔧 Sửa Phòng Tồn (chưa hoàn thành)';
-    items = _dashSCData.filter(r => {
-      const tt = fld(r,'TinhTrang').toLowerCase();
-      return !tt.includes('đã sửa') && !tt.includes('đã kiểm tra');
-    });
+    title = '⚑ Hạng Mục Cần Theo Dõi';
+    items = _dashCNData.filter(r => normStatus(fld(r,'TinhTrang')) === 'cần theo dõi');
   }
 
   document.getElementById('mDetailTitle').textContent = title;
