@@ -291,6 +291,35 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 .stt-opt .dot.blu{background:var(--blu);}
 .pill-wrap{position:relative;display:inline-block;}
 
+/* DASHBOARD SECTIONS */
+.dash-section-title{
+  display:flex;align-items:center;justify-content:space-between;
+  margin:20px 0 10px;
+}
+.dash-section-title h3{
+  font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;
+  color:var(--blu);text-transform:uppercase;letter-spacing:.5px;
+  display:flex;align-items:center;gap:7px;
+}
+.dash-section-title h3 .stag{
+  font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;
+  background:var(--wdim);color:var(--warn);letter-spacing:.5px;
+}
+.dash-section-title h3 .stag.ok{background:var(--adim2);color:var(--acc);}
+.ton-banner{
+  background:linear-gradient(135deg,#FEF2F2 0%,#FFF7ED 100%);
+  border:1.5px solid #FCA5A5;border-radius:var(--r);
+  padding:12px 16px;margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;
+}
+.ton-banner .tb-icon{font-size:22px;}
+.ton-banner .tb-text{font-size:12px;color:#991B1B;font-weight:500;line-height:1.5;}
+.ton-banner .tb-text strong{display:block;font-size:13px;color:#7F1D1D;}
+.empty-ok{text-align:center;padding:20px;background:var(--adim);
+  border-radius:var(--r);border:1px solid rgba(14,159,110,.2);}
+.empty-ok .ei{font-size:28px;margin-bottom:6px;}
+.empty-ok .et{font-size:12px;color:var(--acc);font-weight:500;}
+
 /* TOAST */
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(16px);
   background:var(--txt);color:#fff;padding:10px 18px;border-radius:30px;
@@ -352,12 +381,23 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
         <div class="dw-name" id="dwName">—</div>
         <div class="dw-date" id="dwDate">—</div>
       </div>
-      <div class="stats-grid" id="statsGrid">
+      <!-- SECTION 1: TỒN ĐỌNG HỆ THỐNG (không giới hạn ngày) -->
+      <div class="dash-section-title">
+        <h3>🚨 TỒN ĐỌNG HỆ THỐNG <span class="stag" id="tonBadge">...</span></h3>
+      </div>
+      <div id="tonBanner"></div>
+      <div class="stats-grid" id="tonGrid">
         <div class="ld" style="grid-column:1/-1"><div class="spin"></div>Đang tải...</div>
       </div>
-      <div class="dash-sh">
-        <h3>📋 Kiểm Tra Hôm Nay (10 mới nhất)</h3>
-        <button class="bsm bexp" onclick="exportDashCSV()">⬇ Xuất CSV</button>
+      <div id="tonList"><div class="ld"><div class="spin"></div></div></div>
+
+      <!-- SECTION 2: HOẠT ĐỘNG HÔM NAY -->
+      <div class="dash-section-title" style="margin-top:24px">
+        <h3>✅ HOẠT ĐỘNG HÔM NAY <span class="stag ok" id="todayBadge">...</span></h3>
+        <button class="bsm bexp" onclick="exportDashCSV()">⬇ CSV</button>
+      </div>
+      <div class="stats-grid" id="statsGrid">
+        <div class="ld" style="grid-column:1/-1"><div class="spin"></div>Đang tải...</div>
       </div>
       <div id="dashCheckList"><div class="ld"><div class="spin"></div></div></div>
     </div>
@@ -559,6 +599,8 @@ const GAS = 'https://script.google.com/macros/s/AKfycbwKIWgB-MedjJKKEED--9JxLOqV
 let user = null, _ci = 0, isSaving = false;
 let _pendingConfirm = null; // callback cho confirm dialog
 let _dashCNData = [], _dashSCData = []; // cache cho dashboard
+// Cache TOÀN BỘ pending (không giới hạn ngày)
+let _allPendingCN = [], _allPendingSC = [];
 const DAYS   = ['CN','T2','T3','T4','T5','T6','T7'];
 const MONTHS = ['tháng 1','tháng 2','tháng 3','tháng 4','tháng 5','tháng 6',
                 'tháng 7','tháng 8','tháng 9','tháng 10','tháng 11','tháng 12'];
@@ -1070,56 +1112,122 @@ function initApp() {
 // ── DASHBOARD ─────────────────────────────────────────
 async function loadDashboard() {
   const d = today();
-  document.getElementById('statsGrid').innerHTML = `<div class="ld" style="grid-column:1/-1"><div class="spin"></div>Đang tải...</div>`;
+
+  // Reset UI
+  ['tonGrid','statsGrid'].forEach(id => {
+    document.getElementById(id).innerHTML =
+      `<div class="ld" style="grid-column:1/-1"><div class="spin"></div>Đang tải...</div>`;
+  });
+  document.getElementById('tonList').innerHTML = ld();
+  document.getElementById('tonBanner').innerHTML = '';
   document.getElementById('dashCheckList').innerHTML = ld();
+
   try {
-    const [rCN, rSC] = await Promise.all([
+    // Load song song:
+    // 1. Log_CheckNgay TOÀN BỘ (không lọc ngày) → tìm pending tích lũy
+    // 2. Log_CheckNgay HÔM NAY → hoạt động hôm nay
+    // 3. Log_SuaChuaPhong TOÀN BỘ → pending sửa chữa tích lũy
+    const [rCNAll, rCNToday, rSCAll] = await Promise.all([
+      callGAS({ action:'getLog', sheet:'Log_CheckNgay' }),
       callGAS({ action:'getLog', sheet:'Log_CheckNgay', from:d, to:d }),
       callGAS({ action:'getLog', sheet:'Log_SuaChuaPhong' })
     ]);
-    _dashCNData = normArr(rCN.success ? rCN.data : []);
-    _dashSCData = normArr(rSC.success ? rSC.data : []);
 
-    // Dashboard filters — exact match (case-insensitive, trim)
-    const cnOk = _dashCNData.filter(r => {
+    const cnAll   = normArr(rCNAll.success   ? rCNAll.data   : []);
+    _dashCNData   = normArr(rCNToday.success ? rCNToday.data : []);
+    _dashSCData   = normArr(rSCAll.success   ? rSCAll.data   : []);
+
+    // ── SECTION 1: TỒN ĐỌNG (toàn lịch sử, chưa hoàn thành) ──
+    // Pending từ Log_CheckNgay: Sửa chữa + Cần theo dõi
+    _allPendingCN = cnAll.filter(r => {
+      const s = normStatus(fld(r,'TinhTrang'));
+      return s === 'sửa chữa' || s === 'cần theo dõi';
+    });
+    // Pending từ Log_SuaChuaPhong: chưa Đã sửa / Đã kiểm tra
+    _allPendingSC = _dashSCData.filter(r => {
+      const s = normStatus(fld(r,'TinhTrang'));
+      return s !== 'đã sửa' && s !== 'đã kiểm tra';
+    });
+
+    const totalPending = _allPendingCN.length + _allPendingSC.length;
+    document.getElementById('tonBadge').textContent = totalPending + ' mục';
+
+    // Banner cảnh báo nếu có tồn đọng
+    document.getElementById('tonBanner').innerHTML = totalPending > 0
+      ? `<div class="ton-banner">
+          <div class="tb-icon">⚠️</div>
+          <div class="tb-text">
+            <strong>Có ${totalPending} hạng mục chưa hoàn thành!</strong>
+            Bao gồm các mục từ nhiều ngày trước chưa được xử lý. Vui lòng kiểm tra và cập nhật.
+          </div>
+        </div>`
+      : `<div class="empty-ok"><div class="ei">🎉</div><div class="et">Không có tồn đọng — Hệ thống hoạt động bình thường!</div></div>`;
+
+    // Stat cards tồn đọng
+    const cnPnd  = _allPendingCN.filter(r => normStatus(fld(r,'TinhTrang')) === 'cần theo dõi').length;
+    const cnErr2 = _allPendingCN.filter(r => normStatus(fld(r,'TinhTrang')) === 'sửa chữa').length;
+    const scPnd  = _allPendingSC.length;
+
+    document.getElementById('tonGrid').innerHTML = `
+      <div class="scard err" onclick="showStatDetail('ton_err')">
+        <div class="snum">${cnErr2}</div>
+        <div class="slabel">Đang Sửa Chữa</div>
+        <div class="scard-hint">Tồn từ mọi ngày · Nhấn xem</div>
+      </div>
+      <div class="scard pnd" onclick="showStatDetail('ton_pnd')">
+        <div class="snum">${cnPnd}</div>
+        <div class="slabel">Cần Theo Dõi</div>
+        <div class="scard-hint">Tồn từ mọi ngày · Nhấn xem</div>
+      </div>
+      <div class="scard pnd" onclick="showStatDetail('ton_sc')">
+        <div class="snum">${scPnd}</div>
+        <div class="slabel">Sửa Phòng Tồn</div>
+        <div class="scard-hint">Chưa hoàn thành · Nhấn xem</div>
+      </div>`;
+
+    // Danh sách tồn đọng (tối đa 6 card, click "xem thêm" → mở modal)
+    const tonEl = document.getElementById('tonList');
+    if (!_allPendingCN.length && !_allPendingSC.length) {
+      tonEl.innerHTML = '';
+    } else {
+      const allTon = [..._allPendingCN, ..._allPendingSC].slice(0,6);
+      tonEl.innerHTML = `<div class="cgrid">${allTon.map(r =>
+        _allPendingCN.includes(r) ? cardCN(r,'loadDashboard') : cardSC(r)
+      ).join('')}</div>`;
+    }
+
+    // ── SECTION 2: HOẠT ĐỘNG HÔM NAY ──
+    const cnOk  = _dashCNData.filter(r => {
       const s = normStatus(fld(r,'TinhTrang'));
       return s === 'đã kiểm tra' || s === 'đã sửa';
     }).length;
-    const cnErr = _dashCNData.filter(r => {
-      return normStatus(fld(r,'TinhTrang')) === 'sửa chữa';
-    }).length;
-    const scTon = _dashCNData.filter(r => {
-      return normStatus(fld(r,'TinhTrang')) === 'cần theo dõi';
-    }).length;
+    const cnTot = _dashCNData.length;
+    document.getElementById('todayBadge').textContent = cnOk + '/' + cnTot + ' hoàn thành';
 
     document.getElementById('statsGrid').innerHTML = `
       <div class="scard ok" onclick="showStatDetail('ok')">
         <div class="snum">${cnOk}</div>
-        <div class="slabel">Hạng Mục OK</div>
-        <div class="scard-hint">Nhấn để xem chi tiết</div>
-      </div>
-      <div class="scard err" onclick="showStatDetail('err')">
-        <div class="snum">${cnErr}</div>
-        <div class="slabel">Hạng Mục Lỗi</div>
-        <div class="scard-hint">Nhấn để xem chi tiết</div>
+        <div class="slabel">Hoàn Thành</div>
+        <div class="scard-hint">Hôm nay · Nhấn xem</div>
       </div>
       <div class="scard info" onclick="showStatDetail('all')">
-        <div class="snum">${_dashCNData.length}</div>
-        <div class="slabel">Tổng Đã Check</div>
-        <div class="scard-hint">Nhấn để xem chi tiết</div>
-      </div>
-      <div class="scard pnd" onclick="showStatDetail('ton')">
-        <div class="snum">${scTon}</div>
-        <div class="slabel">Sửa Phòng Tồn</div>
-        <div class="scard-hint">Nhấn để xem chi tiết</div>
+        <div class="snum">${cnTot}</div>
+        <div class="slabel">Tổng Check Hôm Nay</div>
+        <div class="scard-hint">Nhấn để xem tất cả</div>
       </div>`;
 
-    // 10 mới nhất
+    // 10 log hoàn thành/mới nhất hôm nay
     const el = document.getElementById('dashCheckList');
-    if (!_dashCNData.length) { el.innerHTML = empty('Chưa có kiểm tra nào hôm nay'); return; }
-    const recent = _dashCNData.slice(-10).reverse();
-    el.innerHTML = `<div class="cgrid">${recent.map(r => cardCN(r, 'loadDashboard')).join('')}</div>`;
+    if (!_dashCNData.length) {
+      el.innerHTML = empty('Chưa có hoạt động nào hôm nay');
+    } else {
+      const recent = _dashCNData.slice(-10).reverse();
+      el.innerHTML = `<div class="cgrid">${recent.map(r => cardCN(r,'loadDashboard')).join('')}</div>`;
+    }
+
   } catch (e) {
+    document.getElementById('tonGrid').innerHTML =
+      `<div class="et" style="color:var(--warn);padding:12px;grid-column:1/-1">Lỗi: ${e.toString()}</div>`;
     document.getElementById('statsGrid').innerHTML =
       `<div class="et" style="color:var(--warn);padding:12px;grid-column:1/-1">Lỗi: ${e.toString()}</div>`;
     document.getElementById('dashCheckList').innerHTML = empty('Lỗi tải dữ liệu');
@@ -1130,20 +1238,23 @@ async function loadDashboard() {
 function showStatDetail(type) {
   let title = '', items = [];
   if (type === 'ok') {
-    title = '✅ Hạng Mục OK hôm nay';
+    title = '✅ Hoàn Thành Hôm Nay';
     items = _dashCNData.filter(r => {
       const s = normStatus(fld(r,'TinhTrang'));
       return s === 'đã kiểm tra' || s === 'đã sửa';
     });
-  } else if (type === 'err') {
-    title = '🔧 Hạng Mục Đang Sửa Chữa';
-    items = _dashCNData.filter(r => normStatus(fld(r,'TinhTrang')) === 'sửa chữa');
   } else if (type === 'all') {
-    title = '📋 Tổng Đã Check hôm nay';
+    title = '📋 Tổng Check Hôm Nay';
     items = _dashCNData;
-  } else if (type === 'ton') {
-    title = '⚑ Hạng Mục Cần Theo Dõi';
-    items = _dashCNData.filter(r => normStatus(fld(r,'TinhTrang')) === 'cần theo dõi');
+  } else if (type === 'ton_err') {
+    title = '🔧 Đang Sửa Chữa (Tồn Đọng — Mọi Ngày)';
+    items = _allPendingCN.filter(r => normStatus(fld(r,'TinhTrang')) === 'sửa chữa');
+  } else if (type === 'ton_pnd') {
+    title = '⚑ Cần Theo Dõi (Tồn Đọng — Mọi Ngày)';
+    items = _allPendingCN.filter(r => normStatus(fld(r,'TinhTrang')) === 'cần theo dõi');
+  } else if (type === 'ton_sc') {
+    title = '🛏 Sửa Phòng Tồn (Chưa Hoàn Thành)';
+    items = _allPendingSC;
   }
 
   document.getElementById('mDetailTitle').textContent = title;
