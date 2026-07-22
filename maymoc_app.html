@@ -477,6 +477,13 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
         <div class="ld" style="grid-column:1/-1"><div class="spin"></div>Đang tải...</div>
       </div>
       <div id="dashCheckList"><div class="ld"><div class="spin"></div></div></div>
+
+      <!-- SECTION 3: GIAO VIỆC ĐANG THỰC HIỆN -->
+      <div class="dash-section-title" style="margin-top:24px">
+        <h3>📌 CÔNG VIỆC ĐƯỢC PHÂN CÔNG <span class="stag" id="taskBadge"></span></h3>
+        <button class="bsm bexp" onclick="switchTab_('giaoviec')">Xem tất cả →</button>
+      </div>
+      <div id="dashTaskList"><div class="ld"><div class="spin"></div></div></div>
     </div>
 
     <!-- TAB: ĐỊNH KỲ (đổi tên từ Kiểm Tra) -->
@@ -590,6 +597,13 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
     <div class="mhd"><div class="mtitle">🔧 Phiếu Checklist</div><button class="mclose" onclick="closeMod('mSC')">✕</button></div>
     <div class="mbody">
       <div class="field"><label>Hạng mục</label><input id="sc_hangmuc" placeholder="VD: Điện, Nước, Máy lạnh..."/></div>
+      <div class="field"><label>Hạng mục khác</label>
+        <select id="sc_hangmuc_khac">
+          <option value="">-- Chọn hạng mục khác --</option>
+          <option>Chiếu sáng</option><option>Điện</option>
+          <option>Máy lạnh</option><option>Mộc</option>
+          <option>Nước</option><option>Khác</option>
+        </select></div>
       <div class="field"><label>Nội dung công việc</label><textarea id="sc_noidung" placeholder="Mô tả chi tiết sửa chữa..."></textarea></div>
       <div class="field"><label>Tình trạng</label>
         <div class="rrow">
@@ -714,6 +728,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
         <label>Giao cho (Kỹ thuật viên) <span style="color:var(--warn)">*</span></label>
         <select id="gv_nguoiduocgiao">
           <option value="">-- Chọn nhân viên --</option>
+          <option value="ALL">👥 Tất cả các kỹ thuật viên</option>
         </select>
       </div>
       <!-- Hạn hoàn thành + Mức độ ưu tiên -->
@@ -780,6 +795,7 @@ let _dashCNData = [], _dashSCData = [];
 let _allPendingCN = [], _allPendingSC = [];
 // Giao Việc
 let _allTasks = [], _gvFilter = 'all', _staffList = [];
+let _allTasksDone = 0, _allTasksData = [];
 const CAT_ICONS = {'Nước':'💧','Điện':'⚡','Máy Lạnh':'📺','Chiếu sáng':'💡','Khác':'📦'};
 const TASK_STATUS_OPTS = [
   {val:'Chưa bắt đầu', cls:'ts-new',  label:'⏸ Chưa bắt đầu'},
@@ -1329,7 +1345,7 @@ async function loadStaffIntoSelect() {
     const r = await callGAS({ action:'getStaffList' });
     _staffList = r.success ? r.data : [];
     const sel = document.getElementById('gv_nguoiduocgiao');
-    sel.innerHTML = '<option value="">-- Chọn nhân viên --</option>';
+    sel.innerHTML = '<option value="">-- Chọn nhân viên --</option><option value="ALL">👥 Tất cả các kỹ thuật viên</option>';
     _staffList.forEach(s => {
       const opt = document.createElement('option');
       opt.value = s.hoten;
@@ -1423,35 +1439,52 @@ function renderStaffTasks(data) {
 // Save task mới
 async function saveTask() {
   if (isSaving) return;
-  const danhmuc  = document.getElementById('gv_danhmuc').value;
-  const noidung  = document.getElementById('gv_noidung').value.trim();
-  const nguoi    = document.getElementById('gv_nguoiduocgiao').value;
-  const han      = document.getElementById('gv_han').value;
-  const mucdo    = document.getElementById('gv_mucdo').value;
-  const trangthai= document.getElementById('gv_trangthai').value;
+  const danhmuc   = document.getElementById('gv_danhmuc').value;
+  const noidung   = document.getElementById('gv_noidung').value.trim();
+  const nguoi     = document.getElementById('gv_nguoiduocgiao').value;
+  const han       = document.getElementById('gv_han').value;
+  const mucdo     = document.getElementById('gv_mucdo').value;
+  const trangthai = document.getElementById('gv_trangthai').value;
   if (!danhmuc) { toast('Chọn danh mục công việc','err'); return; }
   if (!noidung) { toast('Nhập nội dung chi tiết','err'); return; }
   if (!nguoi)   { toast('Chọn nhân viên được giao','err'); return; }
   isSaving = true;
   try {
-    const data = {
-      NguoiGiao:      user.hoten,
-      DanhMuc:        danhmuc,
-      NoiDungChiTiet: noidung,
-      NguoiDuocGiao:  nguoi,
-      HanHoanThanh:   han,
-      MucDoUuTien:    mucdo,
-      TrangThai:      trangthai
-    };
-    const r = await callGAS({ action:'saveTask', data: JSON.stringify(data) });
-    if (r.success) {
-      closeMod('mGiaoViec'); toast('✓ Đã tạo công việc!', 'ok');
+    if (nguoi === 'ALL') {
+      // Giao cho TẤT CẢ kỹ thuật viên
+      const ktvList = _staffList.filter(s => s.vaitro !== 'manager');
+      if (!ktvList.length) { toast('Không có kỹ thuật viên nào','err'); isSaving=false; return; }
+      let ok = 0;
+      for (const ktv of ktvList) {
+        const data = {
+          NguoiGiao: user.hoten, DanhMuc: danhmuc,
+          NoiDungChiTiet: noidung, NguoiDuocGiao: ktv.hoten,
+          HanHoanThanh: han, MucDoUuTien: mucdo, TrangThai: trangthai
+        };
+        try {
+          const r = await callGAS({ action:'saveTask', data: JSON.stringify(data) });
+          if (r.success) ok++;
+        } catch(err) { console.error('saveTask for', ktv.hoten, err); }
+      }
+      closeMod('mGiaoViec');
+      toast('✓ Đã giao cho ' + ok + '/' + ktvList.length + ' kỹ thuật viên!', 'ok');
       loadTasks();
-    } else toast(r.msg || 'Lỗi lưu','err');
+    } else {
+      // Giao cho 1 người cụ thể
+      const data = {
+        NguoiGiao: user.hoten, DanhMuc: danhmuc,
+        NoiDungChiTiet: noidung, NguoiDuocGiao: nguoi,
+        HanHoanThanh: han, MucDoUuTien: mucdo, TrangThai: trangthai
+      };
+      const r = await callGAS({ action:'saveTask', data: JSON.stringify(data) });
+      if (r.success) {
+        closeMod('mGiaoViec'); toast('✓ Đã tạo công việc!', 'ok');
+        loadTasks();
+      } else toast(r.msg || 'Lỗi lưu','err');
+    }
   } catch(e) { toast('Lỗi: ' + e.toString(),'err'); }
   finally { isSaving = false; }
 }
-
 // Update task status (staff dùng)
 async function doUpdateTaskStatus(rowIndex, sig, newStatus, mid) {
   const menu = document.getElementById(mid);
@@ -1661,6 +1694,11 @@ async function loadDashboard() {
         <div class="snum">${scPnd}</div>
         <div class="slabel">Sửa Phòng Tồn</div>
         <div class="scard-hint">Chưa hoàn thành · Nhấn xem</div>
+      </div>
+      <div class="scard ok" onclick="showStatDetail('ton_gv')">
+        <div class="snum">${_allTasksDone}</div>
+        <div class="slabel">Giao Việc Xong</div>
+        <div class="scard-hint">Tổng hoàn thành · Nhấn xem</div>
       </div>`;
 
     // Danh sách tồn đọng (tối đa 6 card, click "xem thêm" → mở modal)
@@ -1672,6 +1710,28 @@ async function loadDashboard() {
       tonEl.innerHTML = `<div class="cgrid">${allTon.map(r =>
         _allPendingCN.includes(r) ? cardCN(r,'loadDashboard') : cardSC(r)
       ).join('')}</div>`;
+    }
+
+    // Update task badge
+    const pendingTaskCount = _allTasksData.filter(r =>
+      normStatus(fld(r,'TrangThai')) !== 'hoàn thành').length;
+    const tb = document.getElementById('taskBadge');
+    if (tb) tb.textContent = pendingTaskCount + ' đang thực hiện';
+
+    // Hiển thị task cards đang pending trên dashboard
+    const dashTaskEl = document.getElementById('dashTaskList');
+    if (dashTaskEl) {
+      const pendingTasks = _allTasksData.filter(r =>
+        normStatus(fld(r,'TrangThai')) !== 'hoàn thành'
+      ).slice(0,6);
+      if (pendingTasks.length) {
+        dashTaskEl.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px">${
+          pendingTasks.map(r => cardTask(r, user && user.vaitro === 'manager')).join('')
+        }</div>`;
+      } else {
+        dashTaskEl.innerHTML = `<div class="empty-ok"><div class="ei">✅</div>
+          <div class="et">Không có công việc nào đang chờ xử lý</div></div>`;
+      }
     }
 
     // ── SECTION 2: HOẠT ĐỘNG HÔM NAY ──
@@ -1733,6 +1793,22 @@ function showStatDetail(type) {
   } else if (type === 'ton_sc') {
     title = '🛏 Sửa Phòng Tồn (Chưa Hoàn Thành)';
     items = _allPendingSC;
+  } else if (type === 'ton_gv') {
+    title = '✅ Giao Việc Đã Hoàn Thành';
+    // Hiển thị task cards trong modal
+    const doneTasks = _allTasksData.filter(r =>
+      normStatus(fld(r,'TrangThai')) === 'hoàn thành');
+    document.getElementById('mDetailTitle').textContent = title;
+    if (!doneTasks.length) {
+      document.getElementById('mDetailBody').innerHTML = empty('Chưa có công việc nào hoàn thành');
+    } else {
+      document.getElementById('mDetailBody').innerHTML =
+        `<div style="display:flex;flex-direction:column;gap:10px">${
+          doneTasks.map(r => cardTask(r, false)).join('')
+        }</div>`;
+    }
+    openMod('mDetail');
+    return;
   }
 
   document.getElementById('mDetailTitle').textContent = title;
@@ -1879,9 +1955,13 @@ async function saveDK() {
 async function saveSC() {
   if (isSaving) return;
   const d = cleanDate(document.getElementById('dateSC').value || today());
+  const scHmKhac = document.getElementById('sc_hangmuc_khac').value;
+  const scHm = document.getElementById('sc_hangmuc').value.trim() ||
+               (scHmKhac && scHmKhac !== '' ? scHmKhac : '');
   const data = {
     Ngay: d, MaNV: user.manv, HoTen: user.hoten,
-    HangMuc: document.getElementById('sc_hangmuc').value.trim(),
+    HangMuc: scHm,
+    HangMucKhac: scHmKhac,
     NoiDungCongViec: document.getElementById('sc_noidung').value.trim(),
     TinhTrang: document.getElementById('sc_tt').value,
     GhiChu: document.getElementById('sc_gc').value.trim()
@@ -1986,6 +2066,16 @@ async function exportDashCSV() {
 }
 
 // Network status
+function switchTab_(tabName) {
+  document.querySelectorAll('.tbtn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tpanel').forEach(p => p.classList.remove('active'));
+  const btn = document.querySelector(`.tbtn[data-tab="${tabName}"]`);
+  if (btn) btn.classList.add('active');
+  const panel = document.getElementById('tab-' + tabName);
+  if (panel) panel.classList.add('active');
+  loadTab(tabName);
+}
+
 window.addEventListener('online',  () => {
   document.getElementById('netlabel').textContent = 'Online';
   document.getElementById('ndot').style.background = 'var(--acc)';
