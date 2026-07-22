@@ -186,6 +186,9 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 .pill.pnd{background:var(--pdim);color:var(--pnd);}
 .pill.blu{background:var(--bdim);color:var(--blu);}
 .pill.neu{background:var(--sur3);color:var(--mut);}
+.pill.vs{background:#ECFDF5;color:#065F46;}
+.pill.vs{background:#ECFDF5;color:#065F46;}
+.rc.vs.sel{border-color:#059669;background:#ECFDF5;color:#065F46;}
 .pdot{width:5px;height:5px;border-radius:50%;background:currentColor;}
 .pdot.pulse{animation:ndp 1.5s infinite;}
 
@@ -273,6 +276,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 .pill-btn.pnd{background:var(--pdim);color:var(--pnd);}
 .pill-btn.blu{background:var(--bdim);color:var(--blu);}
 .pill-btn.neu{background:var(--sur3);color:var(--mut);}
+.pill-btn.vs{background:#ECFDF5;color:#065F46;}
 .pill-btn::after{content:'▾';margin-left:2px;font-size:9px;opacity:.7;}
 /* Status dropdown menu */
 .stt-menu{display:none;position:absolute;bottom:calc(100% + 6px);left:0;
@@ -582,6 +586,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
           <div class="rc err" onclick="pick(this,'dk_tt','Cần theo dõi')">⚑ Cần TD</div>
           <div class="rc pnd" onclick="pick(this,'dk_tt','Sửa chữa')">🔧 Sửa chữa</div>
           <div class="rc blu" onclick="pick(this,'dk_tt','Đã sửa')">✅ Đã sửa</div>
+          <div class="rc vs" onclick="pick(this,'dk_tt','Đã vệ sinh')">🧹 Đã vệ sinh</div>
         </div><input type="hidden" id="dk_tt"/></div>
       <div class="field"><label>Ghi chú</label><textarea id="dk_gc" placeholder="Ghi chú thêm nếu có..."></textarea></div>
     </div>
@@ -611,6 +616,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
           <div class="rc blu" onclick="pick(this,'sc_tt','Sửa chữa')">🔧 Sửa chữa</div>
           <div class="rc ok" onclick="pick(this,'sc_tt','Đã sửa')">✓ Đã sửa</div>
           <div class="rc err" onclick="pick(this,'sc_tt','Đã kiểm tra')">🔍 Đã KT</div>
+          <div class="rc vs" onclick="pick(this,'sc_tt','Đã vệ sinh')">🧹 Đã vệ sinh</div>
         </div><input type="hidden" id="sc_tt"/></div>
       <div class="field"><label>Ghi chú</label><textarea id="sc_gc" placeholder="Ghi chú thêm..."></textarea></div>
     </div>
@@ -638,6 +644,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
           <div class="rc err" onclick="pick(this,'mp_tt','Cần theo dõi')">⚑ Cần TD</div>
           <div class="rc pnd" onclick="pick(this,'mp_tt','Sửa chữa')">🔧 Sửa chữa</div>
           <div class="rc blu" onclick="pick(this,'mp_tt','Đã sửa')">✅ Đã sửa</div>
+          <div class="rc vs" onclick="pick(this,'mp_tt','Đã vệ sinh')">🧹 Đã vệ sinh</div>
         </div><input type="hidden" id="mp_tt"/></div>
       <div class="field"><label>Ghi chú</label><textarea id="mp_gc" placeholder="Ghi chú thêm..."></textarea></div>
     </div>
@@ -665,6 +672,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
           <div class="rc err" onclick="pick(this,'pccc_tt','Cần theo dõi')">⚑ Cần TD</div>
           <div class="rc pnd" onclick="pick(this,'pccc_tt','Sửa chữa')">🔧 Sửa chữa</div>
           <div class="rc blu" onclick="pick(this,'pccc_tt','Đã sửa')">✅ Đã sửa</div>
+          <div class="rc vs" onclick="pick(this,'pccc_tt','Đã vệ sinh')">🧹 Đã vệ sinh</div>
         </div><input type="hidden" id="pccc_tt"/></div>
       <div class="field"><label>Ghi chú</label><textarea id="pccc_gc" placeholder="Ghi chú thêm..."></textarea></div>
     </div>
@@ -937,10 +945,12 @@ function scls(s) {
   if (!s) return '';
   const sl = normStatus(s);
   if (sl === 'đã kiểm tra' || sl === 'đã sửa')  return 'ok';
+  if (sl === 'đã vệ sinh')                        return 'vs';
   if (sl === 'cần theo dõi')                      return 'pnd';
   if (sl === 'sửa chữa')                          return 'err';
   // fuzzy fallback
   if (sl.includes('đã kiểm tra') || sl.includes('đã sửa')) return 'ok';
+  if (sl.includes('đã vệ sinh'))                            return 'vs';
   if (sl.includes('cần theo dõi'))                          return 'pnd';
   if (sl.includes('sửa chữa'))                              return 'err';
   return 'neu';
@@ -950,6 +960,7 @@ function scls(s) {
 const STATUS_OPTIONS = [
   { val:'Đã kiểm tra', cls:'ok',  dot:'ok',  label:'✓ Đã kiểm tra' },
   { val:'Đã sửa',      cls:'ok',  dot:'ok',  label:'✓ Đã sửa'      },
+  { val:'Đã vệ sinh',  cls:'vs',  dot:'vs',  label:'🧹 Đã vệ sinh'  },
   { val:'Sửa chữa',    cls:'err', dot:'err', label:'🔧 Sửa chữa'   },
   { val:'Cần theo dõi',cls:'pnd', dot:'pnd', label:'⚑ Cần theo dõi'},
 ];
