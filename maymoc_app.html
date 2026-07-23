@@ -546,6 +546,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
           <button class="btn-giaoviec" onclick="openMod('mGiaoViec')">➕ Tạo Công Việc Mới</button>
           <button class="bsm bexp" onclick="exportTasksCSV()">⬇ Xuất CSV</button>
         </div>
+        <!-- Stat grid thống kê -->
+        <div class="stats-grid" id="gvStatGrid" style="margin-bottom:14px">
+          <div class="ld" style="grid-column:1/-1"><div class="spin"></div></div>
+        </div>
         <div class="subtabs" id="gvFilterTabs">
           <div class="stbtn active" onclick="filterTasks('all',this)">Tất cả</div>
           <div class="stbtn" onclick="filterTasks('Chưa bắt đầu',this)">⏸ Chưa bắt đầu</div>
@@ -1371,13 +1375,18 @@ async function loadTasks() {
   const isManager = user && user.vaitro === 'manager';
   if (isManager) {
     document.getElementById('gvContent').innerHTML = ld();
+    const sg = document.getElementById('gvStatGrid');
+    if (sg) sg.innerHTML = `<div class="ld" style="grid-column:1/-1"><div class="spin"></div></div>`;
     try {
       const r = await callGAS({ action:'getTasks' });
       _allTasks = r.success ? normArr(r.data) : [];
+      renderTaskStats();
       renderTasks();
     } catch(e) {
       document.getElementById('gvContent').innerHTML =
         `<div class="et" style="color:var(--warn);padding:16px">Lỗi: ${e.toString()}</div>`;
+      const sg = document.getElementById('gvStatGrid');
+      if (sg) sg.innerHTML = '';
     }
   } else {
     // Staff: chỉ load việc được giao cho mình
@@ -1393,10 +1402,38 @@ async function loadTasks() {
   }
 }
 
+// Render thống kê task cho Manager
+function renderTaskStats() {
+  const sg = document.getElementById('gvStatGrid');
+  if (!sg) return;
+  const total   = _allTasks.length;
+  const chuaBD  = _allTasks.filter(r => normStatus(fld(r,'TrangThai')) === 'chưa bắt đầu').length;
+  const dangLam = _allTasks.filter(r => normStatus(fld(r,'TrangThai')) === 'đang thực hiện').length;
+  const choiDuyet= _allTasks.filter(r => normStatus(fld(r,'TrangThai')) === 'chờ duyệt').length;
+  const hoanThanh= _allTasks.filter(r => normStatus(fld(r,'TrangThai')) === 'hoàn thành').length;
+  sg.innerHTML = `
+    <div class="scard info" onclick="filterTasks('all', document.querySelector('#gvFilterTabs .stbtn'))">
+      <div class="snum">${total}</div>
+      <div class="slabel">Tổng Công Việc</div>
+    </div>
+    <div class="scard pnd" onclick="filterTasks('Chưa bắt đầu', document.querySelectorAll('#gvFilterTabs .stbtn')[1])">
+      <div class="snum">${chuaBD}</div>
+      <div class="slabel">Chưa Bắt Đầu</div>
+    </div>
+    <div class="scard blu" onclick="filterTasks('Đang thực hiện', document.querySelectorAll('#gvFilterTabs .stbtn')[2])" style="border-top-color:var(--blu)">
+      <div class="snum" style="color:var(--blu)">${dangLam}</div>
+      <div class="slabel">Đang Thực Hiện</div>
+    </div>
+    <div class="scard ok" onclick="filterTasks('Hoàn thành', document.querySelectorAll('#gvFilterTabs .stbtn')[4])">
+      <div class="snum">${hoanThanh}</div>
+      <div class="slabel">Hoàn Thành</div>
+    </div>`;
+}
+
 function filterTasks(f, el) {
   _gvFilter = f;
   document.querySelectorAll('#gvFilterTabs .stbtn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
+  if (el) el.classList.add('active');
   renderTasks();
 }
 
@@ -1645,19 +1682,19 @@ async function loadDashboard() {
   document.getElementById('dashCheckList').innerHTML = ld();
 
   try {
-    // Load song song:
-    // 1. Log_CheckNgay TOÀN BỘ (không lọc ngày) → tìm pending tích lũy
-    // 2. Log_CheckNgay HÔM NAY → hoạt động hôm nay
-    // 3. Log_SuaChuaPhong TOÀN BỘ → pending sửa chữa tích lũy
-    const [rCNAll, rCNToday, rSCAll] = await Promise.all([
-      callGAS({ action:'getLog', sheet:'Log_CheckNgay' }),
-      callGAS({ action:'getLog', sheet:'Log_CheckNgay', from:d, to:d }),
-      callGAS({ action:'getLog', sheet:'Log_SuaChuaPhong' })
-    ]);
+    // JSONP không hỗ trợ parallel tốt → load tuần tự để tránh conflict callback
+    const rCNAll  = await callGAS({ action:'getLog', sheet:'Log_CheckNgay' });
+    const rCNToday= await callGAS({ action:'getLog', sheet:'Log_CheckNgay', from:d, to:d });
+    const rSCAll  = await callGAS({ action:'getLog', sheet:'Log_SuaChuaPhong' });
+    const rTasks  = await callGAS({ action:'getTasks' });
 
     const cnAll   = normArr(rCNAll.success   ? rCNAll.data   : []);
     _dashCNData   = normArr(rCNToday.success ? rCNToday.data : []);
     _dashSCData   = normArr(rSCAll.success   ? rSCAll.data   : []);
+    // ── Giao Việc data ──
+    _allTasksData = normArr(rTasks.success   ? rTasks.data   : []);
+    _allTasksDone = _allTasksData.filter(r =>
+      normStatus(fld(r,'TrangThai')) === 'hoàn thành').length;
 
     // ── SECTION 1: TỒN ĐỌNG (toàn lịch sử, chưa hoàn thành) ──
     // Pending từ Log_CheckNgay: Sửa chữa + Cần theo dõi
@@ -1723,21 +1760,27 @@ async function loadDashboard() {
       ).join('')}</div>`;
     }
 
-    // Update task badge
-    const pendingTaskCount = _allTasksData.filter(r =>
-      normStatus(fld(r,'TrangThai')) !== 'hoàn thành').length;
-    const tb = document.getElementById('taskBadge');
-    if (tb) tb.textContent = pendingTaskCount + ' đang thực hiện';
-
-    // Hiển thị task cards đang pending trên dashboard
+    // Hiển thị task cards theo role
     const dashTaskEl = document.getElementById('dashTaskList');
     if (dashTaskEl) {
-      const pendingTasks = _allTasksData.filter(r =>
+      const isManager = user && user.vaitro === 'manager';
+      // Lấy tất cả task chưa hoàn thành
+      let pendingTasks = _allTasksData.filter(r =>
         normStatus(fld(r,'TrangThai')) !== 'hoàn thành'
-      ).slice(0,6);
+      );
+      // Staff chỉ thấy việc được giao cho mình
+      if (!isManager) {
+        pendingTasks = pendingTasks.filter(r =>
+          fld(r,'NguoiDuocGiao').toLowerCase().trim() === (user.hoten||'').toLowerCase().trim()
+        );
+      }
+      // Cập nhật badge
+      const tb = document.getElementById('taskBadge');
+      if (tb) tb.textContent = pendingTasks.length + ' đang thực hiện';
+
       if (pendingTasks.length) {
         dashTaskEl.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px">${
-          pendingTasks.map(r => cardTask(r, user && user.vaitro === 'manager')).join('')
+          pendingTasks.slice(0,6).map(r => cardTask(r, isManager)).join('')
         }</div>`;
       } else {
         dashTaskEl.innerHTML = `<div class="empty-ok"><div class="ei">✅</div>
