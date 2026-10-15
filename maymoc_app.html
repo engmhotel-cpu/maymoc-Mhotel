@@ -491,9 +491,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
     <!-- TAB: ĐỊNH KỲ (đổi tên từ Kiểm Tra) -->
     <div class="tpanel" id="tab-dinhky">
       <div class="crow">
-        <div class="diw"><label>Ngày</label><input type="date" id="dateDK"/></div>
+        <div class="diw"><label>Từ ngày</label><input type="date" id="dateDK"/></div>
+        <div class="diw"><label>Đến ngày</label><input type="date" id="dateDK2"/></div>
         <button class="bsm ba" onclick="loadDK()">🔍 Tìm</button>
-        <button class="bsm bt" onclick="setToday('dateDK');loadDK()">Hôm nay</button>
+        <button class="bsm bt" onclick="setTodayRange('dateDK');loadDK()">Hôm nay</button>
         <button class="bsm ba" onclick="openMod('mDK')">+ Thêm</button>
         <button class="bsm bexp" onclick="exportCSV('Log_CheckNgay','dateDK','DinhKy')">⬇ Xuất file</button>
       </div>
@@ -503,9 +504,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
     <!-- TAB: SỬA CHỮA -->
     <div class="tpanel" id="tab-suachua">
       <div class="crow">
-        <div class="diw"><label>Ngày</label><input type="date" id="dateSC"/></div>
+        <div class="diw"><label>Từ ngày</label><input type="date" id="dateSC"/></div>
+        <div class="diw"><label>Đến ngày</label><input type="date" id="dateSC2"/></div>
         <button class="bsm ba" onclick="loadSC()">🔍 Tìm</button>
-        <button class="bsm bt" onclick="setToday('dateSC');loadSC()">Hôm nay</button>
+        <button class="bsm bt" onclick="setTodayRange('dateSC');loadSC()">Hôm nay</button>
         <button class="bsm ba" onclick="openMod('mSC')">+ Thêm</button>
         <button class="bsm bexp" onclick="exportCSV('Log_SuaChuaPhong','dateSC','SuaChua')">⬇ Xuất file</button>
       </div>
@@ -520,9 +522,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
       </div>
       <div class="subpanel active" id="ht-mayphat">
         <div class="crow">
-          <div class="diw"><label>Ngày</label><input type="date" id="dateMP"/></div>
+          <div class="diw"><label>Từ ngày</label><input type="date" id="dateMP"/></div>
+        <div class="diw"><label>Đến ngày</label><input type="date" id="dateMP2"/></div>
         <button class="bsm ba" onclick="loadMP()">🔍 Tìm</button>
-          <button class="bsm bt" onclick="setToday('dateMP');loadMP()">Hôm nay</button>
+          <button class="bsm bt" onclick="setTodayRange('dateMP');loadMP()">Hôm nay</button>
           <button class="bsm ba" onclick="openMod('mMP')">+ Log mới</button>
           <button class="bsm bexp" onclick="exportCSV('Log_MayPhatDien','dateMP','MayPhat')">⬇ Xuất file</button>
         </div>
@@ -530,9 +533,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
       </div>
       <div class="subpanel" id="ht-pccc">
         <div class="crow">
-          <div class="diw"><label>Ngày</label><input type="date" id="datePCCC"/></div>
+          <div class="diw"><label>Từ ngày</label><input type="date" id="datePCCC"/></div>
+        <div class="diw"><label>Đến ngày</label><input type="date" id="datePCCC2"/></div>
         <button class="bsm ba" onclick="loadPCCC()">🔍 Tìm</button>
-          <button class="bsm bt" onclick="setToday('datePCCC');loadPCCC()">Hôm nay</button>
+          <button class="bsm bt" onclick="setTodayRange('datePCCC');loadPCCC()">Hôm nay</button>
           <button class="bsm ba" onclick="openMod('mPCCC')">+ Kiểm tra</button>
           <button class="bsm bexp" onclick="exportCSV('Log_PCCC','datePCCC','PCCC')">⬇ Xuất file</button>
         </div>
@@ -857,6 +861,18 @@ function nowHHmm() {
 }
 function p2(n) { return String(n).padStart(2,'0'); }
 function setToday(id) { document.getElementById(id).value = today(); }
+// ── KHOẢNG NGÀY (từ ngày → đến ngày) ──
+function getRange(fromId) {
+  let a = cleanDate(document.getElementById(fromId).value || today());
+  const el2 = document.getElementById(fromId + '2');
+  let b = cleanDate((el2 && el2.value) || a);
+  if (b < a) { const t = a; a = b; b = t; }
+  return [a, b];
+}
+function saveDate(fromId) { const [a, b] = getRange(fromId); return a === b ? a : today(); }
+function rangeText(a, b)  { return a === b ? 'ngày ' + fmtD(a) : 'từ ngày ' + fmtD(a) + ' đến ngày ' + fmtD(b); }
+function rangeShort(a, b) { return a === b ? fmtD(a) : fmtD(a) + ' – ' + fmtD(b); }
+function setTodayRange(fromId) { setToday(fromId); setToday(fromId + '2'); }
 
 function fmtDayVN() {
   const d = new Date();
@@ -1676,7 +1692,7 @@ function loadTab(t) {
   else if (t === 'giaoviec')  loadTasks();
 }
 function initApp() {
-  ['dateDK','dateSC','dateMP','datePCCC'].forEach(setToday);
+  ['dateDK','dateSC','dateMP','datePCCC'].forEach(setTodayRange);
   loadDashboard();
 }
 
@@ -1908,20 +1924,20 @@ function showStatDetail(type) {
 
 // ── LOAD: ĐỊNH KỲ ─────────────────────────────────────
 async function loadDK() {
-  const d = cleanDate(document.getElementById('dateDK').value || today());
+  const [d, d2] = getRange('dateDK');
   document.getElementById('dkContent').innerHTML = ld();
   try {
-    const r = await callGAS({ action:'getLog', sheet:'Log_CheckNgay', from:d, to:d });
+    const r = await callGAS({ action:'getLog', sheet:'Log_CheckNgay', from:d, to:d2 });
     let data = normArr(r.success ? r.data : []);
     data = data.filter(row => {
       const rd = row['_date'] || dateFromTG(fld(row,'ThoiGian'));
-      return !rd || rd === d;
+      return !rd || (rd >= d && rd <= d2);
     });
     const el = document.getElementById('dkContent');
     el.innerHTML = '';
-    if (!data.length) { el.innerHTML = empty(`Chưa có kiểm tra định kỳ nào ngày ${fmtD(d)}`); return; }
+    if (!data.length) { el.innerHTML = empty(`Chưa có kiểm tra định kỳ nào ${rangeText(d, d2)}`); return; }
     el.innerHTML = `
-      <div class="sh"><h2>Định Kỳ ${fmtD(d)}</h2><span class="cbadge">${data.length} mục</span></div>
+      <div class="sh"><h2>Định Kỳ ${rangeShort(d, d2)}</h2><span class="cbadge">${data.length} mục</span></div>
       <div class="cgrid">${data.map(r => cardCN(r, 'loadDK')).join('')}</div>`;
   } catch (e) {
     document.getElementById('dkContent').innerHTML =
@@ -1931,20 +1947,20 @@ async function loadDK() {
 
 // ── LOAD: SỬA CHỮA ────────────────────────────────────
 async function loadSC() {
-  const d = cleanDate(document.getElementById('dateSC').value || today());
+  const [d, d2] = getRange('dateSC');
   document.getElementById('scContent').innerHTML = ld();
   try {
-    const r = await callGAS({ action:'getLog', sheet:'Log_SuaChuaPhong', from:d, to:d });
+    const r = await callGAS({ action:'getLog', sheet:'Log_SuaChuaPhong', from:d, to:d2 });
     let data = normArr(r.success ? r.data : []);
     data = data.filter(row => {
       const rd = row['_date'] || cleanDate(fld(row,'Ngay'));
-      return !rd || rd === d;
+      return !rd || (rd >= d && rd <= d2);
     });
     const el = document.getElementById('scContent');
     el.innerHTML = '';
-    if (!data.length) { el.innerHTML = empty(`Chưa có phiếu sửa chữa ngày ${fmtD(d)}`); return; }
+    if (!data.length) { el.innerHTML = empty(`Chưa có phiếu sửa chữa ${rangeText(d, d2)}`); return; }
     el.innerHTML = `
-      <div class="sh"><h2>Sửa Chữa ${fmtD(d)}</h2><span class="cbadge">${data.length}</span></div>
+      <div class="sh"><h2>Sửa Chữa ${rangeShort(d, d2)}</h2><span class="cbadge">${data.length}</span></div>
       <div class="cgrid">${data.map(r => cardSC(r)).join('')}</div>`;
   } catch (e) {
     document.getElementById('scContent').innerHTML =
@@ -1954,18 +1970,18 @@ async function loadSC() {
 
 // ── LOAD: MÁY PHÁT ────────────────────────────────────
 async function loadMP() {
-  const d = cleanDate(document.getElementById('dateMP').value || today());
+  const [d, d2] = getRange('dateMP');
   document.getElementById('mpContent').innerHTML = ld();
   try {
-    const r = await callGAS({ action:'getLog', sheet:'Log_MayPhatDien', from:d, to:d });
+    const r = await callGAS({ action:'getLog', sheet:'Log_MayPhatDien', from:d, to:d2 });
     let data = normArr(r.success ? r.data : []);
     data = data.filter(row => {
       const rd = row['_date'] || cleanDate(fld(row,'Ngay'));
-      return !rd || rd === d;
+      return !rd || (rd >= d && rd <= d2);
     });
     const el = document.getElementById('mpContent');
     el.innerHTML = '';
-    if (!data.length) { el.innerHTML = empty(`Chưa có log máy phát ngày ${fmtD(d)}`); return; }
+    if (!data.length) { el.innerHTML = empty(`Chưa có log máy phát ${rangeText(d, d2)}`); return; }
     el.innerHTML = `
       <div class="sh"><h2>Máy Phát Điện</h2><span class="cbadge">${data.length}</span></div>
       <div class="cgrid">${data.map(r => cardMP(r)).join('')}</div>`;
@@ -1977,18 +1993,18 @@ async function loadMP() {
 
 // ── LOAD: PCCC ────────────────────────────────────────
 async function loadPCCC() {
-  const d = cleanDate(document.getElementById('datePCCC').value || today());
+  const [d, d2] = getRange('datePCCC');
   document.getElementById('pcccContent').innerHTML = ld();
   try {
-    const r = await callGAS({ action:'getLog', sheet:'Log_PCCC', from:d, to:d });
+    const r = await callGAS({ action:'getLog', sheet:'Log_PCCC', from:d, to:d2 });
     let data = normArr(r.success ? r.data : []);
     data = data.filter(row => {
       const rd = row['_date'] || cleanDate(fld(row,'Ngay'));
-      return !rd || rd === d;
+      return !rd || (rd >= d && rd <= d2);
     });
     const el = document.getElementById('pcccContent');
     el.innerHTML = '';
-    if (!data.length) { el.innerHTML = empty(`Chưa có kiểm tra PCCC ngày ${fmtD(d)}`); return; }
+    if (!data.length) { el.innerHTML = empty(`Chưa có kiểm tra PCCC ${rangeText(d, d2)}`); return; }
     el.innerHTML = `
       <div class="sh"><h2>Kiểm Tra PCCC</h2><span class="cbadge">${data.length}</span></div>
       <div class="cgrid">${data.map(r => cardPCCC(r)).join('')}</div>`;
@@ -2001,7 +2017,7 @@ async function loadPCCC() {
 // ── SAVE FUNCTIONS ────────────────────────────────────
 async function saveDK() {
   if (isSaving) return;
-  const d = cleanDate(document.getElementById('dateDK').value || today());
+  const d = saveDate('dateDK');
   const data = {
     MaNv: user.manv, HoTen: user.hoten,
     ViTri: document.getElementById('dk_vitri').value.trim(),
@@ -2023,7 +2039,7 @@ async function saveDK() {
 
 async function saveSC() {
   if (isSaving) return;
-  const d = cleanDate(document.getElementById('dateSC').value || today());
+  const d = saveDate('dateSC');
   const scHmKhac = document.getElementById('sc_hangmuc_khac').value;
   const scHm = document.getElementById('sc_hangmuc').value.trim() ||
                (scHmKhac && scHmKhac !== '' ? scHmKhac : '');
@@ -2048,7 +2064,7 @@ async function saveSC() {
 
 async function saveMP() {
   if (isSaving) return;
-  const d = cleanDate(document.getElementById('dateMP').value || today());
+  const d = saveDate('dateMP');
   const data = {
     Ngay: d, MaNV: user.manv, HoTen: user.hoten,
     ThoiGianChay: document.getElementById('mp_tgchay').value.trim(),
@@ -2070,7 +2086,7 @@ async function saveMP() {
 
 async function savePCCC() {
   if (isSaving) return;
-  const d = cleanDate(document.getElementById('datePCCC').value || today());
+  const d = saveDate('datePCCC');
   const [y,m] = d.split('-');
   const data = {
     Thang: `${m}/${y}`, Ngay: d,
@@ -2238,17 +2254,17 @@ const XL_TITLES = {
 };
 
 async function exportCSV(sheetName, dateInputId, prefix) {   // giữ tên hàm cũ để khỏi sửa nút
-  const d = cleanDate(document.getElementById(dateInputId).value || today());
+  const [d, d2] = getRange(dateInputId);
   toast('Đang xuất dữ liệu...');
   try {
-    const r = await callGAS({ action:'getLog', sheet:sheetName, from:d, to:d });
+    const r = await callGAS({ action:'getLog', sheet:sheetName, from:d, to:d2 });
     if (!r.success || !r.data || !r.data.length) { toast('Không có dữ liệu để xuất','err'); return; }
     await exportXLSX({
       title: XL_TITLES[sheetName] || sheetName,
-      subtitle: 'Ngày: ' + fmtD(d),
+      subtitle: d === d2 ? 'Ngày: ' + fmtD(d) : 'Từ ngày ' + fmtD(d) + ' đến ngày ' + fmtD(d2),
       data: normArr(r.data),
       sheetName: prefix,
-      filename: prefix + '_' + fmtD(d).replace(/\//g,'-') + '.xlsx'
+      filename: prefix + '_' + (d === d2 ? fmtD(d) : fmtD(d) + '_den_' + fmtD(d2)).replace(/\//g,'-') + '.xlsx'
     });
   } catch(e) { toast('Lỗi xuất: ' + e.toString(), 'err'); }
 }
