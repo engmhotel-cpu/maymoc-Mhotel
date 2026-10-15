@@ -419,10 +419,8 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
       <h1>KỸ THUẬT & VẬN HÀNH</h1>
       <p>Hệ thống quản trị kỹ thuật, cơ điện và PCCC</p>
     </div>
-    <div class="ifield"><span class="ico">👤</span>
-      <input type="text" id="loginId" placeholder="Mã nhân viên (VD: KT01)" autocomplete="off"/></div>
     <div class="ifield"><span class="ico">🔒</span>
-      <input type="password" id="loginPass" placeholder="Mật khẩu"/></div>
+      <input type="password" id="loginPass" placeholder="Nhập mật khẩu" autofocus/></div>
     <button class="btnLogin" onclick="doLogin()">⚡ Đăng Nhập Hệ Thống</button>
     <div class="lerr" id="lerr"></div>
   </div>
@@ -475,7 +473,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
       <!-- SECTION 2: HOẠT ĐỘNG HÔM NAY -->
       <div class="dash-section-title" style="margin-top:24px">
         <h3>✅ HOẠT ĐỘNG HÔM NAY <span class="stag ok" id="todayBadge">...</span></h3>
-        <button class="bsm bexp" onclick="exportDashCSV()">⬇ CSV</button>
+        <button class="bsm bexp" onclick="exportDashCSV()">⬇ Xuất file</button>
       </div>
       <div class="stats-grid" id="statsGrid">
         <div class="ld" style="grid-column:1/-1"><div class="spin"></div>Đang tải...</div>
@@ -494,9 +492,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
     <div class="tpanel" id="tab-dinhky">
       <div class="crow">
         <div class="diw"><label>Ngày</label><input type="date" id="dateDK"/></div>
+        <button class="bsm ba" onclick="loadDK()">🔍 Tìm</button>
         <button class="bsm bt" onclick="setToday('dateDK');loadDK()">Hôm nay</button>
         <button class="bsm ba" onclick="openMod('mDK')">+ Thêm</button>
-        <button class="bsm bexp" onclick="exportCSV('Log_CheckNgay','dateDK','DinhKy')">⬇ Xuất CSV</button>
+        <button class="bsm bexp" onclick="exportCSV('Log_CheckNgay','dateDK','DinhKy')">⬇ Xuất file</button>
       </div>
       <div id="dkContent"><div class="ld"><div class="spin"></div></div></div>
     </div>
@@ -505,9 +504,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
     <div class="tpanel" id="tab-suachua">
       <div class="crow">
         <div class="diw"><label>Ngày</label><input type="date" id="dateSC"/></div>
+        <button class="bsm ba" onclick="loadSC()">🔍 Tìm</button>
         <button class="bsm bt" onclick="setToday('dateSC');loadSC()">Hôm nay</button>
         <button class="bsm ba" onclick="openMod('mSC')">+ Thêm</button>
-        <button class="bsm bexp" onclick="exportCSV('Log_SuaChuaPhong','dateSC','SuaChua')">⬇ Xuất CSV</button>
+        <button class="bsm bexp" onclick="exportCSV('Log_SuaChuaPhong','dateSC','SuaChua')">⬇ Xuất file</button>
       </div>
       <div id="scContent"><div class="ld"><div class="spin"></div></div></div>
     </div>
@@ -521,18 +521,20 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
       <div class="subpanel active" id="ht-mayphat">
         <div class="crow">
           <div class="diw"><label>Ngày</label><input type="date" id="dateMP"/></div>
+        <button class="bsm ba" onclick="loadMP()">🔍 Tìm</button>
           <button class="bsm bt" onclick="setToday('dateMP');loadMP()">Hôm nay</button>
           <button class="bsm ba" onclick="openMod('mMP')">+ Log mới</button>
-          <button class="bsm bexp" onclick="exportCSV('Log_MayPhatDien','dateMP','MayPhat')">⬇ Xuất CSV</button>
+          <button class="bsm bexp" onclick="exportCSV('Log_MayPhatDien','dateMP','MayPhat')">⬇ Xuất file</button>
         </div>
         <div id="mpContent"><div class="ld"><div class="spin"></div></div></div>
       </div>
       <div class="subpanel" id="ht-pccc">
         <div class="crow">
           <div class="diw"><label>Ngày</label><input type="date" id="datePCCC"/></div>
+        <button class="bsm ba" onclick="loadPCCC()">🔍 Tìm</button>
           <button class="bsm bt" onclick="setToday('datePCCC');loadPCCC()">Hôm nay</button>
           <button class="bsm ba" onclick="openMod('mPCCC')">+ Kiểm tra</button>
-          <button class="bsm bexp" onclick="exportCSV('Log_PCCC','datePCCC','PCCC')">⬇ Xuất CSV</button>
+          <button class="bsm bexp" onclick="exportCSV('Log_PCCC','datePCCC','PCCC')">⬇ Xuất file</button>
         </div>
         <div id="pcccContent"><div class="ld"><div class="spin"></div></div></div>
       </div>
@@ -544,7 +546,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
       <div id="gvManagerSection" style="display:none">
         <div class="crow">
           <button class="btn-giaoviec" onclick="openMod('mGiaoViec')">➕ Tạo Công Việc Mới</button>
-          <button class="bsm bexp" onclick="exportTasksCSV()">⬇ Xuất CSV</button>
+          <button class="bsm bexp" onclick="exportTasksCSV()">⬇ Xuất file</button>
         </div>
         <!-- Stat grid thống kê -->
         <div class="stats-grid" id="gvStatGrid" style="margin-bottom:14px">
@@ -795,11 +797,11 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 
 <div id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════
 // CONFIG
 // ═══════════════════════════════════════════════════════
-const GAS = 'https://script.google.com/macros/s/AKfycbwKIWgB-MedjJKKEED--9JxLOqV30-M2EpAHGrowQ-AnRWq6t5E6R9MZIVulFoaSv1Z/exec';
 
 let user = null, _ci = 0, isSaving = false;
 let _pendingConfirm = null;
@@ -825,24 +827,23 @@ const PCCC_ICONS = {
   'DenExit':'🚪','DenSuCo':'🚨','BomChuaChay':'🚒','BomBuAp':'🔌'
 };
 
-// ── JSONP ─────────────────────────────────────────────
-function callGAS(p) {
-  return new Promise((res, rej) => {
-    const cb = '_cb' + (++_ci);
-    p.callback = cb;
-    const qs = Object.entries(p)
-      .map(([k,v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v)).join('&');
-    const s = document.createElement('script');
-    s.src = GAS + '?' + qs;
-    const t = setTimeout(() => { clean(); rej(new Error('Timeout sau 15 giây')); }, 15000);
-    window[cb] = d => { clean(); res(d); };
-    function clean() {
-      clearTimeout(t); delete window[cb];
-      if (s.parentNode) s.parentNode.removeChild(s);
-    }
-    s.onerror = () => { clean(); rej(new Error('Lỗi tải script JSONP')); };
-    document.head.appendChild(s);
+// ── SUPABASE ──────────────────────────────────────────
+const SB_URL = 'https://isrordffxrcpvapxkjyf.supabase.co';      // Project Settings → API → Project URL
+const SB_KEY = 'sb_publishable_FGL-s_fixO6AJR5hDLQ9-Q_2o8K9qUq'; // Project Settings → API
+let _token = '';
+try { _token = localStorage.getItem('eng_token') || ''; } catch (e) {}
+
+async function callGAS(p) {            // giữ tên cũ để không phải sửa chỗ khác
+  const { action, ...params } = p;
+  const res = await fetch(SB_URL + '/rest/v1/rpc/api', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+    body: JSON.stringify({ p_action: action, p_token: _token, p_params: params })
   });
+  if (!res.ok) throw new Error('Lỗi kết nối (' + res.status + ')');
+  const d = await res.json();
+  if (d && d.code === 'AUTH') doLogout();     // hết phiên → về màn hình đăng nhập
+  return d;
 }
 
 // ── DATE UTILS ────────────────────────────────────────
@@ -1569,73 +1570,84 @@ function deleteTaskRecord(rowIndex, sig) {
   });
 }
 
-// Export tasks CSV
+// Xuất file Excel danh sách giao việc
 async function exportTasksCSV() {
   toast('Đang xuất...');
   try {
     const r = await callGAS({ action:'getTasks' });
     if (!r.success || !r.data.length) { toast('Không có dữ liệu','err'); return; }
-    const data = normArr(r.data);
-    const skip = new Set(['_rowIndex','_date']);
-    const keys = Object.keys(data[0]).filter(k => !skip.has(k));
-    const rows = [keys.join(','), ...data.map(row =>
-      keys.map(k => `"${String(row[k]||'').replace(/"/g,'""')}"`).join(','))];
-    const blob = new Blob([String.fromCharCode(0xFEFF)+rows.join('\n')], {type:'text/csv;charset=utf-8'});
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = 'GiaoViec_'+today()+'.csv'; a.click();
-    toast('✓ Đã xuất!','ok');
-  } catch(e) { toast('Lỗi: '+e.toString(),'err'); }
+    await exportXLSX({
+      title: 'DANH SÁCH GIAO VIỆC',
+      subtitle: 'Tính đến ngày ' + fmtD(today()),
+      data: normArr(r.data),
+      sheetName: 'GiaoViec',
+      filename: 'GiaoViec_' + fmtD(today()).replace(/\//g,'-') + '.xlsx'
+    });
+  } catch(e) { toast('Lỗi: ' + e.toString(), 'err'); }
 }
 
 // ── LOGIN ─────────────────────────────────────────────
+function enterApp(r) {
+  user = r;
+  const ini = (r.hoten || '?').split(' ').map(w => w[0]).slice(-2).join('').toUpperCase();
+  document.getElementById('uAvatar').textContent = ini;
+  document.getElementById('uName').textContent   = r.hoten;
+  document.getElementById('uRole').textContent   = r.vaitro === 'manager' ? 'Quản Lý' : 'Kỹ Thuật Viên';
+  document.getElementById('dwName').textContent  = r.hoten;
+  document.getElementById('dwDate').textContent  = fmtNowFull();
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appShell').style.display    = 'flex';
+  if (r.vaitro === 'manager') {
+    document.getElementById('btnGiaoViec').style.display  = 'flex';
+    document.getElementById('tabGiaoViec').style.display  = 'flex';
+    document.getElementById('gvManagerSection').style.display = 'block';
+    document.getElementById('gv_nguoigiao').value = r.hoten;
+    loadStaffIntoSelect();
+  } else {
+    document.getElementById('tabGiaoViec').style.display  = 'flex';
+    document.getElementById('gvStaffSection').style.display = 'block';
+  }
+  initApp();
+}
+
 async function doLogin() {
-  const manv = document.getElementById('loginId').value.trim();
   const pass = document.getElementById('loginPass').value.trim();
-  if (!manv || !pass) { document.getElementById('lerr').textContent = 'Nhập đủ thông tin'; return; }
-  document.getElementById('lerr').textContent = 'Đang xác thực...';
+  const lerr = document.getElementById('lerr');
+  if (!pass) { lerr.textContent = 'Nhập mật khẩu'; return; }
+  lerr.textContent = 'Đang xác thực...';
   try {
-    const r = await callGAS({ action:'login', manv, pass });
+    const r = await callGAS({ action: 'login', pass });
     if (r && r.success) {
-      user = r;
-      const ini = (r.hoten||'?').split(' ').map(w=>w[0]).slice(-2).join('').toUpperCase();
-      document.getElementById('uAvatar').textContent = ini;
-      document.getElementById('uName').textContent   = r.hoten;
-      document.getElementById('uRole').textContent   = r.vaitro === 'manager' ? 'Quản Lý' : 'Kỹ Thuật Viên';
-      document.getElementById('dwName').textContent  = r.hoten;
-      document.getElementById('dwDate').textContent  = fmtNowFull();
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('appShell').style.display    = 'flex';
-      // Role-based UI
-      if (r.vaitro === 'manager') {
-        document.getElementById('btnGiaoViec').style.display  = 'flex';
-        document.getElementById('tabGiaoViec').style.display  = 'flex';
-        document.getElementById('gvManagerSection').style.display = 'block';
-        document.getElementById('gv_nguoigiao').value = r.hoten;
-        loadStaffIntoSelect();
-      } else {
-        // staff: hiện tab Giao Việc nhưng chỉ thấy việc của mình
-        document.getElementById('tabGiaoViec').style.display  = 'flex';
-        document.getElementById('gvStaffSection').style.display = 'block';
-      }
-      initApp();
+      _token = r.token;
+      try { localStorage.setItem('eng_token', _token); } catch (e) {}
+      document.getElementById('loginPass').value = '';
+      lerr.textContent = '';
+      enterApp(r);
     } else {
-      document.getElementById('lerr').textContent = (r && r.msg) || 'Sai thông tin';
+      lerr.textContent = (r && r.msg) || 'Sai mật khẩu';
     }
   } catch (e) {
-    document.getElementById('lerr').textContent = 'Lỗi: ' + e.toString();
+    lerr.textContent = 'Lỗi: ' + e.toString();
   }
 }
 document.getElementById('loginPass').addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
 });
+
 function doLogout() {
-  user = null;
+  user = null; _token = '';
+  try { localStorage.removeItem('eng_token'); } catch (e) {}
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('appShell').style.display    = 'none';
-  document.getElementById('loginId').value  = '';
   document.getElementById('loginPass').value = '';
   document.getElementById('lerr').textContent = '';
 }
+
+// Tự đăng nhập lại nếu máy còn phiên (30 ngày)
+(async () => {
+  if (!_token) return;
+  try { const r = await callGAS({ action: 'me' }); if (r && r.success) enterApp(r); } catch (e) {}
+})();
 
 // ── TABS ──────────────────────────────────────────────
 document.querySelectorAll('.tbtn').forEach(btn =>
@@ -1682,11 +1694,14 @@ async function loadDashboard() {
   document.getElementById('dashCheckList').innerHTML = ld();
 
   try {
-    // JSONP không hỗ trợ parallel tốt → load tuần tự để tránh conflict callback
+    // Tải tuần tự
     const rCNAll  = await callGAS({ action:'getLog', sheet:'Log_CheckNgay' });
     const rCNToday= await callGAS({ action:'getLog', sheet:'Log_CheckNgay', from:d, to:d });
     const rSCAll  = await callGAS({ action:'getLog', sheet:'Log_SuaChuaPhong' });
     const rTasks  = await callGAS({ action:'getTasks' });
+    [rCNAll, rCNToday, rSCAll, rTasks].forEach(r => {
+      if (!r.success && r.code !== 'AUTH') toast('Lỗi dữ liệu: ' + (r.msg || 'không rõ'), 'err');
+    });
 
     const cnAll   = normArr(rCNAll.success   ? rCNAll.data   : []);
     _dashCNData   = normArr(rCNToday.success ? rCNToday.data : []);
@@ -2075,48 +2090,180 @@ async function savePCCC() {
   finally { isSaving = false; }
 }
 
-// ── EXPORT CSV ────────────────────────────────────────
-async function exportCSV(sheetName, dateInputId, prefix) {
+// ── XUẤT FILE EXCEL (.xlsx có kẻ khung, tiêu đề, căn lề) ──────────
+const XL_LABELS = {
+  Ngay:'Ngày', ThoiGian:'Thời gian', HoTen:'Nhân viên', MaNV:'Mã NV', MaNv:'Mã NV',
+  ViTri:'Vị trí', HangMuc:'Hạng mục', HangMucKhac:'Hạng mục khác',
+  NoiDungCongViec:'Nội dung công việc', ThoiGianChay:'Thời gian chạy', DienAp:'Điện áp (V)',
+  DauVoi:'Đầu vòi', CuonDay:'Cuộn dây', BinhPCCC:'Bình PCCC', DenExit:'Đèn Exit',
+  DenSuCo:'Đèn sự cố', BomChuaChay:'Bơm chữa cháy', BomBuAp:'Bơm bù áp',
+  TinhTrang:'Tình trạng', GhiChu:'Ghi chú',
+  DanhMuc:'Danh mục', NoiDungChiTiet:'Nội dung chi tiết', NguoiGiao:'Người giao',
+  NguoiDuocGiao:'Giao cho', HanHoanThanh:'Hạn hoàn thành', MucDoUuTien:'Mức độ ưu tiên',
+  TrangThai:'Trạng thái'
+};
+const XL_ORDER = ['Ngay','ThoiGian','HoTen','MaNV','MaNv','ViTri','DanhMuc','HangMuc','HangMucKhac',
+  'NoiDungCongViec','NoiDungChiTiet','ThoiGianChay','DienAp','DauVoi','CuonDay','BinhPCCC','DenExit',
+  'DenSuCo','BomChuaChay','BomBuAp','NguoiGiao','NguoiDuocGiao','HanHoanThanh','MucDoUuTien',
+  'TinhTrang','TrangThai','GhiChu'];
+const XL_SKIP   = new Set(['_rowIndex','_date','ID','Thang']);
+const XL_LONG   = new Set(['NoiDungCongViec','NoiDungChiTiet','GhiChu','ViTri']);
+const XL_CENTER = new Set(['Ngay','ThoiGian','MaNV','MaNv','TinhTrang','TrangThai','HanHoanThanh',
+  'ThoiGianChay','DienAp','MucDoUuTien','DauVoi','CuonDay','BinhPCCC','DenExit','DenSuCo',
+  'BomChuaChay','BomBuAp']);
+
+function buildXlsx(opts) {
+  const { title, subtitle, data, sheetName, who, whenText } = opts;
+  const all = new Set();
+  data.forEach(r => Object.keys(r).forEach(k => all.add(k)));
+  const keys = [...all]
+    .filter(k => !XL_SKIP.has(k) && data.some(r => String(r[k] == null ? '' : r[k]).trim() !== ''))
+    .sort((a, b) => {
+      const ia = XL_ORDER.indexOf(a), ib = XL_ORDER.indexOf(b);
+      return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+    });
+  const cell = (r, k) => {
+    let v = r[k] == null ? '' : String(r[k]).trim();
+    if ((k === 'Ngay' || k === 'HanHoanThanh') && v) v = fmtD(v);
+    return v;
+  };
+  const heads = ['STT', ...keys.map(k => XL_LABELS[k] || k)];
+  const n = heads.length;
+
+  const wb = new ExcelJS.Workbook();
+  wb.creator = 'ENG MHOTEL';
+  const ws = wb.addWorksheet((sheetName || 'Dữ liệu').slice(0, 31), {
+    views: [{ state: 'frozen', ySplit: 5 }],
+    pageSetup: { paperSize: 9, orientation: 'landscape', fitToPage: true,
+                 fitToWidth: 1, fitToHeight: 0, printTitlesRow: '5:5' }
+  });
+  const thin = { style: 'thin', color: { argb: 'FF444444' } };
+  const border = { top: thin, left: thin, bottom: thin, right: thin };
+
+  // Cột + độ rộng
+  const widths = heads.map((h, i) => {
+    if (i === 0) return 6;
+    const k = keys[i - 1];
+    const maxLen = Math.max(h.length, ...data.map(r => cell(r, k).length));
+    const cap = XL_LONG.has(k) ? 50 : 24;
+    return Math.min(Math.max(Math.ceil(maxLen * 1.15) + 2, 10), cap);
+  });
+  ws.columns = widths.map(w => ({ width: w }));
+
+  // Tiêu đề
+  ws.mergeCells(1, 1, 1, n);
+  const t = ws.getCell(1, 1);
+  t.value = 'ENG MHOTEL — ' + title;
+  t.font = { name: 'Arial', size: 16, bold: true, color: { argb: 'FF047857' } };
+  t.alignment = { horizontal: 'center', vertical: 'middle' };
+  ws.getRow(1).height = 30;
+
+  ws.mergeCells(2, 1, 2, n);
+  const st = ws.getCell(2, 1);
+  st.value = subtitle;
+  st.font = { name: 'Arial', size: 11, bold: true };
+  st.alignment = { horizontal: 'center', vertical: 'middle' };
+
+  ws.mergeCells(3, 1, 3, n);
+  const wh = ws.getCell(3, 1);
+  wh.value = 'Xuất bởi: ' + who + '  ·  ' + whenText;
+  wh.font = { name: 'Arial', size: 9, italic: true, color: { argb: 'FF6B7280' } };
+  wh.alignment = { horizontal: 'center', vertical: 'middle' };
+
+  // Hàng tiêu đề cột (hàng 5)
+  const hr = ws.getRow(5);
+  heads.forEach((h, i) => {
+    const c = hr.getCell(i + 1);
+    c.value = h;
+    c.font = { name: 'Arial', size: 11, bold: true, color: { argb: 'FFFFFFFF' } };
+    c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0E9F6E' } };
+    c.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+    c.border = border;
+  });
+  hr.height = 24;
+
+  // Dữ liệu
+  data.forEach((r, ri) => {
+    const row = ws.getRow(6 + ri);
+    let lines = 1;
+    const vals = [ri + 1, ...keys.map(k => cell(r, k))];
+    vals.forEach((v, i) => {
+      const c = row.getCell(i + 1);
+      c.value = v;
+      const k = i === 0 ? null : keys[i - 1];
+      c.font = { name: 'Arial', size: 10 };
+      c.border = border;
+      c.alignment = {
+        horizontal: (i === 0 || XL_CENTER.has(k)) ? 'center' : 'left',
+        vertical: 'middle', wrapText: true
+      };
+      const w = widths[i];
+      const need = String(v).split('\n').reduce((s, p) => s + Math.max(1, Math.ceil(p.length * 1.1 / w)), 0);
+      if (need > lines) lines = need;
+    });
+    row.height = Math.max(20, lines * 15);
+  });
+
+  // Dòng tổng
+  const tr = 6 + data.length + 1;
+  ws.mergeCells(tr, 1, tr, n);
+  const tc = ws.getCell(tr, 1);
+  tc.value = 'Tổng số: ' + data.length + ' bản ghi';
+  tc.font = { name: 'Arial', size: 10, bold: true };
+  tc.alignment = { horizontal: 'left', vertical: 'middle' };
+  return wb;
+}
+
+async function exportXLSX(opts) {
+  if (typeof ExcelJS === 'undefined') {
+    toast('Chưa tải được thư viện xuất file, kiểm tra mạng rồi tải lại trang', 'err'); return;
+  }
+  const d = new Date();
+  const wb = buildXlsx(Object.assign({
+    who: user ? user.hoten : '',
+    whenText: nowHHmm() + ' ' + p2(d.getDate()) + '/' + p2(d.getMonth() + 1) + '/' + d.getFullYear()
+  }, opts));
+  const buf = await wb.xlsx.writeBuffer();
+  const blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = opts.filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  toast('✓ Đã xuất file!', 'ok');
+}
+
+const XL_TITLES = {
+  Log_CheckNgay:'BÁO CÁO SỬA CHỮA', Log_SuaChuaPhong:'PHIẾU CHECKLIST',
+  Log_MayPhatDien:'NHẬT KÝ MÁY PHÁT ĐIỆN', Log_PCCC:'KIỂM TRA PCCC'
+};
+
+async function exportCSV(sheetName, dateInputId, prefix) {   // giữ tên hàm cũ để khỏi sửa nút
   const d = cleanDate(document.getElementById(dateInputId).value || today());
   toast('Đang xuất dữ liệu...');
   try {
     const r = await callGAS({ action:'getLog', sheet:sheetName, from:d, to:d });
-    if (!r.success || !r.data || !r.data.length) {
-      toast('Không có dữ liệu để xuất','err'); return;
-    }
-    const data = normArr(r.data);
-    // Loại bỏ các field nội bộ
-    const skip = new Set(['_rowIndex','_date']);
-    const keys = Object.keys(data[0]).filter(k => !skip.has(k));
-    const rows = [
-      keys.join(','),
-      ...data.map(row => keys.map(k => `"${String(row[k]||'').replace(/"/g,'""')}"`).join(','))
-    ];
-    const blob = new Blob([String.fromCharCode(0xFEFF)+rows.join('\n')], {type:'text/csv;charset=utf-8'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = prefix+'_'+fmtD(d).replace(/\//g,'-')+'.csv';
-    a.click();
-    toast('✓ Đã xuất CSV!', 'ok');
-  } catch(e) {
-    toast('Lỗi xuất: ' + e.toString(),'err');
-  }
+    if (!r.success || !r.data || !r.data.length) { toast('Không có dữ liệu để xuất','err'); return; }
+    await exportXLSX({
+      title: XL_TITLES[sheetName] || sheetName,
+      subtitle: 'Ngày: ' + fmtD(d),
+      data: normArr(r.data),
+      sheetName: prefix,
+      filename: prefix + '_' + fmtD(d).replace(/\//g,'-') + '.xlsx'
+    });
+  } catch(e) { toast('Lỗi xuất: ' + e.toString(), 'err'); }
 }
 
 async function exportDashCSV() {
   if (!_dashCNData.length) { toast('Chưa có dữ liệu hôm nay','err'); return; }
-  const skip = new Set(['_rowIndex','_date']);
-  const keys = Object.keys(_dashCNData[0]).filter(k => !skip.has(k));
-  const rows = [
-    keys.join(','),
-    ..._dashCNData.map(row => keys.map(k => `"${String(row[k]||'').replace(/"/g,'""')}"`).join(','))
-  ];
-  const blob = new Blob([String.fromCharCode(0xFEFF)+rows.join('\n')], {type:'text/csv;charset=utf-8'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'Dashboard_'+fmtD(today()).replace(/\//g,'-')+'.csv';
-  a.click();
-  toast('✓ Đã xuất CSV Dashboard!', 'ok');
+  try {
+    await exportXLSX({
+      title: 'HOẠT ĐỘNG HÔM NAY',
+      subtitle: 'Ngày: ' + fmtD(today()),
+      data: _dashCNData,
+      sheetName: 'HoatDongHomNay',
+      filename: 'HoatDong_' + fmtD(today()).replace(/\//g,'-') + '.xlsx'
+    });
+  } catch(e) { toast('Lỗi xuất: ' + e.toString(), 'err'); }
 }
 
 // Network status
