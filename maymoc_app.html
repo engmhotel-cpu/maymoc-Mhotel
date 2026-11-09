@@ -713,6 +713,108 @@ body.is-mgr .mgr-only{display:inline-flex!important;}
 .hm-item .hi-del:hover{background:#FECACA;}
 .hm-item .hi-lock{font-size:11px;color:var(--mut);}
 .hm-hint{font-size:12px;color:var(--mut);margin:0;}
+/* ===== ROSTER ===== */
+.ro-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px;}
+.ro-period{display:flex;align-items:center;gap:4px;background:var(--sur);border:1px solid var(--brd);
+  border-radius:12px;padding:4px;box-shadow:var(--sh);}
+.ro-nav{width:40px;height:40px;border:none;background:var(--sur2);border-radius:9px;font-size:22px;
+  line-height:1;cursor:pointer;color:var(--txt);}
+.ro-nav:hover{background:var(--sur3);}
+.ro-range{min-width:150px;text-align:center;font-weight:800;font-size:15px;line-height:1.2;}
+.ro-range small{display:block;font-size:11px;color:var(--mut);font-weight:600;}
+.ro-tools{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto;}
+.ro-tools .bsm{height:40px;font-size:12px;display:inline-flex;align-items:center;justify-content:center;}
+@media(max-width:767px){
+  .ro-period{width:100%;justify-content:space-between;}
+  .ro-tools{margin-left:0;width:100%;}
+  .ro-tools .bsm{flex:1 1 0;min-width:0;padding:0 6px;}
+}
+.ro-note{font-size:12px;color:var(--mut);margin:0 2px 8px;}
+.ro-note:empty{display:none;}
+.ro-wrap{overflow:auto;max-height:72vh;background:var(--sur);border:1px solid var(--brd);border-radius:14px;
+  box-shadow:var(--sh);-webkit-overflow-scrolling:touch;}
+.ro-grid,.ph-table{border-collapse:separate;border-spacing:0;font-size:12px;}
+.ro-grid th,.ro-grid td{padding:0;border-bottom:1px solid #E8EDF3;border-right:1px solid #E8EDF3;text-align:center;}
+.ro-grid thead th{position:sticky;top:0;z-index:2;background:#1E3A8A;color:#fff;height:48px;min-width:46px;}
+.ro-grid thead th .d{display:block;font-size:14px;font-weight:800;line-height:1.1;}
+.ro-grid thead th .w{display:block;font-size:10px;font-weight:600;opacity:.85;}
+.ro-grid thead th.we{background:#312E81;}
+.ro-grid thead th.today{background:#DC2626;}
+.ro-grid td.we{background:#F8FAFC;}
+.ro-grid td.today{background:#FEF2F2;box-shadow:inset 2px 0 0 #DC2626,inset -2px 0 0 #DC2626;}
+.ro-grid tbody tr:last-child td.today{box-shadow:inset 2px 0 0 #DC2626,inset -2px 0 0 #DC2626,inset 0 -2px 0 #DC2626;}
+.nm{position:sticky;left:0;z-index:1;background:var(--sur);text-align:left!important;padding:6px 10px!important;
+  min-width:150px;max-width:150px;border-right:2px solid #CBD5E1!important;}
+thead .nm{z-index:3!important;background:#0F172A!important;color:#fff;font-size:12px;font-weight:700;}
+.nm .nm-full{display:block;font-weight:700;font-size:13px;line-height:1.25;color:var(--txt);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nm .nm-short{display:none;font-weight:800;font-size:12px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+thead .nm .nm-full,thead .nm .nm-short{color:#fff;}
+.ro-compact .nm{min-width:62px;max-width:62px;padding:6px!important;}
+.ro-compact .nm .nm-full{display:none;}
+.ro-compact .nm .nm-short{display:block;}
+@media(max-width:767px){
+  .nm{min-width:118px;max-width:118px;}
+  .nm .nm-full{font-size:12px;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+  .ro-compact .nm .nm-full{display:none;}
+  .ph-table td{min-width:46px;font-size:13px;padding:8px 3px;}
+  .ph-table thead th{font-size:11px;padding:6px 3px;}
+  .ph-table input{width:46px;font-size:13px;}
+}
+tr.me .nm{background:#FEF9C3;box-shadow:inset 4px 0 0 #F59E0B;}
+tr.me td{background:#FFFBEB;}
+.ro-cell{width:46px;height:42px;display:flex;align-items:center;justify-content:center;position:relative;
+  border:none;background:transparent;padding:0;font:inherit;margin:0 auto;}
+button.ro-cell{cursor:pointer;}
+button.ro-cell:hover{background:#E0F2FE;}
+button.ro-cell:empty::after{content:'+';color:#CBD5E1;font-size:16px;font-weight:700;}
+.ro-pill{min-width:34px;height:24px;padding:0 5px;border-radius:999px;display:inline-flex;align-items:center;
+  justify-content:center;font-size:11px;font-weight:800;border:1.5px solid transparent;white-space:nowrap;}
+.ro-pill.m{background:#DBEAFE;color:#1E3A8A;border-color:#93C5FD;}
+.ro-pill.a{background:#EDE9FE;color:#5B21B6;border-color:#C4B5FD;}
+.ro-pill.al{background:#FDE68A;color:#78350F;border-color:#F59E0B;}
+.ro-pill.al2{background:#FEF3C7;color:#78350F;border-color:#F59E0B;border-style:dashed;}
+.ro-pill.cl{background:#99F6E4;color:#134E4A;border-color:#2DD4BF;}
+.ro-pill.cl2{background:#CCFBF1;color:#134E4A;border-color:#2DD4BF;border-style:dashed;}
+.ro-pill.o{background:#fff;color:#DC2626;border-color:#FCA5A5;}
+.ro-pill.o2{background:#FFF1F2;color:#DC2626;border-color:#FCA5A5;border-style:dashed;}
+.ro-pill.ph{background:#FCE7F3;color:#9D174D;border-color:#F9A8D4;}
+.ro-pill.x{background:#F1F5F9;color:#334155;border-color:#CBD5E1;font-size:10px;}
+.ro-star{position:absolute;top:2px;right:2px;width:13px;height:13px;border-radius:50%;background:#F97316;
+  color:#fff;font-size:8px;line-height:13px;text-align:center;}
+.ro-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:10px 2px 0;font-size:12px;color:#475569;}
+.ro-legend span{display:inline-flex;align-items:center;gap:5px;}
+.ro-legend .ro-pill{min-width:30px;height:20px;font-size:10px;}
+.ro-empty{padding:30px 20px!important;color:var(--mut);font-size:14px;min-width:260px;}
+.ro-quick{display:flex;flex-wrap:wrap;gap:6px;}
+.ro-quick button{border:none;background:none;padding:0;cursor:pointer;}
+.ro-quick .ro-pill{height:36px;min-width:52px;font-size:13px;padding:0 10px;}
+.ro-auto{display:flex;align-items:center;gap:8px;font-size:13px;color:#374151;}
+.ro-auto input{width:18px;height:18px;}
+/* Bảng phép */
+.ph-wrap{max-height:none;box-shadow:none;}
+.ph-table th,.ph-table td{border-bottom:1px solid #E8EDF3;border-right:1px solid #E8EDF3;padding:8px 6px;text-align:center;}
+.ph-table thead th{background:#0F172A;color:#fff;font-size:12px;font-weight:700;white-space:nowrap;}
+.ph-table thead th.g-al{background:#B45309;}
+.ph-table thead th.g-cl{background:#0F766E;}
+.ph-table thead tr:nth-child(2) th.c-al{background:#FDE68A;color:#78350F;}
+.ph-table thead tr:nth-child(2) th.c-cl{background:#99F6E4;color:#134E4A;}
+.ph-table td{font-size:14px;font-weight:700;min-width:62px;}
+.ph-table td.left{color:#047857;}
+.ph-table td.neg{color:#DC2626;background:#FEF2F2;}
+.ph-table td.sep,.ph-table th.sep{border-left:2px solid #CBD5E1;}
+.ph-table input{width:58px;padding:6px 4px;border:1.5px solid var(--brd);border-radius:8px;text-align:center;
+  font-size:14px;font-weight:700;font-family:'Inter',sans-serif;background:#FFFBEB;}
+.ph-table input:focus{outline:none;border-color:var(--acc);}
+/* Danh sách tên */
+.rn-row{display:flex;align-items:center;gap:6px;padding:6px;border:1px solid var(--brd);border-radius:10px;background:var(--sur2);}
+.rn-row.hidden{opacity:.55;}
+.rn-row input[type=text]{flex:1;min-width:0;padding:8px 10px;border:1.5px solid var(--brd);border-radius:8px;
+  font-size:14px;font-family:'Inter',sans-serif;}
+.rn-btn{width:34px;height:34px;border:1px solid var(--brd);background:var(--sur);border-radius:8px;cursor:pointer;font-size:14px;}
+.rn-vis{display:flex;align-items:center;gap:4px;font-size:12px;color:#374151;white-space:nowrap;}
+/* Thanh menu 6 mục trên điện thoại */
+@media(max-width:767px){ .tbtn{font-size:10.5px;} .tbtn .ti{width:46px;} }
 /* Ô số liệu gọn hơn */
 .scard{padding:9px 10px;}
 .scard .snum{font-size:24px;}
@@ -764,6 +866,7 @@ body.is-mgr .mgr-only{display:inline-flex!important;}
     <div class="tbtn" data-tab="suachua" role="button" tabindex="0"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 13l2 2 4-4"/></svg></span><span class="tl">Checklist</span></div>
     <div class="tbtn" data-tab="hethong" role="button" tabindex="0"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span><span class="tl">Định kỳ</span></div>
     <div class="tbtn" data-tab="giaoviec" id="tabGiaoViec" style="display:none" role="button" tabindex="0"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4h11l-2 4 2 4H5"/></svg></span><span class="tl">Giao việc</span></div>
+    <div class="tbtn" data-tab="roster" role="button" tabindex="0"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M7 13h2M11 13h2M15 13h2M7 17h2M11 17h2"/></svg></span><span class="tl">Roster</span></div>
   </nav>
 
   <div class="content">
@@ -894,6 +997,35 @@ body.is-mgr .mgr-only{display:inline-flex!important;}
         <div id="gvStaffBanner"></div>
         <div id="gvStaffContent"><div class="ld"><div class="spin"></div>Đang tải...</div></div>
       </div>
+    </div>
+
+    <!-- TAB: ROSTER -->
+    <div class="tpanel" id="tab-roster">
+      <div class="ro-bar">
+        <div class="ro-period">
+          <button type="button" class="ro-nav" onclick="rosterShift(-1)" aria-label="Kỳ trước">‹</button>
+          <div class="ro-range" id="roRange">—</div>
+          <button type="button" class="ro-nav" onclick="rosterShift(1)" aria-label="Kỳ sau">›</button>
+        </div>
+        <div class="ro-tools">
+          <button type="button" class="bsm bt" onclick="rosterNow()">Kỳ này</button>
+          <button type="button" class="bsm bt" id="roCompactBtn" onclick="toggleRoCompact()">⇤ Thu gọn tên</button>
+          <button type="button" class="bsm ba mgr-only" onclick="openRoNV()">👥 Nhân viên</button>
+          <button type="button" class="bsm bexp" onclick="exportRoster()">⬇ Xuất file</button>
+        </div>
+      </div>
+      <div class="ro-note" id="roNote"></div>
+      <div class="ro-wrap" id="roWrap"><table class="ro-grid" id="roGrid"></table></div>
+      <div class="ro-legend" id="roLegend"></div>
+
+      <section class="sumcard" style="margin-top:26px">
+        <div class="sec-head">
+          <h2><span class="sec-ic pnd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7V3M16 7V3M4 11h16M5 5h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M9 16l2 2 4-4"/></svg></span>Bảng phép <span class="stag warn" id="phYear"></span></h2>
+          <button type="button" class="bsm ba mgr-only" onclick="savePhep()">💾 Lưu bảng phép</button>
+        </div>
+        <div class="ro-wrap ph-wrap" id="phWrap"><table class="ph-table" id="phTable"></table></div>
+        <p class="hm-hint" id="phHint"></p>
+      </section>
     </div>
 
   </div>
@@ -1092,6 +1224,47 @@ body.is-mgr .mgr-only{display:inline-flex!important;}
       <button class="bf bsec" onclick="closeMod('mGiaoViec')" style="flex:.8">Hủy bỏ</button>
       <button class="bf bpri" onclick="saveTask()"
         style="flex:1.2;background:linear-gradient(135deg,#4F46E5,#7C3AED)">✦ Tạo mới công việc</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: XẾP CA (chỉ Quản lý) -->
+<div class="ov" id="mRo">
+  <div class="modal">
+    <div class="mhd"><div class="mtitle" id="roEdTitle">Xếp ca</div><button class="mclose" onclick="closeMod('mRo')">✕</button></div>
+    <div class="mbody">
+      <div class="field"><label>Chọn nhanh (bấm là lưu)</label><div class="ro-quick" id="roQuick"></div></div>
+      <div class="field"><label for="roCode">Mã ca tự nhập</label>
+        <input id="roCode" type="text" maxlength="10" placeholder="VD: M8, A14, AL, O, TRAIN" autocomplete="off"
+          style="text-transform:uppercase" onkeydown="if(event.key==='Enter'){event.preventDefault();saveRoCell();}"/></div>
+      <div class="field"><label for="roNoteIn">Ghi chú (hiện dấu ★ trên ô)</label>
+        <input id="roNoteIn" type="text" maxlength="100" placeholder="Không bắt buộc"/></div>
+      <label class="ro-auto"><input type="checkbox" id="roAuto" checked/> Lưu xong tự chuyển sang ngày kế tiếp</label>
+    </div>
+    <div class="mft">
+      <button class="bf bsec" onclick="saveRoCell(true)">🗑 Xoá ô</button>
+      <button class="bf bpri" onclick="saveRoCell()">Lưu</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: TÊN NHÂN VIÊN TRONG ROSTER (chỉ Quản lý) -->
+<div class="ov" id="mRoNV">
+  <div class="modal">
+    <div class="mhd"><div class="mtitle">👥 Nhân viên trong Roster</div><button class="mclose" onclick="closeMod('mRoNV')">✕</button></div>
+    <div class="mbody">
+      <div class="field"><label for="rnNew">Thêm nhân viên</label>
+        <div class="hm-add-row">
+          <input id="rnNew" type="text" maxlength="60" placeholder="Họ tên nhân viên"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();addRoNV();}"/>
+          <button type="button" class="bsm ba" onclick="addRoNV()">＋ Thêm</button>
+        </div></div>
+      <div class="field"><label>Danh sách (sửa tên, sắp thứ tự, ẩn / hiện)</label><div id="rnList" class="hm-list"></div></div>
+      <p class="hm-hint">Danh sách dùng chung cho bảng Roster và bảng phép. "Ẩn" giữ lại dữ liệu cũ; "Xoá" xoá luôn lịch và phép của người đó.</p>
+    </div>
+    <div class="mft">
+      <button class="bf bsec" onclick="closeMod('mRoNV')">Đóng</button>
+      <button class="bf bpri" onclick="saveRoNV()">Lưu thay đổi</button>
     </div>
   </div>
 </div>
@@ -2215,6 +2388,7 @@ function loadTab(t) {
   else if (t === 'suachua')   loadSC();
   else if (t === 'hethong')   loadMP();
   else if (t === 'giaoviec')  loadTasks();
+  else if (t === 'roster')    loadRoster();
 }
 function initApp() {
   ['dateDK','dateSC','dateMP','datePCCC'].forEach(setTodayRange);
@@ -2421,6 +2595,329 @@ function selectToday(k) {
   _todaySel = k;
   renderToday();
   showStatDetail(k);
+}
+
+// ── ROSTER: LỊCH LÀM VIỆC + BẢNG PHÉP ─────────────────
+// Kỳ lịch: 24 tháng này → 23 tháng sau. Quản lý xếp ca, nhân viên chỉ xem.
+let _roStart = null, _roNV = [], _roNVAll = [], _roCa = {}, _roEdit = null, _roNvDraft = [];
+let _roCompact = false, _phData = [], _phYear = null;
+try { _roCompact = localStorage.getItem('ro_compact') === '1'; } catch (e) {}
+const RO_QUICK = ['M7','M8','M9','A12','A14','O','AL','CL','PH','AL2','CL2','O2','TRAIN'];
+const RO_WD = ['CN','T2','T3','T4','T5','T6','T7'];
+const RO_LEGEND = [['M','m','Sáng'],['A','a','Chiều'],['AL','al','Phép'],['CL','cl','Bù'],['O','o','Off'],
+  ['PH','ph','Lễ'],['AL2','al2','½ Phép'],['CL2','cl2','½ Bù'],['O2','o2','½ Off']];
+const isMgr = () => !!(user && user.vaitro === 'manager');
+function ymdL(d) { return d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()); }
+function roCycleOf(d) {
+  return d.getDate() >= 24 ? new Date(d.getFullYear(), d.getMonth(), 24) : new Date(d.getFullYear(), d.getMonth() - 1, 24);
+}
+function roEnd() { return new Date(_roStart.getFullYear(), _roStart.getMonth() + 1, 23); }
+function roDays() {
+  const out = [], end = roEnd();
+  for (let d = new Date(_roStart); d <= end; d.setDate(d.getDate() + 1)) out.push(new Date(d));
+  return out;
+}
+function roCls(ma) {
+  const m = String(ma || '').toUpperCase().trim();
+  if (m === 'AL2') return 'al2'; if (m.startsWith('AL')) return 'al';
+  if (m === 'CL2') return 'cl2'; if (m.startsWith('CL')) return 'cl';
+  if (m === 'O2') return 'o2';  if (m === 'O' || m === 'OFF') return 'o';
+  if (m === 'PH') return 'ph';
+  if (/^M\d/.test(m)) return 'm'; if (/^A\d/.test(m)) return 'a';
+  return 'x';
+}
+function shortName(n) { const w = String(n || '').trim().split(/\s+/); return w[w.length - 1] || ''; }
+function isMe(n) { return !!user && noAccent(n).trim() === noAccent(user.hoten).trim(); }
+function fmtNum(x) { const v = Math.round(Number(x || 0) * 10) / 10; return String(v).replace('.', ','); }
+
+function applyRoCompact() {
+  ['roWrap', 'phWrap'].forEach(id => document.getElementById(id).classList.toggle('ro-compact', _roCompact));
+  document.getElementById('roCompactBtn').textContent = _roCompact ? '⇥ Hiện đủ tên' : '⇤ Thu gọn tên';
+}
+function toggleRoCompact() {
+  _roCompact = !_roCompact;
+  try { localStorage.setItem('ro_compact', _roCompact ? '1' : '0'); } catch (e) {}
+  applyRoCompact();
+}
+function rosterShift(n) { _roStart = new Date(_roStart.getFullYear(), _roStart.getMonth() + n, 24); loadRoster(); }
+function rosterNow() { _roStart = roCycleOf(new Date()); loadRoster(); }
+
+async function loadRoster() {
+  if (!_roStart) _roStart = roCycleOf(new Date());
+  const end = roEnd();
+  document.getElementById('roRange').innerHTML =
+    `${p2(_roStart.getDate())}/${p2(_roStart.getMonth() + 1)} – ${p2(end.getDate())}/${p2(end.getMonth() + 1)}<small>Năm ${end.getFullYear()}</small>`;
+  document.getElementById('roNote').textContent = isMgr()
+    ? 'Bấm vào ô để xếp ca. Nhân viên chỉ xem được, không sửa.'
+    : 'Lịch chỉ xem. Hàng của bạn được tô vàng. Ô có ★ là có ghi chú, bấm để xem.';
+  document.getElementById('roLegend').innerHTML = RO_LEGEND.map(([c, k, t]) =>
+    `<span><span class="ro-pill ${k}">${c}</span>${t}</span>`).join('') +
+    '<span><span class="ro-pill" style="background:#F97316;color:#fff;min-width:20px">★</span>Có ghi chú</span>';
+  applyRoCompact();
+  document.getElementById('roGrid').innerHTML = `<tbody><tr><td class="ro-empty"><div class="ld"><div class="spin"></div>Đang tải...</div></td></tr></tbody>`;
+  try {
+    const r = await sbRpc('roster_get', { p_token: _token, p_from: ymdL(_roStart), p_to: ymdL(end) });
+    if (!r || !r.success) { if (r && r.code === 'AUTH') { doLogout(); return; } throw new Error((r && r.msg) || 'Không tải được'); }
+    _roNVAll = (r.nv || []).slice().sort((a, b) => (a.thu_tu - b.thu_tu) || String(a.hoten).localeCompare(b.hoten, 'vi'));
+    _roNV = _roNVAll.filter(n => !n.an);
+    _roCa = {};
+    (r.ca || []).forEach(c => { _roCa[c.nv + '|' + String(c.ngay).slice(0, 10)] = c; });
+    renderRoster(true);
+  } catch (e) {
+    document.getElementById('roGrid').innerHTML = `<tbody><tr><td class="ro-empty">Chưa tải được lịch. Kiểm tra đã chạy file roster_supabase.sql trên Supabase chưa.<br><small>${escH(e.message)}</small></td></tr></tbody>`;
+  }
+  loadPhep();
+}
+
+function renderRoster(scrollToday) {
+  const grid = document.getElementById('roGrid'), wrap = document.getElementById('roWrap');
+  const days = roDays(), td = today(), mgr = isMgr();
+  if (!_roNV.length) {
+    grid.innerHTML = `<tbody><tr><td class="ro-empty">${mgr
+      ? 'Chưa có nhân viên. Bấm “👥 Nhân viên” để nhập tên.' : 'Chưa có lịch làm việc cho kỳ này.'}</td></tr></tbody>`;
+    return;
+  }
+  const head = `<thead><tr><th class="nm" scope="col"><span class="nm-full">Nhân viên</span><span class="nm-short">Tên</span></th>${
+    days.map(d => {
+      const k = ymdL(d), we = d.getDay() === 0 || d.getDay() === 6;
+      return `<th scope="col" class="${we ? 'we' : ''}${k === td ? ' today' : ''}"><span class="d">${p2(d.getDate())}</span><span class="w">${RO_WD[d.getDay()]}</span></th>`;
+    }).join('')}</tr></thead>`;
+  const body = _roNV.map(n => `<tr class="${isMe(n.hoten) ? 'me' : ''}"><th class="nm" scope="row" title="${escH(n.hoten)}">
+      <span class="nm-full">${escH(n.hoten)}</span><span class="nm-short">${escH(shortName(n.hoten))}</span></th>${
+    days.map(d => {
+      const k = ymdL(d), c = _roCa[n.nv + '|' + k], we = d.getDay() === 0 || d.getDay() === 6;
+      const inner = c ? `<span class="ro-pill ${roCls(c.ma)}">${escH(c.ma)}</span>${c.ghi_chu ? '<span class="ro-star" aria-hidden="true">★</span>' : ''}` : '';
+      const cls = `${we ? 'we' : ''}${k === td ? ' today' : ''}`;
+      const label = `${escH(n.hoten)} ${fmtD(k)}${c ? ': ' + escH(c.ma) : ''}${c && c.ghi_chu ? ' – ' + escH(c.ghi_chu) : ''}`;
+      if (mgr) return `<td class="${cls}"><button type="button" class="ro-cell" data-nv="${escH(n.nv)}" data-d="${k}"
+          onclick="openRoCell(this.dataset.nv,this.dataset.d)" aria-label="${label}" title="${label}">${inner}</button></td>`;
+      return `<td class="${cls}"><div class="ro-cell" title="${label}"${c && c.ghi_chu
+          ? ` role="button" tabindex="0" data-note="${escH(c.ma + ': ' + c.ghi_chu)}" onclick="toast(this.dataset.note)"` : ''}>${inner}</div></td>`;
+    }).join('')}</tr>`).join('');
+  grid.innerHTML = head + '<tbody>' + body + '</tbody>';
+  if (scrollToday) {
+    const t = grid.querySelector('thead th.today'), nm = grid.querySelector('thead th.nm');
+    wrap.scrollLeft = t ? Math.max(0, t.offsetLeft - (nm ? nm.offsetWidth : 0) - 46 * 2) : 0;
+  }
+}
+
+function openRoCell(nv, k) {
+  if (!isMgr()) return;
+  const n = _roNVAll.find(x => x.nv === nv); if (!n) return;
+  _roEdit = { nv, k };
+  const d = new Date(k + 'T00:00:00'), c = _roCa[nv + '|' + k];
+  document.getElementById('roEdTitle').textContent = `${n.hoten} · ${RO_WD[d.getDay()]} ${fmtD(k)}`;
+  document.getElementById('roCode').value = c ? c.ma : '';
+  document.getElementById('roNoteIn').value = c && c.ghi_chu ? c.ghi_chu : '';
+  const used = [...new Set(Object.values(_roCa).map(x => String(x.ma).toUpperCase()))];
+  const codes = [...RO_QUICK, ...used.filter(x => !RO_QUICK.includes(x))];
+  document.getElementById('roQuick').innerHTML = codes.map(x =>
+    `<button type="button" data-v="${escH(x)}" onclick="roQuickPick(this.dataset.v)" aria-label="Ca ${escH(x)}">
+      <span class="ro-pill ${roCls(x)}">${escH(x)}</span></button>`).join('');
+  document.getElementById('mRo').classList.add('open');
+}
+function roQuickPick(code) { document.getElementById('roCode').value = code; saveRoCell(); }
+async function saveRoCell(clear) {
+  if (!_roEdit) return;
+  const ma = clear ? '' : document.getElementById('roCode').value.trim().toUpperCase();
+  const note = clear ? '' : document.getElementById('roNoteIn').value.trim();
+  if (!clear && !ma) { toast('Nhập hoặc chọn mã ca', 'err'); return; }
+  const { nv, k } = _roEdit, n = _roNVAll.find(x => x.nv === nv);
+  try {
+    const r = await sbRpc('roster_set', { p_token: _token, p_items: [{ nv, hoten: n ? n.hoten : '', ngay: k, ma, ghi_chu: note }] });
+    if (!r || !r.success) { toast((r && r.msg) || 'Không lưu được', 'err'); return; }
+    if (ma) _roCa[nv + '|' + k] = { nv, ngay: k, ma, ghi_chu: note }; else delete _roCa[nv + '|' + k];
+    renderRoster(false);
+    schedulePhepReload();
+    const next = new Date(k + 'T00:00:00'); next.setDate(next.getDate() + 1);
+    if (!clear && document.getElementById('roAuto').checked && next <= roEnd()) openRoCell(nv, ymdL(next));
+    else { closeMod('mRo'); _roEdit = null; }
+  } catch (e) { toast('Lỗi: ' + e.message, 'err'); }
+}
+
+// Tên nhân viên (Quản lý tự nhập)
+function openRoNV() {
+  if (!isMgr()) return;
+  _roNvDraft = _roNVAll.map(n => Object.assign({}, n));
+  document.getElementById('rnNew').value = '';
+  renderRoNV();
+  document.getElementById('mRoNV').classList.add('open');
+}
+function renderRoNV() {
+  const box = document.getElementById('rnList');
+  if (!_roNvDraft.length) { box.innerHTML = '<p class="hm-hint">Chưa có nhân viên nào.</p>'; return; }
+  box.innerHTML = _roNvDraft.map((n, i) => `<div class="rn-row${n.an ? ' hidden' : ''}">
+    <button type="button" class="rn-btn" onclick="moveRoNV(${i},-1)" aria-label="Lên" ${i === 0 ? 'disabled' : ''}>↑</button>
+    <button type="button" class="rn-btn" onclick="moveRoNV(${i},1)" aria-label="Xuống" ${i === _roNvDraft.length - 1 ? 'disabled' : ''}>↓</button>
+    <input type="text" maxlength="60" value="${escH(n.hoten)}" aria-label="Tên nhân viên" oninput="_roNvDraft[${i}].hoten=this.value"/>
+    <label class="rn-vis"><input type="checkbox" ${n.an ? '' : 'checked'} onchange="_roNvDraft[${i}].an=!this.checked;this.closest('.rn-row').classList.toggle('hidden',!this.checked)"/> Hiện</label>
+    <button type="button" class="hi-del" onclick="delRoNV(${i})">Xoá</button>
+  </div>`).join('');
+}
+function moveRoNV(i, dir) {
+  const j = i + dir; if (j < 0 || j >= _roNvDraft.length) return;
+  [_roNvDraft[i], _roNvDraft[j]] = [_roNvDraft[j], _roNvDraft[i]];
+  renderRoNV();
+}
+async function addRoNV() {
+  const name = document.getElementById('rnNew').value.trim();
+  if (!name) { toast('Nhập tên nhân viên', 'err'); return; }
+  try {
+    const r = await sbRpc('roster_nv_add', { p_token: _token, p_hoten: name });
+    if (!r || !r.success) { toast((r && r.msg) || 'Không thêm được', 'err'); return; }
+    _roNvDraft.push({ nv: r.nv, hoten: name, thu_tu: _roNvDraft.length + 1, an: false });
+    document.getElementById('rnNew').value = '';
+    renderRoNV();
+    toast('✓ Đã thêm ' + name, 'ok');
+  } catch (e) { toast('Lỗi: ' + e.message, 'err'); }
+}
+function delRoNV(i) {
+  const n = _roNvDraft[i];
+  showConfirm(`Xoá "${n.hoten}" khỏi Roster? Lịch làm và bảng phép của người này cũng bị xoá. Muốn giữ dữ liệu thì bỏ chọn "Hiện".`, async () => {
+    try {
+      const r = await sbRpc('roster_nv_set', { p_token: _token, p_items: [{ nv: n.nv, xoa: true }] });
+      if (!r || !r.success) { toast((r && r.msg) || 'Không xoá được', 'err'); return; }
+      _roNvDraft.splice(i, 1);
+      renderRoNV();
+      toast('✓ Đã xoá ' + n.hoten, 'ok');
+    } catch (e) { toast('Lỗi: ' + e.message, 'err'); }
+  });
+}
+async function saveRoNV() {
+  const items = _roNvDraft.map((n, i) => ({ nv: n.nv, hoten: String(n.hoten || '').trim(), thu_tu: i + 1, an: !!n.an }));
+  if (items.some(x => !x.hoten)) { toast('Tên nhân viên không được để trống', 'err'); return; }
+  try {
+    const r = await sbRpc('roster_nv_set', { p_token: _token, p_items: items });
+    if (!r || !r.success) { toast((r && r.msg) || 'Không lưu được', 'err'); return; }
+    closeMod('mRoNV');
+    toast('✓ Đã lưu danh sách nhân viên', 'ok');
+    loadRoster();
+  } catch (e) { toast('Lỗi: ' + e.message, 'err'); }
+}
+
+// Bảng phép: Tổng do Quản lý nhập, Đã dùng tự đếm từ lịch (AL=1, AL2=½ · CL=1, CL2=½)
+let _phTimer = null;
+function schedulePhepReload() { clearTimeout(_phTimer); _phTimer = setTimeout(loadPhep, 800); }
+async function loadPhep() {
+  _phYear = roEnd().getFullYear();
+  document.getElementById('phYear').textContent = 'Năm ' + _phYear;
+  document.getElementById('phHint').textContent =
+    `"Đã dùng" tự đếm từ lịch năm ${_phYear}: AL = 1 ngày, AL2 = ½ ngày (phép) · CL = 1, CL2 = ½ (nghỉ bù).` +
+    (isMgr() ? ' Sửa ô "Tổng" rồi bấm Lưu bảng phép.' : '');
+  try {
+    const r = await sbRpc('phep_get', { p_token: _token, p_nam: _phYear });
+    if (!r || !r.success) throw new Error((r && r.msg) || 'Không tải được');
+    _phData = r.data || [];
+    renderPhep();
+  } catch (e) {
+    document.getElementById('phTable').innerHTML = `<tbody><tr><td class="ro-empty">Chưa tải được bảng phép. <small>${escH(e.message)}</small></td></tr></tbody>`;
+  }
+}
+function renderPhep() {
+  const t = document.getElementById('phTable'), mgr = isMgr();
+  if (!_phData.length) { t.innerHTML = `<tbody><tr><td class="ro-empty">Chưa có nhân viên.</td></tr></tbody>`; return; }
+  const inp = (nv, f, v) => mgr
+    ? `<input type="number" min="0" step="0.5" inputmode="decimal" data-nv="${escH(nv)}" data-f="${f}" value="${Number(v)}" aria-label="${f === 'phep_nam' ? 'Tổng phép năm' : 'Tổng nghỉ bù'}"/>`
+    : fmtNum(v);
+  t.innerHTML = `<thead>
+      <tr><th class="nm" rowspan="2" scope="col"><span class="nm-full">Nhân viên</span><span class="nm-short">Tên</span></th>
+        <th colspan="3" class="g-al sep">Phép năm</th><th colspan="3" class="g-cl sep">Nghỉ bù</th></tr>
+      <tr><th class="c-al sep">Tổng</th><th class="c-al">Đã dùng</th><th class="c-al">Còn</th>
+        <th class="c-cl sep">Tổng</th><th class="c-cl">Đã dùng</th><th class="c-cl">Còn</th></tr></thead><tbody>${
+    _phData.map(p => {
+      const conAl = Number(p.phep_nam) - Number(p.al_dung), conCl = Number(p.bu_ton) - Number(p.cl_dung);
+      return `<tr class="${isMe(p.hoten) ? 'me' : ''}"><th class="nm" scope="row" title="${escH(p.hoten)}">
+          <span class="nm-full">${escH(p.hoten)}</span><span class="nm-short">${escH(shortName(p.hoten))}</span></th>
+        <td class="sep">${inp(p.nv, 'phep_nam', p.phep_nam)}</td><td>${fmtNum(p.al_dung)}</td>
+        <td class="${conAl < 0 ? 'neg' : 'left'}">${fmtNum(conAl)}</td>
+        <td class="sep">${inp(p.nv, 'bu_ton', p.bu_ton)}</td><td>${fmtNum(p.cl_dung)}</td>
+        <td class="${conCl < 0 ? 'neg' : 'left'}">${fmtNum(conCl)}</td></tr>`;
+    }).join('')}</tbody>`;
+  applyRoCompact();
+}
+async function savePhep() {
+  if (!isMgr()) return;
+  const map = {};
+  document.querySelectorAll('#phTable input[data-nv]').forEach(i => {
+    (map[i.dataset.nv] = map[i.dataset.nv] || { nv: i.dataset.nv })[i.dataset.f] = Number(i.value || 0);
+  });
+  try {
+    const r = await sbRpc('phep_set', { p_token: _token, p_nam: _phYear, p_items: Object.values(map) });
+    if (!r || !r.success) { toast((r && r.msg) || 'Không lưu được', 'err'); return; }
+    toast('✓ Đã lưu bảng phép', 'ok');
+    loadPhep();
+  } catch (e) { toast('Lỗi: ' + e.message, 'err'); }
+}
+
+// Xuất Excel: sheet Lịch làm (tô màu theo ca) + sheet Bảng phép
+async function exportRoster() {
+  if (typeof ExcelJS === 'undefined') { toast('Chưa tải được thư viện xuất file', 'err'); return; }
+  if (!_roNV.length) { toast('Chưa có dữ liệu lịch', 'err'); return; }
+  const FILL = { m:'FFDBEAFE', a:'FFEDE9FE', al:'FFFDE68A', al2:'FFFEF3C7', cl:'FF99F6E4', cl2:'FFCCFBF1', o:'FFFFFFFF', o2:'FFFFF1F2', ph:'FFFCE7F3', x:'FFF1F5F9' };
+  const days = roDays(), end = roEnd();
+  const wb = new ExcelJS.Workbook();
+  const ws = wb.addWorksheet('Lich lam', { views: [{ state: 'frozen', xSplit: 1, ySplit: 3 }] });
+  const thin = { style: 'thin', color: { argb: 'FFCBD5E1' } }, bd = { top: thin, left: thin, bottom: thin, right: thin };
+  ws.mergeCells(1, 1, 1, days.length + 1);
+  ws.getCell(1, 1).value = `ENG MHOTEL — LỊCH LÀM VIỆC ${p2(_roStart.getDate())}/${p2(_roStart.getMonth() + 1)}/${_roStart.getFullYear()} – ${p2(end.getDate())}/${p2(end.getMonth() + 1)}/${end.getFullYear()}`;
+  ws.getCell(1, 1).font = { name: 'Arial', size: 14, bold: true, color: { argb: 'FF047857' } };
+  ws.getColumn(1).width = 24;
+  const h1 = ws.getRow(2), h2 = ws.getRow(3);
+  h1.getCell(1).value = 'Nhân viên';
+  days.forEach((d, i) => {
+    ws.getColumn(i + 2).width = 6;
+    h1.getCell(i + 2).value = d.getDate();
+    h2.getCell(i + 2).value = RO_WD[d.getDay()];
+  });
+  [h1, h2].forEach(r => r.eachCell({ includeEmpty: true }, c => {
+    c.font = { name: 'Arial', size: 10, bold: true, color: { argb: 'FFFFFFFF' } };
+    c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1E3A8A' } };
+    c.alignment = { horizontal: 'center', vertical: 'middle' }; c.border = bd;
+  }));
+  _roNV.forEach((n, ri) => {
+    const row = ws.getRow(4 + ri);
+    row.getCell(1).value = n.hoten;
+    row.getCell(1).font = { name: 'Arial', size: 10, bold: true }; row.getCell(1).border = bd;
+    days.forEach((d, i) => {
+      const c = _roCa[n.nv + '|' + ymdL(d)], cell = row.getCell(i + 2);
+      cell.border = bd; cell.alignment = { horizontal: 'center', vertical: 'middle' };
+      if (!c) return;
+      const k = roCls(c.ma);
+      cell.value = c.ma;
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: FILL[k] } };
+      cell.font = { name: 'Arial', size: 9, bold: true, color: { argb: k.startsWith('o') ? 'FFDC2626' : 'FF1F2937' } };
+      if (c.ghi_chu) cell.note = c.ghi_chu;
+    });
+  });
+  const ws2 = wb.addWorksheet('Bang phep');
+  ws2.columns = [{ width: 26 }, { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }];
+  ws2.mergeCells('A1:G1'); ws2.getCell('A1').value = 'ENG MHOTEL — BẢNG PHÉP NĂM ' + _phYear;
+  ws2.getCell('A1').font = { name: 'Arial', size: 14, bold: true, color: { argb: 'FF047857' } };
+  ws2.mergeCells('B2:D2'); ws2.mergeCells('E2:G2'); ws2.mergeCells('A2:A3');
+  ws2.getCell('A2').value = 'Nhân viên'; ws2.getCell('B2').value = 'Phép năm'; ws2.getCell('E2').value = 'Nghỉ bù';
+  ['B3','E3'].forEach(a => ws2.getCell(a).value = 'Tổng');
+  ['C3','F3'].forEach(a => ws2.getCell(a).value = 'Đã dùng');
+  ['D3','G3'].forEach(a => ws2.getCell(a).value = 'Còn');
+  [2, 3].forEach(r => ws2.getRow(r).eachCell({ includeEmpty: true }, c => {
+    c.font = { name: 'Arial', size: 10, bold: true, color: { argb: 'FFFFFFFF' } };
+    c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: c.col <= 1 ? 'FF0F172A' : c.col <= 4 ? 'FFB45309' : 'FF0F766E' } };
+    c.alignment = { horizontal: 'center', vertical: 'middle' }; c.border = bd;
+  }));
+  _phData.forEach((p, i) => {
+    const r = ws2.getRow(4 + i);
+    r.values = [p.hoten, Number(p.phep_nam), Number(p.al_dung), Number(p.phep_nam) - Number(p.al_dung),
+                Number(p.bu_ton), Number(p.cl_dung), Number(p.bu_ton) - Number(p.cl_dung)];
+    r.eachCell({ includeEmpty: true }, c => {
+      c.border = bd; c.font = { name: 'Arial', size: 10, bold: c.col === 1 };
+      if (c.col > 1) c.alignment = { horizontal: 'center' };
+    });
+  });
+  const buf = await wb.xlsx.writeBuffer();
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+  a.download = `Roster_${ymdL(_roStart)}_${ymdL(end)}.xlsx`;
+  document.body.appendChild(a); a.click(); a.remove();
+  toast('✓ Đã xuất file!', 'ok');
 }
 
 // ── STAT CARD DETAIL MODAL ────────────────────────────
