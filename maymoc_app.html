@@ -720,8 +720,8 @@ body.is-mgr .mgr-only{display:inline-flex!important;}
 .ro-nav{width:40px;height:40px;border:none;background:var(--sur2);border-radius:9px;font-size:22px;
   line-height:1;cursor:pointer;color:var(--txt);}
 .ro-nav:hover{background:var(--sur3);}
-.ro-range{min-width:150px;text-align:center;font-weight:800;font-size:15px;line-height:1.2;}
-.ro-range small{display:block;font-size:11px;color:var(--mut);font-weight:600;}
+.ro-range{min-width:170px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:21px;line-height:1.1;color:#1E3A8A;}
+.ro-range small{display:block;font-family:'Inter',sans-serif;font-size:12px;color:var(--mut);font-weight:600;margin-top:2px;}
 .ro-tools{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto;}
 .ro-tools .bsm{height:40px;font-size:12px;display:inline-flex;align-items:center;justify-content:center;}
 @media(max-width:767px){
@@ -791,12 +791,12 @@ button.ro-cell:empty::after{content:'+';color:#CBD5E1;font-size:16px;font-weight
 .ro-quick .ro-pill{height:36px;min-width:52px;font-size:13px;padding:0 10px;}
 .ro-auto{display:flex;align-items:center;gap:8px;font-size:13px;color:#374151;}
 .ro-auto input{width:18px;height:18px;}
-/* Cột Chủ nhật: viền vàng nguyên cột */
-.ro-grid thead th.sun{box-shadow:inset 3px 0 0 #FACC15,inset -3px 0 0 #FACC15,inset 0 3px 0 #FACC15;}
-.ro-grid td.sun{background:#FEFCE8;box-shadow:inset 3px 0 0 #FACC15,inset -3px 0 0 #FACC15;}
-.ro-grid tbody tr:last-child td.sun{box-shadow:inset 3px 0 0 #FACC15,inset -3px 0 0 #FACC15,inset 0 -3px 0 #FACC15;}
-.ro-grid thead th.sun.today{box-shadow:none;}
-.ro-grid td.sun.today{background:#FEF2F2;box-shadow:inset 2px 0 0 #DC2626,inset -2px 0 0 #DC2626;}
+/* Cột Chủ nhật: tô nền vàng */
+.ro-grid thead th.sun{background:#FACC15;color:#422006;}
+.ro-grid td.sun{background:#FEF08A;}
+tr.me td.sun{background:#FDE68A;}
+.ro-grid thead th.sun.today{background:#DC2626;color:#fff;}
+.ro-grid td.sun.today{background:#FEF2F2;}
 /* Ô đang xếp ca */
 .ro-cell.sel{outline:3px solid #DC2626;outline-offset:-3px;border-radius:6px;background:#FEE2E2!important;}
 /* Khung xếp ca nằm dưới bảng */
@@ -2707,7 +2707,7 @@ async function loadRoster() {
   closeRoEditor();
   const end = roEnd();
   document.getElementById('roRange').innerHTML =
-    `${p2(_roStart.getDate())}/${p2(_roStart.getMonth() + 1)} – ${p2(end.getDate())}/${p2(end.getMonth() + 1)}<small>Năm ${end.getFullYear()}</small>`;
+    `Roster tháng ${end.getMonth() + 1}<small>${p2(_roStart.getDate())}/${p2(_roStart.getMonth() + 1)} – ${p2(end.getDate())}/${p2(end.getMonth() + 1)}/${end.getFullYear()}</small>`;
   document.getElementById('roNote').textContent = isMgr()
     ? 'Bấm vào ô để xếp ca — khung xếp ca hiện ngay dưới bảng. Nhân viên chỉ xem được, không sửa.'
     : 'Lịch chỉ xem. Hàng của bạn được tô vàng. Ô có ★ là có ghi chú, bấm để xem.';
@@ -2946,7 +2946,7 @@ async function exportRoster() {
   const ws = wb.addWorksheet('Lich lam', { views: [{ state: 'frozen', xSplit: 1, ySplit: 3 }] });
   const thin = { style: 'thin', color: { argb: 'FFCBD5E1' } }, bd = { top: thin, left: thin, bottom: thin, right: thin };
   ws.mergeCells(1, 1, 1, days.length + 1);
-  ws.getCell(1, 1).value = `ENG MHOTEL — LỊCH LÀM VIỆC ${p2(_roStart.getDate())}/${p2(_roStart.getMonth() + 1)}/${_roStart.getFullYear()} – ${p2(end.getDate())}/${p2(end.getMonth() + 1)}/${end.getFullYear()}`;
+  ws.getCell(1, 1).value = `ENG MHOTEL — ROSTER THÁNG ${end.getMonth() + 1}/${end.getFullYear()} · ${p2(_roStart.getDate())}/${p2(_roStart.getMonth() + 1)}/${_roStart.getFullYear()} – ${p2(end.getDate())}/${p2(end.getMonth() + 1)}/${end.getFullYear()}`;
   ws.getCell(1, 1).font = { name: 'Arial', size: 14, bold: true, color: { argb: 'FF047857' } };
   ws.getColumn(1).width = 24;
   const h1 = ws.getRow(2), h2 = ws.getRow(3);
@@ -3002,7 +3002,7 @@ async function exportRoster() {
   const buf = await wb.xlsx.writeBuffer();
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
-  a.download = `Roster_${ymdL(_roStart)}_${ymdL(end)}.xlsx`;
+  a.download = `Roster_thang_${end.getMonth() + 1}_${end.getFullYear()}.xlsx`;
   document.body.appendChild(a); a.click(); a.remove();
   toast('✓ Đã xuất file!', 'ok');
 }
