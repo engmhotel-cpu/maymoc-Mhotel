@@ -640,6 +640,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 .card2 .card-del{top:7px;right:7px;width:22px;height:22px;}
 .card2 .pccc-badges{gap:3px;margin:2px 0;}
 .card2 .pbadge{font-size:9.5px;padding:2px 6px;}
+/* Hiện đầy đủ chữ — không cắt nội dung */
+.card2 .c2-title,.card2 .c2-meta{display:block;-webkit-line-clamp:unset;overflow:visible;word-break:break-word;}
+.card2 .c2-note{white-space:normal;overflow:visible;word-break:break-word;}
+.card2 .c2-badge.txt b,.card2 .c2-badge.inl b{white-space:normal;overflow:visible;line-height:1.25;}
 /* Ô số liệu gọn hơn */
 .scard{padding:9px 10px;}
 .scard .snum{font-size:24px;}
@@ -1379,14 +1383,29 @@ function cardSC(r, refreshFn) {
   const rf  = refreshFn || 'loadSC';
   return `<div class="card2 ${cls}">
     ${delBtn('Log_SuaChuaPhong', r, rf)}
-    ${placeBadge(hm === '—' ? '' : hm, 'HẠNG MỤC')}
+    ${scBadge(hm, nd)}
     <div class="c2-main">
       <div class="c2-title">${nd}</div>
-      <div class="c2-meta">${[hm, ht, ngay ? fmtD(ngay) : tg].filter(x => x && x !== '—').join(' · ')}</div>
+      <div class="c2-meta">${[roomIn(nd) ? hm : '', ht, ngay ? fmtD(ngay) : tg].filter(x => x && x !== '—').join(' · ')}</div>
       ${gc ? `<div class="c2-note">Ghi chú: ${gc}</div>` : ''}
       <div class="c2-tags">${pillBtn(tt,'Log_SuaChuaPhong',r,rf)}${agingTag(r, tt)}</div>
     </div>
   </div>`;
+}
+
+// Biểu tượng theo hạng mục
+const HM_ICONS = { 'chiếu sáng':'💡', 'điện':'⚡', 'nước':'💧', 'máy lạnh':'❄️', 'mộc':'🪚', 'khác':'📦' };
+function hmIcon(hm) { return HM_ICONS[normStatus(hm)] || '🔧'; }
+function roomIn(text) {
+  const m = String(text || '').match(/(?:^|[^\d\/:.,])(\d{3,4}[A-Za-z]?)(?![\d\/:.,])/);
+  return m ? m[1] : '';
+}
+// Checklist: có số phòng trong nội dung → PHÒNG xxx; không thì hiện hạng mục kèm biểu tượng
+function scBadge(hm, nd) {
+  const room = roomIn(nd);
+  if (room) return `<div class="c2-badge"><span>PHÒNG</span><b>${room}</b></div>`;
+  const h = hm && hm !== '—' ? hm : 'Khác';
+  return `<div class="c2-badge inl"><span>${hmIcon(h)}</span><b>${h}</b></div>`;
 }
 
 // Ô vị trí bên trái thẻ: số phòng → "PHÒNG 610", còn lại → nhãn + chữ nhỏ
