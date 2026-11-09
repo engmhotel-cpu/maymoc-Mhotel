@@ -832,6 +832,9 @@ tr.me td.sun{background:#FDE68A;}
   body.nav-mini .tbtn .tl{display:none;}
   body.nav-mini .nav-toggle{font-size:16px;}
 }
+/* Nút Giao việc chỉ hiện ở Tổng quan và Giao việc */
+body[data-tab="dinhky"] #btnGiaoViec,body[data-tab="suachua"] #btnGiaoViec,
+body[data-tab="hethong"] #btnGiaoViec,body[data-tab="roster"] #btnGiaoViec{display:none!important;}
 /* Bảng phép */
 .ph-wrap{max-height:none;box-shadow:none;}
 .ph-table th,.ph-table td{border-bottom:1px solid #E8EDF3;border-right:1px solid #E8EDF3;padding:8px 6px;text-align:center;}
@@ -2443,6 +2446,7 @@ function switchSub(prefix, name, el) {
   else if (name === 'pccc') loadPCCC();
 }
 function loadTab(t) {
+  document.body.dataset.tab = t;   // ẩn/hiện thành phần theo tab (nút Giao việc chỉ ở Tổng quan, Giao việc)
   if      (t === 'dashboard') loadDashboard();
   else if (t === 'dinhky')    loadDK();
   else if (t === 'suachua')   loadSC();
