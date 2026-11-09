@@ -580,15 +580,20 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 .empty-ok.task{border-left-color:var(--c-task);}
 
 /* --- v2: ô số liệu nền phẳng (khác thẻ công việc) --- */
-.scard{background:#F8FAFC;box-shadow:none;}
-.scard:hover{box-shadow:none;filter:brightness(.97);}
-.scard.ok{background:#ECFDF5;}
-.scard.info,.scard.blu{background:#EFF6FF;}
-.scard.pnd{background:#FFFBEB;}
-.scard.zero{background:#F3F4F6;}
-.scard.alert{background:#FEE2E2;}          /* tồn đọng có việc → nền đỏ nhạt nổi bật */
-.scard.alert .slabel{color:#7F1D1D;font-weight:700;}
-.scard.sel{box-shadow:0 0 0 3px rgba(4,120,87,.18);}
+/* Nền ô theo màu loại, đủ đậm để thấy rõ trên mọi màn hình; ô bằng 0 nền xám */
+.scard{box-shadow:none;}
+.scard:hover{box-shadow:none;filter:brightness(.96);}
+.scard.err{background:#FECACA;}
+.scard.pnd{background:#FDE68A;}
+.scard.sc {background:#DDD6FE;}
+.scard.ok {background:#A7F3D0;}
+.scard.info,.scard.blu{background:#BFDBFE;}
+.scard.zero{background:#E5E7EB;}
+.scard .slabel{font-weight:700;color:#1F2937;}
+.scard.sel{box-shadow:0 0 0 3px rgba(4,120,87,.25);}
+/* Thẻ công việc chưa xong → nền đỏ nhạt nổi bật */
+.card2.pnd,.card2.err{background:#FEF2F2;border-color:#FECACA;}
+.card2.pnd .c2-badge,.card2.err .c2-badge{background:#FFFFFF;}
 
 /* --- v2: tiêu đề khu vực rõ hơn --- */
 .sec-head{display:flex;align-items:center;justify-content:space-between;gap:8px;}
@@ -609,8 +614,39 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 .sub-title{font-size:14px;font-weight:700;color:#374151;margin:16px 2px 10px;}
 .sub-title:empty{display:none;}
 
-/* Bảng chi tiết (bottom sheet) */
-#mDetailBody .cgrid{grid-template-columns:1fr;}
+/* --- v3: THẺ GỌN — máy tính nhiều thẻ/hàng, điện thoại 2 thẻ/hàng --- */
+.cgrid{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr));}
+@media(min-width:768px){.cgrid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;}}
+#mDetailBody .cgrid{grid-template-columns:repeat(2,minmax(0,1fr));}
+.card2{flex-direction:column;gap:5px;padding:10px 10px 10px 9px;border-radius:12px;min-width:0;}
+.card2.task{border-left-color:var(--c-task);}
+.card2 .c2-badge{flex-direction:row;width:auto;min-height:0;align-self:flex-start;gap:5px;
+  padding:3px 8px;border-radius:8px;max-width:calc(100% - 30px);align-items:baseline;}
+.card2 .c2-badge span{font-size:9.5px;letter-spacing:.2px;}
+.card2 .c2-badge b{font-size:17px;line-height:1.1;}
+.card2 .c2-badge.txt b,.card2 .c2-badge.inl b{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;
+  display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:unset;}
+.card2 .c2-badge.inl span{font-size:12px;}
+.card2 .c2-main{padding-right:0;gap:3px;}
+.card2 .c2-title{font-size:13px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;
+  -webkit-box-orient:vertical;overflow:hidden;}
+.card2 .c2-meta{font-size:11px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;
+  -webkit-box-orient:vertical;overflow:hidden;}
+.card2 .c2-note{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.card2 .c2-tags{gap:4px;margin-top:3px;}
+.card2 .c2-tags .pill-btn,.card2 .c2-tags .task-pill-btn{font-size:10px;padding:2px 7px;}
+.card2 .pbadge-pri{font-size:9.5px;padding:2px 7px;}
+.card2 .tag-age{font-size:10px;padding:2px 6px;}
+.card2 .card-del{top:7px;right:7px;width:22px;height:22px;}
+.card2 .pccc-badges{gap:3px;margin:2px 0;}
+.card2 .pbadge{font-size:9.5px;padding:2px 6px;}
+/* Ô số liệu gọn hơn */
+.scard{padding:9px 10px;}
+.scard .snum{font-size:24px;}
+.scard .slabel{font-size:11.5px;margin-top:3px;}
+.stats-grid{gap:8px;}
+.scard.sel::after{top:8px;right:8px;width:8px;height:8px;}
+
 </style>
 </head>
 <body>
@@ -1385,23 +1421,15 @@ function cardMP(r) {
   const tg  = fld(r,'ThoiGian') || '—';
   const gc  = fld(r,'GhiChu');
   const cls = scls(tt);
-  return `<div class="card ${cls}">
+  return `<div class="card2 ${cls}">
     ${delBtn('Log_MayPhatDien', r, 'loadMP')}
-    <div class="ci">
-      <div class="czl">Hệ thống điện dự phòng</div>
-      <div class="cz">Máy Phát · ${hm}</div>
-      <div class="cmg">
-        <div><div class="cml">Nhân viên</div><div class="cmv">• ${ht}</div></div>
-        <div><div class="cml">Ngày · Giờ</div><div class="cmv">📅 ${ngay ? fmtD(ngay) : tg}</div></div>
-      </div>
-      <div class="csla">
-        <div class="si">Thời gian chạy: <span>${tgc}</span></div>
-        <div class="si">Điện áp: <span>${da}</span></div>
-      </div>
-      <div class="cft">
-        <div class="cnote">${gc ? 'Ghi chú: ' + gc : ''}</div>
-        ${pillBtn(tt,'Log_MayPhatDien',r,'loadMP')}
-      </div>
+    <div class="c2-badge inl"><span>⚡</span><b>Máy phát</b></div>
+    <div class="c2-main">
+      <div class="c2-title">${hm}</div>
+      <div class="c2-meta">Chạy: <b>${tgc}</b> · Điện áp: <b>${da}</b></div>
+      <div class="c2-meta">${ht} · ${ngay ? fmtD(ngay) : tg}</div>
+      ${gc ? `<div class="c2-note">Ghi chú: ${gc}</div>` : ''}
+      <div class="c2-tags">${pillBtn(tt,'Log_MayPhatDien',r,'loadMP')}</div>
     </div>
   </div>`;
 }
@@ -1428,20 +1456,15 @@ function cardPCCC(r) {
     return `<span class="pbadge ${bc}">${ico} ${name}: ${v}</span>`;
   }).filter(Boolean).join('');
 
-  return `<div class="card ${cls}">
+  return `<div class="card2 ${cls}">
     ${delBtn('Log_PCCC', r, 'loadPCCC')}
-    <div class="ci">
-      <div class="czl">Hệ thống PCCC · Tháng ${thang}</div>
-      <div class="cz">${hm}</div>
+    <div class="c2-badge inl"><span>🔥</span><b>PCCC · T${thang}</b></div>
+    <div class="c2-main">
+      <div class="c2-title">${hm}</div>
       ${badges ? `<div class="pccc-badges">${badges}</div>` : ''}
-      <div class="cmg">
-        <div><div class="cml">Người kiểm tra</div><div class="cmv">• ${ht}</div></div>
-        <div><div class="cml">Ngày · Giờ</div><div class="cmv">📅 ${ngay ? fmtD(ngay) : tg}</div></div>
-      </div>
-      <div class="cft">
-        <div class="cnote">${gc ? 'Ghi chú: ' + gc : ''}</div>
-        ${pillBtn(tt,'Log_PCCC',r,'loadPCCC')}
-      </div>
+      <div class="c2-meta">${ht} · ${ngay ? fmtD(ngay) : tg}</div>
+      ${gc ? `<div class="c2-note">Ghi chú: ${gc}</div>` : ''}
+      <div class="c2-tags">${pillBtn(tt,'Log_PCCC',r,'loadPCCC')}</div>
     </div>
   </div>`;
 }
@@ -1568,30 +1591,20 @@ function cardTask(r, canDelete) {
   const isUrgent = pri.toLowerCase().includes('cao');
   const cardCls = isDone ? 'done' : isUrgent ? 'urgent' : '';
   const delBtn2 = canDelete
-    ? `<button class="task-card-del" onclick="event.stopPropagation();deleteTaskRecord(${ri},'${sig}')">✕</button>`
+    ? `<button class="card-del" title="Xóa" onclick="event.stopPropagation();deleteTaskRecord(${ri},'${sig}')">✕</button>`
     : '';
   const hanText = han ? `📅 Hạn: ${fmtD(han)}` : '';
   const overdue = han && !isDone && cleanDate(han) < today()
-    ? `<span style="color:var(--warn);font-weight:700;font-size:10px">⚠️ Quá hạn!</span>` : '';
-  return `<div class="task-card ${cardCls}">
+    ? `<span class="tag-age">Quá hạn</span>` : '';
+  const taskCls = isDone ? 'ok' : isUrgent ? 'err' : 'task';
+  return `<div class="card2 ${taskCls}">
     ${delBtn2}
-    <div class="task-header">
-      <div class="task-cat-icon">${CAT_ICONS[cat]||'📦'}</div>
-      <div>
-        <div class="task-title">${cat}</div>
-        <div class="task-assignee">👤 Giao cho: <strong>${to}</strong> &nbsp;·&nbsp; Bởi: ${from}</div>
-      </div>
-    </div>
-    <div class="task-body">${nd}</div>
-    <div class="task-meta">
-      ${priBadge(pri)}
-      ${hanText ? `<span class="task-meta-item">📅 ${hanText}</span>` : ''}
-      ${overdue}
-      <span class="task-meta-item">🕐 ${tg}</span>
-    </div>
-    <div class="task-footer">
-      <span style="font-size:11px;color:var(--mut)">ID dòng: ${ri}</span>
-      ${taskPillBtn(st, ri, tg)}
+    <div class="c2-badge inl"><span>${CAT_ICONS[cat]||'📦'}</span><b>${cat}</b></div>
+    <div class="c2-main">
+      <div class="c2-title">${nd !== '—' ? nd : cat}</div>
+      <div class="c2-meta">👤 ${to} · Bởi ${from}</div>
+      ${han ? `<div class="c2-meta">Hạn ${fmtD(han)} ${overdue}</div>` : ''}
+      <div class="c2-tags">${priBadge(pri)}${taskPillBtn(st, ri, tg)}</div>
     </div>
   </div>`;
 }
@@ -1699,7 +1712,7 @@ function renderTasks() {
   const pending = data.filter(r => !fld(r,'TrangThai').toLowerCase().includes('hoàn thành'));
   const done    = data.filter(r =>  fld(r,'TrangThai').toLowerCase().includes('hoàn thành'));
   const sorted  = [...pending, ...done];
-  el.innerHTML = sorted.map(r => cardTask(r, true)).join('');
+  el.innerHTML = `<div class="cgrid">${sorted.map(r => cardTask(r, true)).join('')}</div>`;
 }
 
 function renderStaffTasks(data) {
@@ -1728,7 +1741,7 @@ function renderStaffTasks(data) {
     return;
   }
   const sorted = [...pending, ...done];
-  el.innerHTML = sorted.map(r => cardTask(r, false)).join('');
+  el.innerHTML = `<div class="cgrid">${sorted.map(r => cardTask(r, false)).join('')}</div>`;
 }
 
 // Save task mới
@@ -2000,7 +2013,7 @@ async function loadDashboard() {
       if (tb) tb.textContent = pendingTasks.length + ' đang thực hiện';
 
       if (pendingTasks.length) {
-        dashTaskEl.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px">${
+        dashTaskEl.innerHTML = `<div class="cgrid">${
           pendingTasks.slice(0,6).map(r => cardTask(r, isManager)).join('')
         }</div>`;
       } else {
@@ -2069,8 +2082,7 @@ function renderTonTiles() {
   }
   document.getElementById('tonGrid').innerHTML = TON_DEFS.map(d => {
     const n = tonItems(d.k).length, on = d.k === _dashSel;
-    const alert = n && d.k !== 'gv' ? ' alert' : '';
-    return `<button type="button" class="scard ${d.cls}${n ? '' : ' zero'}${alert}${on ? ' sel' : ''}"
+    return `<button type="button" class="scard ${d.cls}${n ? '' : ' zero'}${on ? ' sel' : ''}"
       aria-pressed="${on}" onclick="selectTon('${d.k}')">
       <div class="snum">${n}</div><div class="slabel">${d.label}</div></button>`;
   }).join('');
@@ -2086,12 +2098,12 @@ function renderTonList() {
   document.getElementById('tonListIc').className = 'sec-ic ' + d.cls;
   const el = document.getElementById('tonList');
   if (!items.length) { el.innerHTML = emptyOk(d.empty, d.cls); return; }
-  const shown = items.slice(0, 6);
+  const shown = items.slice(0, 8);
   let html;
-  if (d.k === 'gv')      html = `<div style="display:flex;flex-direction:column;gap:10px">${shown.map(r => cardTask(r, false)).join('')}</div>`;
+  if (d.k === 'gv')      html = `<div class="cgrid">${shown.map(r => cardTask(r, false)).join('')}</div>`;
   else if (d.k === 'sc') html = `<div class="cgrid">${shown.map(r => cardSC(r, 'loadDashboard')).join('')}</div>`;
   else                   html = `<div class="cgrid">${shown.map(r => cardCN(r, 'loadDashboard')).join('')}</div>`;
-  if (items.length > 6) html += `<button class="linkbtn more" onclick="showStatDetail('${d.detail}')">Xem thêm ${items.length - 6} mục →</button>`;
+  if (items.length > 8) html += `<button class="linkbtn more" onclick="showStatDetail('${d.detail}')">Xem thêm ${items.length - 8} mục →</button>`;
   el.innerHTML = html;
 }
 
@@ -2115,7 +2127,7 @@ function renderToday() {
   ];
   document.getElementById('statsGrid').innerHTML = defs.map(d => {
     const on = d.k === _todaySel;
-    return `<button type="button" class="scard ${d.cls}${on ? ' sel' : ''}" aria-pressed="${on}"
+    return `<button type="button" class="scard ${d.cls}${d.n ? '' : ' zero'}${on ? ' sel' : ''}" aria-pressed="${on}"
       onclick="selectToday('${d.k}')"><div class="snum">${d.n}</div><div class="slabel">${d.label}</div></button>`;
   }).join('');
   const list = _todaySel === 'ok' ? okList : _dashCNData;
@@ -2170,7 +2182,7 @@ function showStatDetail(type) {
       document.getElementById('mDetailBody').innerHTML = emptyOk('Chưa có công việc nào hoàn thành', 'ok');
     } else {
       document.getElementById('mDetailBody').innerHTML =
-        `<div style="display:flex;flex-direction:column;gap:10px">${
+        `<div class="cgrid">${
           doneTasks.map(r => cardTask(r, false)).join('')
         }</div>`;
     }
