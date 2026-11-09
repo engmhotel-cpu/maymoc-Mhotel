@@ -899,8 +899,8 @@ body.is-mgr .mgr-only{display:inline-flex!important;}
     <div class="mhd"><div class="mtitle">📋 Thêm Sửa Chữa</div><button class="mclose" onclick="closeMod('mDK')">✕</button></div>
     <div class="mbody">
       <div class="field"><label>Vị trí</label><input id="dk_vitri" placeholder="VD: Tầng 2, Phòng 201..."/></div>
-      <div class="field"><label class="lbl-row">Hạng mục <button type="button" class="hm-plus mgr-only" onclick="openHM()" aria-label="Thêm hoặc xoá hạng mục">＋ Thêm hạng mục</button></label>
-        <select id="dk_hangmuc" class="hm-select" data-ph="-- Chọn hạng mục --">
+      <div class="field"><label class="lbl-row">Hạng mục <button type="button" class="hm-plus mgr-only" onclick="openHM('suachua')" aria-label="Thêm hoặc xoá hạng mục">＋ Thêm hạng mục</button></label>
+        <select id="dk_hangmuc" class="hm-select" data-nhom="suachua" data-ph="-- Chọn hạng mục --">
           <option value="">-- Chọn hạng mục --</option>
         </select></div>
       <div class="field"><label>Nội dung công việc</label>
@@ -927,8 +927,8 @@ body.is-mgr .mgr-only{display:inline-flex!important;}
     <div class="mhd"><div class="mtitle">🔧 Phiếu Checklist</div><button class="mclose" onclick="closeMod('mSC')">✕</button></div>
     <div class="mbody">
       <div class="field"><label>Hạng mục</label><input id="sc_hangmuc" placeholder="VD: Điện, Nước, Máy lạnh..."/></div>
-      <div class="field"><label class="lbl-row">Hạng mục khác <button type="button" class="hm-plus mgr-only" onclick="openHM()" aria-label="Thêm hoặc xoá hạng mục">＋ Thêm hạng mục</button></label>
-        <select id="sc_hangmuc_khac" class="hm-select" data-ph="-- Chọn hạng mục khác --">
+      <div class="field"><label class="lbl-row">Hạng mục khác <button type="button" class="hm-plus mgr-only" onclick="openHM('checklist')" aria-label="Thêm hoặc xoá hạng mục">＋ Thêm hạng mục</button></label>
+        <select id="sc_hangmuc_khac" class="hm-select" data-nhom="checklist" data-ph="-- Chọn hạng mục khác --">
           <option value="">-- Chọn hạng mục khác --</option>
         </select></div>
       <div class="field"><label>Nội dung công việc</label><textarea id="sc_noidung" placeholder="Mô tả chi tiết sửa chữa..."></textarea></div>
@@ -1032,7 +1032,7 @@ body.is-mgr .mgr-only{display:inline-flex!important;}
     <div class="mbody">
       <!-- Danh mục -->
       <div class="field">
-        <label class="lbl-row">Danh mục <button type="button" class="hm-plus mgr-only" onclick="openHM()" aria-label="Thêm hoặc xoá hạng mục">＋ Thêm hạng mục</button></label>
+        <label class="lbl-row">Danh mục <button type="button" class="hm-plus mgr-only" onclick="openHM('giaoviec')" aria-label="Thêm hoặc xoá hạng mục">＋ Thêm hạng mục</button></label>
         <div class="cat-chips" id="gvCatChips"></div>
         <input type="hidden" id="gv_danhmuc"/>
       </div>
@@ -1092,7 +1092,7 @@ body.is-mgr .mgr-only{display:inline-flex!important;}
 <!-- MODAL: QUẢN LÝ HẠNG MỤC (chỉ Quản lý) -->
 <div class="ov" id="mHM">
   <div class="modal">
-    <div class="mhd"><div class="mtitle">🗂 Quản lý hạng mục</div><button class="mclose" onclick="closeMod('mHM')">✕</button></div>
+    <div class="mhd"><div class="mtitle">🗂 <span id="hmTitle">Quản lý hạng mục</span></div><button class="mclose" onclick="closeMod('mHM')">✕</button></div>
     <div class="mbody">
       <div class="field"><label for="hmNewName">Thêm hạng mục mới</label>
         <div class="hm-add-row">
@@ -1105,7 +1105,7 @@ body.is-mgr .mgr-only{display:inline-flex!important;}
       <div class="field"><label>Chọn icon <span class="hm-sug-note" id="hmSugNote"></span></label>
         <div class="hm-icons" id="hmIcons" role="radiogroup" aria-label="Icon hạng mục"></div></div>
       <div class="field"><label>Danh sách hạng mục</label><div id="hmListBox" class="hm-list"></div></div>
-      <p class="hm-hint">Xoá hạng mục chỉ bỏ khỏi danh sách để chọn. Các phiếu cũ vẫn giữ nguyên.</p>
+      <p class="hm-hint"><b id="hmTaskNote"></b><br>Xoá hạng mục chỉ bỏ khỏi danh sách để chọn. Các phiếu cũ vẫn giữ nguyên.</p>
     </div>
     <div class="mft"><button class="bf bsec" onclick="closeMod('mHM')">Đóng</button></div>
   </div>
@@ -1462,7 +1462,7 @@ function cardSC(r, refreshFn) {
 
 // ── NHÓM THẺ THEO HẠNG MỤC ─────────────────────────
 const HM_ORDER = ['điện','nước','máy lạnh','chiếu sáng','mộc'];
-function groupByHM(list, keyFn, renderFn) {
+function groupByHM(list, keyFn, renderFn, nhom) {
   const groups = new Map();
   list.forEach(r => {
     const raw = (keyFn(r) || '').trim() || 'Khác';
@@ -1470,7 +1470,7 @@ function groupByHM(list, keyFn, renderFn) {
     if (!groups.has(k)) groups.set(k, { name: raw.charAt(0).toUpperCase() + raw.slice(1), items: [] });
     groups.get(k).items.push(r);
   });
-  const order = _hmList.map(h => normStatus(h.ten));
+  const order = hmOf(nhom).map(h => normStatus(h.ten));
   const rank = k => k === 'khác' ? 999 : (order.indexOf(k) >= 0 ? order.indexOf(k) : 500);
   return [...groups.entries()]
     .sort((a, b) => rank(a[0]) - rank(b[0]) || a[1].name.localeCompare(b[1].name, 'vi'))
@@ -1481,12 +1481,25 @@ function groupByHM(list, keyFn, renderFn) {
     </section>`).join('');
 }
 
-// ── HẠNG MỤC DÙNG CHUNG (lưu trên Supabase, chỉ Quản lý thêm/xoá) ──
-const HM_DEFAULT = [
+// ── HẠNG MỤC RIÊNG TỪNG TASK (lưu trên Supabase, chỉ Quản lý thêm/xoá) ──
+const HM_TASKS = { suachua:'Sửa chữa', checklist:'Checklist', giaoviec:'Giao việc' };
+const HM_BASE = [
   {ten:'Điện',icon:'⚡'},{ten:'Nước',icon:'💧'},{ten:'Máy lạnh',icon:'❄️'},
   {ten:'Chiếu sáng',icon:'💡'},{ten:'Mộc',icon:'🪚'},{ten:'Khác',icon:'📦'}
 ];
-let _hmList = HM_DEFAULT.slice();
+let _hmAll = {
+  suachua:  HM_BASE.slice(),
+  checklist:HM_BASE.slice(),
+  giaoviec: HM_BASE.filter(h => h.ten !== 'Mộc')
+};
+let _hmCur = 'suachua';   // task đang mở bảng quản lý
+function hmOf(nhom) { return _hmAll[nhom] || []; }
+function setHMData(rows) {
+  if (!Array.isArray(rows) || !rows.length) return;
+  const next = { suachua:[], checklist:[], giaoviec:[] };
+  rows.forEach(r => { if (next[r.nhom]) next[r.nhom].push({ ten:r.ten, icon:r.icon }); });
+  _hmAll = next;
+}
 function escH(v) {
   return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
@@ -1502,28 +1515,28 @@ async function sbRpc(fn, body) {
 async function loadHM() {
   try {
     const d = await sbRpc('hm_list');
-    if (Array.isArray(d) && d.length) _hmList = d;
+    if (Array.isArray(d) && d.length && d[0].nhom) setHMData(d);
   } catch (e) { /* chưa cài SQL hạng mục → dùng danh sách mặc định */ }
   renderHMPickers();
 }
-// Đổ danh sách vào các ô chọn (giữ lựa chọn đang có)
+// Đổ danh sách của đúng task vào ô chọn (giữ lựa chọn đang có)
 function renderHMPickers() {
   document.querySelectorAll('select.hm-select').forEach(sel => {
-    const cur = sel.value;
+    const list = hmOf(sel.dataset.nhom), cur = sel.value;
     sel.innerHTML = `<option value="">${escH(sel.dataset.ph || '-- Chọn hạng mục --')}</option>` +
-      _hmList.map(h => `<option value="${escH(h.ten)}">${escH(h.icon)} ${escH(h.ten)}</option>`).join('');
-    if (cur && _hmList.some(h => h.ten === cur)) sel.value = cur;
+      list.map(h => `<option value="${escH(h.ten)}">${escH(h.icon)} ${escH(h.ten)}</option>`).join('');
+    if (cur && list.some(h => h.ten === cur)) sel.value = cur;
   });
   const chips = document.getElementById('gvCatChips');
   if (chips) {
     const cur = document.getElementById('gv_danhmuc').value;
-    chips.innerHTML = _hmList.map(h => `<div class="cat-chip${normStatus(h.ten) === normStatus(cur) ? ' sel' : ''}"
+    chips.innerHTML = hmOf('giaoviec').map(h => `<div class="cat-chip${normStatus(h.ten) === normStatus(cur) ? ' sel' : ''}"
       data-v="${escH(h.ten)}" onclick="pickCat(this, this.dataset.v)" role="button" tabindex="0">
       <span class="chip-icon">${escH(h.icon)}</span>${escH(h.ten)}</div>`).join('');
   }
   const box = document.getElementById('hmListBox');
   if (box) {
-    box.innerHTML = _hmList.map(h => `<div class="hm-item">
+    box.innerHTML = hmOf(_hmCur).map(h => `<div class="hm-item">
       <span class="hi-ic">${escH(h.icon)}</span><span class="hi-name">${escH(h.ten)}</span>
       ${normStatus(h.ten) === 'khác' ? '<span class="hi-lock">Mặc định</span>'
         : `<button type="button" class="hi-del" data-v="${escH(h.ten)}" onclick="delHM(this.dataset.v)">Xoá</button>`}
@@ -1579,8 +1592,12 @@ function suggestHMIcon() {
   if (!_hmIconManual) setHMIcon(sug[0] || '🔧'); else renderHMIcons();
 }
 
-function openHM() {
+function openHM(nhom) {
   if (!user || user.vaitro !== 'manager') { toast('Chỉ Quản lý mới được thêm hạng mục', 'err'); return; }
+  _hmCur = HM_TASKS[nhom] ? nhom : 'suachua';
+  document.getElementById('hmTitle').textContent = 'Hạng mục · ' + HM_TASKS[_hmCur];
+  document.getElementById('hmTaskNote').textContent =
+    `Chỉ áp dụng cho form ${HM_TASKS[_hmCur]}. Các task khác không bị ảnh hưởng.`;
   document.getElementById('hmNewName').value = '';
   _hmIconManual = false;
   setHMIcon('🔧');
@@ -1593,24 +1610,24 @@ async function addHM() {
   const icon = document.getElementById('hmNewIcon').value || '🔧';
   if (!name) { toast('Nhập tên hạng mục', 'err'); return; }
   try {
-    const r = await sbRpc('hm_add', { p_token: _token, p_ten: name, p_icon: icon });
+    const r = await sbRpc('hm_add', { p_token: _token, p_nhom: _hmCur, p_ten: name, p_icon: icon });
     if (!r || !r.success) { toast(r && r.msg ? r.msg : 'Không thêm được', 'err'); return; }
-    _hmList = r.data || _hmList;
+    setHMData(r.data);
     document.getElementById('hmNewName').value = '';
     _hmIconManual = false;
     setHMIcon('🔧');
     renderHMPickers();
-    toast('✓ Đã thêm hạng mục ' + name, 'ok');
+    toast(`✓ Đã thêm "${name}" vào ${HM_TASKS[_hmCur]}`, 'ok');
   } catch (e) {
     toast('Chưa cài đặt lưu hạng mục trên Supabase (' + e.message + ')', 'err');
   }
 }
 function delHM(name) {
-  showConfirm(`Xoá hạng mục "${name}" khỏi danh sách? Các phiếu cũ vẫn giữ nguyên.`, async () => {
+  showConfirm(`Xoá hạng mục "${name}" khỏi ${HM_TASKS[_hmCur]}? Các phiếu cũ vẫn giữ nguyên.`, async () => {
     try {
-      const r = await sbRpc('hm_delete', { p_token: _token, p_ten: name });
+      const r = await sbRpc('hm_delete', { p_token: _token, p_nhom: _hmCur, p_ten: name });
       if (!r || !r.success) { toast(r && r.msg ? r.msg : 'Không xoá được', 'err'); return; }
-      _hmList = r.data || _hmList;
+      setHMData(r.data);
       renderHMPickers();
       toast('✓ Đã xoá hạng mục ' + name, 'ok');
     } catch (e) { toast('Lỗi: ' + e.message, 'err'); }
@@ -1620,7 +1637,8 @@ function delHM(name) {
 // Biểu tượng theo hạng mục
 const HM_ICONS = { 'chiếu sáng':'💡', 'điện':'⚡', 'nước':'💧', 'máy lạnh':'❄️', 'mộc':'🪚', 'khác':'📦' };
 function hmIcon(hm) {
-  const f = _hmList.find(h => normStatus(h.ten) === normStatus(hm));
+  const all = [...hmOf('suachua'), ...hmOf('checklist'), ...hmOf('giaoviec')];
+  const f = all.find(h => normStatus(h.ten) === normStatus(hm));
   return (f && f.icon) || HM_ICONS[normStatus(hm)] || CAT_ICONS[hm] || '🔧';
 }
 function roomIn(text) {
@@ -1958,7 +1976,7 @@ function renderTasks() {
   const pending = data.filter(r => !fld(r,'TrangThai').toLowerCase().includes('hoàn thành'));
   const done    = data.filter(r =>  fld(r,'TrangThai').toLowerCase().includes('hoàn thành'));
   const sorted  = [...pending, ...done];
-  el.innerHTML = groupByHM(sorted, r => fld(r,'DanhMuc'), r => cardTask(r, true));
+  el.innerHTML = groupByHM(sorted, r => fld(r,'DanhMuc'), r => cardTask(r, true), 'giaoviec');
 }
 
 function renderStaffTasks(data) {
@@ -1987,7 +2005,7 @@ function renderStaffTasks(data) {
     return;
   }
   const sorted = [...pending, ...done];
-  el.innerHTML = groupByHM(sorted, r => fld(r,'DanhMuc'), r => cardTask(r, false));
+  el.innerHTML = groupByHM(sorted, r => fld(r,'DanhMuc'), r => cardTask(r, false), 'giaoviec');
 }
 
 // Save task mới
@@ -2470,7 +2488,7 @@ async function loadDK() {
     if (!data.length) { el.innerHTML = empty(`Chưa có kiểm tra định kỳ nào ${rangeText(d, d2)}`); return; }
     el.innerHTML = `
       <div class="sh"><h2>Sửa chữa ${rangeShort(d, d2)}</h2><span class="cbadge">${data.length} mục</span></div>
-      ${groupByHM(data, r => fld(r,'HangMuc'), r => cardCN(r, 'loadDK'))}`;
+      ${groupByHM(data, r => fld(r,'HangMuc'), r => cardCN(r, 'loadDK'), 'suachua')}`;
   } catch (e) {
     document.getElementById('dkContent').innerHTML =
       `<div class="et" style="color:var(--warn);padding:16px">Lỗi: ${e.toString()}</div>`;
@@ -2493,7 +2511,7 @@ async function loadSC() {
     if (!data.length) { el.innerHTML = empty(`Chưa có phiếu sửa chữa ${rangeText(d, d2)}`); return; }
     el.innerHTML = `
       <div class="sh"><h2>Checklist ${rangeShort(d, d2)}</h2><span class="cbadge">${data.length} mục</span></div>
-      ${groupByHM(data, r => fld(r,'HangMuc'), r => cardSC(r))}`;
+      ${groupByHM(data, r => fld(r,'HangMuc'), r => cardSC(r), 'checklist')}`;
   } catch (e) {
     document.getElementById('scContent').innerHTML =
       `<div class="et" style="color:var(--warn);padding:16px">Lỗi: ${e.toString()}</div>`;
