@@ -791,6 +791,47 @@ button.ro-cell:empty::after{content:'+';color:#CBD5E1;font-size:16px;font-weight
 .ro-quick .ro-pill{height:36px;min-width:52px;font-size:13px;padding:0 10px;}
 .ro-auto{display:flex;align-items:center;gap:8px;font-size:13px;color:#374151;}
 .ro-auto input{width:18px;height:18px;}
+/* Cột Chủ nhật: viền vàng nguyên cột */
+.ro-grid thead th.sun{box-shadow:inset 3px 0 0 #FACC15,inset -3px 0 0 #FACC15,inset 0 3px 0 #FACC15;}
+.ro-grid td.sun{background:#FEFCE8;box-shadow:inset 3px 0 0 #FACC15,inset -3px 0 0 #FACC15;}
+.ro-grid tbody tr:last-child td.sun{box-shadow:inset 3px 0 0 #FACC15,inset -3px 0 0 #FACC15,inset 0 -3px 0 #FACC15;}
+.ro-grid thead th.sun.today{box-shadow:none;}
+.ro-grid td.sun.today{background:#FEF2F2;box-shadow:inset 2px 0 0 #DC2626,inset -2px 0 0 #DC2626;}
+/* Ô đang xếp ca */
+.ro-cell.sel{outline:3px solid #DC2626;outline-offset:-3px;border-radius:6px;background:#FEE2E2!important;}
+/* Khung xếp ca nằm dưới bảng */
+.ro-editor{margin-top:10px;background:var(--sur);border:2px solid #1E3A8A;border-radius:14px;padding:12px 14px;
+  box-shadow:var(--shm);display:flex;flex-direction:column;gap:10px;}
+.ro-editor[hidden]{display:none;}
+.re-head{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.re-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:#1E3A8A;}
+.re-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.re-row input[type=text]{flex:1 1 180px;min-width:0;padding:10px 12px;border:1.5px solid var(--brd);border-radius:var(--rs);
+  font-size:14px;font-family:'Inter',sans-serif;background:var(--sur2);}
+.re-row input[type=text]:focus{outline:none;border-color:var(--acc);}
+.re-foot{justify-content:space-between;}
+.re-btns{display:flex;gap:8px;}
+.re-btns .bsm{height:40px;padding:0 16px;font-size:13px;}
+.bsec-sm{background:var(--sur2);color:var(--txt);border:1.5px solid var(--brd);}
+.ro-editing{max-height:56vh;}
+@media(max-width:767px){
+  .ro-editing{max-height:40vh;}
+  .ro-editor{position:sticky;bottom:calc(76px + env(safe-area-inset-bottom));z-index:20;}
+  .ro-editor .ro-quick .ro-pill{height:32px;min-width:44px;font-size:12px;}
+  .re-btns{width:100%;} .re-btns .bsm{flex:1;}
+}
+/* Nút thu gọn menu trái (chỉ máy tính) */
+.nav-toggle{display:none;}
+@media(min-width:768px){
+  .nav-toggle{display:flex;align-items:center;justify-content:center;gap:6px;height:36px;margin:0 0 8px;border:1px dashed #CBD5E1;
+    background:var(--sur2);color:#475569;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;}
+  .nav-toggle:hover{background:var(--sur3);color:var(--txt);}
+  body.nav-mini{--navw:72px;}
+  body.nav-mini .tabbar{padding:16px 10px;}
+  body.nav-mini .tbtn{justify-content:center;padding:11px 0;}
+  body.nav-mini .tbtn .tl{display:none;}
+  body.nav-mini .nav-toggle{font-size:16px;}
+}
 /* Bảng phép */
 .ph-wrap{max-height:none;box-shadow:none;}
 .ph-table th,.ph-table td{border-bottom:1px solid #E8EDF3;border-right:1px solid #E8EDF3;padding:8px 6px;text-align:center;}
@@ -861,6 +902,7 @@ button.ro-cell:empty::after{content:'+';color:#CBD5E1;font-size:16px;font-weight
 
   <div class="shell-body">
   <nav class="tabbar" aria-label="Menu chính">
+    <button type="button" class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="Thu gọn menu">«</button>
     <div class="tbtn active" data-tab="dashboard" role="button" tabindex="0"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></span><span class="tl">Tổng quan</span></div>
     <div class="tbtn" data-tab="dinhky" role="button" tabindex="0"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></span><span class="tl">Sửa chữa</span></div>
     <div class="tbtn" data-tab="suachua" role="button" tabindex="0"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 13l2 2 4-4"/></svg></span><span class="tl">Checklist</span></div>
@@ -1016,6 +1058,28 @@ button.ro-cell:empty::after{content:'+';color:#CBD5E1;font-size:16px;font-weight
       </div>
       <div class="ro-note" id="roNote"></div>
       <div class="ro-wrap" id="roWrap"><table class="ro-grid" id="roGrid"></table></div>
+
+      <!-- KHUNG XẾP CA (chỉ Quản lý) — nằm dưới bảng, không che lịch -->
+      <section class="ro-editor" id="roEditor" hidden aria-label="Xếp ca">
+        <div class="re-head">
+          <div class="re-title" id="roEdTitle">Xếp ca</div>
+          <button type="button" class="mclose" onclick="closeRoEditor()" aria-label="Đóng khung xếp ca">✕</button>
+        </div>
+        <div class="ro-quick" id="roQuick"></div>
+        <div class="re-row">
+          <input id="roCode" type="text" maxlength="10" placeholder="Mã ca tự nhập: M8, A14, TRAIN…" autocomplete="off"
+            aria-label="Mã ca tự nhập" style="text-transform:uppercase" onkeydown="if(event.key==='Enter'){event.preventDefault();saveRoCell();}"/>
+          <input id="roNoteIn" type="text" maxlength="100" placeholder="Ghi chú (hiện ★)" aria-label="Ghi chú"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();saveRoCell();}"/>
+        </div>
+        <div class="re-row re-foot">
+          <label class="ro-auto"><input type="checkbox" id="roAuto" checked/> Lưu xong tự chuyển sang ngày kế tiếp</label>
+          <div class="re-btns">
+            <button type="button" class="bsm bsec-sm" onclick="saveRoCell(true)">🗑 Xoá ô</button>
+            <button type="button" class="bsm ba" onclick="saveRoCell()">Lưu</button>
+          </div>
+        </div>
+      </section>
       <div class="ro-legend" id="roLegend"></div>
 
       <section class="sumcard" style="margin-top:26px">
@@ -1224,26 +1288,6 @@ button.ro-cell:empty::after{content:'+';color:#CBD5E1;font-size:16px;font-weight
       <button class="bf bsec" onclick="closeMod('mGiaoViec')" style="flex:.8">Hủy bỏ</button>
       <button class="bf bpri" onclick="saveTask()"
         style="flex:1.2;background:linear-gradient(135deg,#4F46E5,#7C3AED)">✦ Tạo mới công việc</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: XẾP CA (chỉ Quản lý) -->
-<div class="ov" id="mRo">
-  <div class="modal">
-    <div class="mhd"><div class="mtitle" id="roEdTitle">Xếp ca</div><button class="mclose" onclick="closeMod('mRo')">✕</button></div>
-    <div class="mbody">
-      <div class="field"><label>Chọn nhanh (bấm là lưu)</label><div class="ro-quick" id="roQuick"></div></div>
-      <div class="field"><label for="roCode">Mã ca tự nhập</label>
-        <input id="roCode" type="text" maxlength="10" placeholder="VD: M8, A14, AL, O, TRAIN" autocomplete="off"
-          style="text-transform:uppercase" onkeydown="if(event.key==='Enter'){event.preventDefault();saveRoCell();}"/></div>
-      <div class="field"><label for="roNoteIn">Ghi chú (hiện dấu ★ trên ô)</label>
-        <input id="roNoteIn" type="text" maxlength="100" placeholder="Không bắt buộc"/></div>
-      <label class="ro-auto"><input type="checkbox" id="roAuto" checked/> Lưu xong tự chuyển sang ngày kế tiếp</label>
-    </div>
-    <div class="mft">
-      <button class="bf bsec" onclick="saveRoCell(true)">🗑 Xoá ô</button>
-      <button class="bf bpri" onclick="saveRoCell()">Lưu</button>
     </div>
   </div>
 </div>
@@ -2367,6 +2411,22 @@ document.querySelectorAll('.tbtn').forEach(btn =>
     loadTab(btn.dataset.tab);
   })
 );
+// Thu gọn / mở rộng menu trái (máy tính) — nhớ lựa chọn
+function applyNav(mini) {
+  document.body.classList.toggle('nav-mini', mini);
+  const b = document.getElementById('navToggle');
+  b.textContent = mini ? '»' : '« Thu gọn';
+  b.setAttribute('aria-label', mini ? 'Mở rộng menu' : 'Thu gọn menu');
+  b.title = mini ? 'Mở rộng menu' : 'Thu gọn menu';
+}
+function toggleNav() {
+  const mini = !document.body.classList.contains('nav-mini');
+  try { localStorage.setItem('nav_mini', mini ? '1' : '0'); } catch (e) {}
+  applyNav(mini);
+}
+document.querySelectorAll('.tbtn').forEach(b => { const t = b.querySelector('.tl'); if (t) b.title = t.textContent; });
+try { applyNav(localStorage.getItem('nav_mini') === '1'); } catch (e) { applyNav(false); }
+
 // Bàn phím: Enter / Space trên mục menu
 document.querySelectorAll('.tbtn').forEach(btn =>
   btn.addEventListener('keydown', e => {
@@ -2644,11 +2704,12 @@ function rosterNow() { _roStart = roCycleOf(new Date()); loadRoster(); }
 
 async function loadRoster() {
   if (!_roStart) _roStart = roCycleOf(new Date());
+  closeRoEditor();
   const end = roEnd();
   document.getElementById('roRange').innerHTML =
     `${p2(_roStart.getDate())}/${p2(_roStart.getMonth() + 1)} – ${p2(end.getDate())}/${p2(end.getMonth() + 1)}<small>Năm ${end.getFullYear()}</small>`;
   document.getElementById('roNote').textContent = isMgr()
-    ? 'Bấm vào ô để xếp ca. Nhân viên chỉ xem được, không sửa.'
+    ? 'Bấm vào ô để xếp ca — khung xếp ca hiện ngay dưới bảng. Nhân viên chỉ xem được, không sửa.'
     : 'Lịch chỉ xem. Hàng của bạn được tô vàng. Ô có ★ là có ghi chú, bấm để xem.';
   document.getElementById('roLegend').innerHTML = RO_LEGEND.map(([c, k, t]) =>
     `<span><span class="ro-pill ${k}">${c}</span>${t}</span>`).join('') +
@@ -2680,14 +2741,14 @@ function renderRoster(scrollToday) {
   const head = `<thead><tr><th class="nm" scope="col"><span class="nm-full">Nhân viên</span><span class="nm-short">Tên</span></th>${
     days.map(d => {
       const k = ymdL(d), we = d.getDay() === 0 || d.getDay() === 6;
-      return `<th scope="col" class="${we ? 'we' : ''}${k === td ? ' today' : ''}"><span class="d">${p2(d.getDate())}</span><span class="w">${RO_WD[d.getDay()]}</span></th>`;
+      return `<th scope="col" class="${we ? 'we' : ''}${d.getDay() === 0 ? ' sun' : ''}${k === td ? ' today' : ''}"><span class="d">${p2(d.getDate())}</span><span class="w">${RO_WD[d.getDay()]}</span></th>`;
     }).join('')}</tr></thead>`;
   const body = _roNV.map(n => `<tr class="${isMe(n.hoten) ? 'me' : ''}"><th class="nm" scope="row" title="${escH(n.hoten)}">
       <span class="nm-full">${escH(n.hoten)}</span><span class="nm-short">${escH(shortName(n.hoten))}</span></th>${
     days.map(d => {
       const k = ymdL(d), c = _roCa[n.nv + '|' + k], we = d.getDay() === 0 || d.getDay() === 6;
       const inner = c ? `<span class="ro-pill ${roCls(c.ma)}">${escH(c.ma)}</span>${c.ghi_chu ? '<span class="ro-star" aria-hidden="true">★</span>' : ''}` : '';
-      const cls = `${we ? 'we' : ''}${k === td ? ' today' : ''}`;
+      const cls = `${we ? 'we' : ''}${d.getDay() === 0 ? ' sun' : ''}${k === td ? ' today' : ''}`;
       const label = `${escH(n.hoten)} ${fmtD(k)}${c ? ': ' + escH(c.ma) : ''}${c && c.ghi_chu ? ' – ' + escH(c.ghi_chu) : ''}`;
       if (mgr) return `<td class="${cls}"><button type="button" class="ro-cell" data-nv="${escH(n.nv)}" data-d="${k}"
           onclick="openRoCell(this.dataset.nv,this.dataset.d)" aria-label="${label}" title="${label}">${inner}</button></td>`;
@@ -2714,7 +2775,32 @@ function openRoCell(nv, k) {
   document.getElementById('roQuick').innerHTML = codes.map(x =>
     `<button type="button" data-v="${escH(x)}" onclick="roQuickPick(this.dataset.v)" aria-label="Ca ${escH(x)}">
       <span class="ro-pill ${roCls(x)}">${escH(x)}</span></button>`).join('');
-  document.getElementById('mRo').classList.add('open');
+  const ed = document.getElementById('roEditor');
+  ed.hidden = false;
+  document.getElementById('roWrap').classList.add('ro-editing');
+  markRoSel();
+  ed.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+// Viền đỏ ô đang xếp + cuộn bảng cho thấy ô đó
+function markRoSel() {
+  document.querySelectorAll('#roGrid .ro-cell.sel').forEach(b => b.classList.remove('sel'));
+  if (!_roEdit) return;
+  const b = document.querySelector(`#roGrid .ro-cell[data-nv="${CSS.escape(_roEdit.nv)}"][data-d="${_roEdit.k}"]`);
+  if (!b) return;
+  b.classList.add('sel');
+  const wrap = document.getElementById('roWrap'), nm = document.querySelector('#roGrid thead th.nm');
+  const td = b.closest('td'), left = td.offsetLeft - (nm ? nm.offsetWidth : 0);
+  if (left < wrap.scrollLeft || td.offsetLeft + td.offsetWidth > wrap.scrollLeft + wrap.clientWidth)
+    wrap.scrollLeft = Math.max(0, left - 46);
+  const top = td.offsetTop - 48;
+  if (top < wrap.scrollTop || td.offsetTop + td.offsetHeight > wrap.scrollTop + wrap.clientHeight)
+    wrap.scrollTop = Math.max(0, top - 42);
+}
+function closeRoEditor() {
+  _roEdit = null;
+  document.getElementById('roEditor').hidden = true;
+  document.getElementById('roWrap').classList.remove('ro-editing');
+  markRoSel();
 }
 function roQuickPick(code) { document.getElementById('roCode').value = code; saveRoCell(); }
 async function saveRoCell(clear) {
@@ -2728,10 +2814,11 @@ async function saveRoCell(clear) {
     if (!r || !r.success) { toast((r && r.msg) || 'Không lưu được', 'err'); return; }
     if (ma) _roCa[nv + '|' + k] = { nv, ngay: k, ma, ghi_chu: note }; else delete _roCa[nv + '|' + k];
     renderRoster(false);
+    markRoSel();
     schedulePhepReload();
     const next = new Date(k + 'T00:00:00'); next.setDate(next.getDate() + 1);
     if (!clear && document.getElementById('roAuto').checked && next <= roEnd()) openRoCell(nv, ymdL(next));
-    else { closeMod('mRo'); _roEdit = null; }
+    else closeRoEditor();
   } catch (e) { toast('Lỗi: ' + e.message, 'err'); }
 }
 
