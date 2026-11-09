@@ -648,6 +648,13 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 .hm-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:#111827;}
 .hm-cnt{font-size:12px;font-weight:700;color:#374151;background:#E5E7EB;padding:2px 9px;border-radius:999px;}
 .hm-group .c2-badge.cat,.hm-group .m-hm{display:none;}
+/* Icon hạng mục ở góc trái, trước nội dung (trong nhóm hạng mục) */
+.c2-ic{display:none;}
+.hm-group .card2 .c2-title{display:flex;align-items:flex-start;gap:7px;}
+.hm-group .c2-ic{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  flex-shrink:0;margin-top:-2px;border-radius:7px;background:#DCE3EC;border:1px solid #C7D2DE;
+  font-size:14px;line-height:1;}
+.hm-group .card2.pnd .c2-ic,.hm-group .card2.err .c2-ic{background:#FECACA;border-color:#FCA5A5;}
 /* Hiện đầy đủ chữ — không cắt nội dung */
 .card2 .c2-title,.card2 .c2-meta{display:block;-webkit-line-clamp:unset;overflow:visible;word-break:break-word;}
 .card2 .c2-note{white-space:normal;overflow:visible;word-break:break-word;}
@@ -1430,7 +1437,7 @@ function cardCN(r, refreshFn) {
     ${delBtn('Log_CheckNgay', r, rf)}
     ${placeBadge(vt === '—' ? '' : vt, 'KHU VỰC', nd)}
     <div class="c2-main">
-      <div class="c2-title">${nd}</div>
+      <div class="c2-title">${hm !== '—' ? `<span class="c2-ic" title="${hm}">${hmIcon(hm)}</span>` : ''}${nd}</div>
       <div class="c2-meta">${hm !== '—' ? `<span class="m-hm">${hm} · </span>` : ''}${[ht, tg].filter(x => x && x !== '—').join(' · ')}</div>
       ${gc ? `<div class="c2-note">Ghi chú: ${gc}</div>` : ''}
       <div class="c2-tags">${pillBtn(tt,'Log_CheckNgay',r,rf)}${agingTag(r, tt)}</div>
@@ -1452,7 +1459,7 @@ function cardSC(r, refreshFn) {
     ${delBtn('Log_SuaChuaPhong', r, rf)}
     ${scBadge(hm, nd)}
     <div class="c2-main">
-      <div class="c2-title">${nd}</div>
+      <div class="c2-title"><span class="c2-ic" title="${hm}">${hmIcon(hm)}</span>${nd}</div>
       <div class="c2-meta">${[roomIn(nd) ? hm : '', ht, ngay ? fmtD(ngay) : tg].filter(x => x && x !== '—').join(' · ')}</div>
       ${gc ? `<div class="c2-note">Ghi chú: ${gc}</div>` : ''}
       <div class="c2-tags">${pillBtn(tt,'Log_SuaChuaPhong',r,rf)}${agingTag(r, tt)}</div>
@@ -1865,7 +1872,7 @@ function cardTask(r, canDelete) {
     ${delBtn2}
     <div class="c2-badge inl cat"><span>${hmIcon(cat)}</span><b>${cat}</b></div>
     <div class="c2-main">
-      <div class="c2-title">${nd !== '—' ? nd : cat}</div>
+      <div class="c2-title"><span class="c2-ic" title="${cat}">${hmIcon(cat)}</span>${nd !== '—' ? nd : cat}</div>
       <div class="c2-meta">👤 ${to} · Bởi ${from}</div>
       ${han ? `<div class="c2-meta">Hạn ${fmtD(han)} ${overdue}</div>` : ''}
       <div class="c2-tags">${priBadge(pri)}${taskPillBtn(st, ri, tg)}</div>
