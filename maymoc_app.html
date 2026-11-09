@@ -407,6 +407,180 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 #toast.ok{background:var(--acc);}
 #toast.err{background:var(--warn);}
+
+/* =====================================================
+   GIAO DIỆN MỚI (2026-11) — phương án A
+   Màu phân loại dùng chung toàn app:
+   đỏ = sửa chữa · cam = cần theo dõi · tím = sửa phòng tồn
+   xanh lá = đã xong · xanh dương = tổng check · chàm = giao việc
+   ===================================================== */
+:root{
+  --c-err:#DC2626;--c-pnd:#F59E0B;--c-sc:#7C3AED;--c-ok:#059669;
+  --c-info:#2563EB;--c-task:#4F46E5;--c-vs:#0D9488;
+  --navw:232px;--toph:60px;
+}
+
+/* Topbar gọn */
+.topbar{height:var(--toph);gap:10px;}
+.tb-logo{width:36px;height:36px;border-radius:10px;background:var(--acc2);color:#fff;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tb-brand{font-size:19px;line-height:1;}
+.tb-sub{font-size:11px;text-transform:none;letter-spacing:0;font-weight:500;margin-top:3px;}
+.netstatus{background:#ECFDF5;border:none;color:#047857;font-weight:600;font-size:12px;padding:6px 10px;}
+.ndot{width:8px;height:8px;background:#10B981;}
+.avatar{width:40px;height:40px;font-size:15px;background:var(--acc2);}
+.ublock{padding:0 10px 0 0;}
+#btnGiaoViec{background:var(--acc2);border-radius:999px;padding:0 18px;height:40px;font-size:13px;
+  box-shadow:0 6px 16px rgba(4,120,87,.3);}
+#btnGiaoViec svg{flex-shrink:0;}
+
+/* Khung chính: menu + nội dung */
+.shell-body{flex:1;display:flex;flex-direction:column;}
+.tbtn{display:flex;align-items:center;gap:10px;text-transform:none;letter-spacing:0;}
+.tbtn .ti{display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tbtn svg{width:20px;height:20px;}
+
+/* Máy tính: menu dọc bên trái */
+@media(min-width:768px){
+  .shell-body{flex-direction:row;align-items:flex-start;}
+  .tabbar{position:sticky;top:var(--toph);flex-direction:column;width:var(--navw);flex-shrink:0;
+    height:calc(100vh - var(--toph));border-bottom:none;border-right:1px solid var(--brd);
+    padding:16px 12px;gap:4px;overflow-y:auto;z-index:150;}
+  .tbtn{padding:11px 14px;border-radius:10px;border-bottom:none;margin:0;font-size:14px;
+    font-weight:500;color:#4B5563;}
+  .tbtn:hover{background:var(--sur2);color:var(--txt);}
+  .tbtn.active{background:#D1FAE5;color:#047857;font-weight:700;}
+  .content{max-width:1080px;padding:24px 28px 48px;}
+}
+
+/* Điện thoại: menu dưới đáy + nút Giao việc nổi */
+@media(max-width:767px){
+  .tabbar{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:300;border-bottom:none;
+    border-top:1px solid var(--brd);display:flex;overflow:visible;
+    padding:6px 4px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -2px 10px rgba(0,0,0,.05);}
+  .tbtn{flex:1 1 0;min-width:0;flex-direction:column;justify-content:center;gap:3px;padding:2px 0;
+    border-bottom:none;margin:0;font-size:11px;font-weight:500;color:#4B5563;min-height:52px;}
+  .tbtn .ti{width:52px;height:28px;border-radius:999px;}
+  .tbtn .tl{max-width:100%;overflow:hidden;text-overflow:ellipsis;}
+  .tbtn.active{color:#047857;font-weight:700;}
+  .tbtn.active .ti{background:#D1FAE5;}
+  .content{padding:16px 16px calc(150px + env(safe-area-inset-bottom));}
+  .ublock{background:none;border:none;padding:0;gap:4px;}
+  .ublock .uname,.ublock .urole{display:none;}
+  .tb-left{gap:8px;min-width:0;}
+  #btnGiaoViec{position:fixed;right:16px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:310;
+    height:52px;padding:0 20px;font-size:15px;}
+  #toast{bottom:calc(150px + env(safe-area-inset-bottom));}
+}
+@media(max-width:380px){ .netstatus #netlabel{display:none;} .netstatus{padding:6px;} }
+
+/* Tổng quan: lời chào */
+.dash-hello{margin:2px 0 16px;}
+.dh-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;line-height:1.1;}
+.dh-sub{font-size:13px;color:var(--mut);margin-top:4px;}
+
+/* Khung tồn đọng */
+.sumcard{background:var(--sur);border-radius:16px;padding:16px;box-shadow:var(--sh);
+  display:flex;flex-direction:column;gap:12px;}
+.sumcard h2{margin:0;font-size:15px;font-weight:700;}
+.sumcard .stats-grid{margin-bottom:0;}
+.ton-alert{display:flex;align-items:center;gap:12px;text-align:left;width:100%;cursor:pointer;
+  border:1px solid #FCD34D;background:#FFFBEB;color:var(--txt);border-radius:14px;padding:12px 14px;
+  box-shadow:0 4px 14px rgba(217,119,6,.15);font-family:'Inter',sans-serif;}
+.ton-alert .ta-ic{width:40px;height:40px;border-radius:10px;background:#FEF3C7;color:#B45309;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ton-alert .ta-t{font-size:15px;font-weight:700;}
+.ton-alert .ta-s{font-size:12px;color:var(--mut);margin-top:2px;}
+.ton-alert.clear{border-color:#A7F3D0;background:#ECFDF5;box-shadow:none;cursor:default;}
+.ton-alert.clear .ta-ic{background:#D1FAE5;color:#047857;}
+
+/* Ô số liệu: line màu trên + viền/chấm khi chọn */
+.scard{background:var(--sur);border:2px solid transparent;border-top:5px solid var(--brd);
+  border-radius:12px;padding:12px;text-align:left;box-shadow:var(--sh);position:relative;
+  font-family:'Inter',sans-serif;color:var(--txt);width:100%;}
+.scard:hover{transform:none;box-shadow:var(--shm);}
+.scard.sel{border-color:var(--acc2);box-shadow:0 0 0 3px rgba(4,120,87,.14);}
+.scard.sel::after{content:'';position:absolute;top:10px;right:10px;width:9px;height:9px;
+  border-radius:50%;background:var(--acc2);}
+.scard.err{border-top-color:var(--c-err);}
+.scard.pnd{border-top-color:var(--c-pnd);}
+.scard.sc {border-top-color:var(--c-sc);}
+.scard.ok {border-top-color:var(--c-ok);}
+.scard.info,.scard.blu{border-top-color:var(--c-info)!important;}
+.scard.err .snum{color:#B91C1C;}
+.scard.pnd .snum{color:#B45309;}
+.scard.sc  .snum{color:#6D28D9;}
+.scard.ok  .snum{color:#047857;}
+.scard.info .snum,.scard.blu .snum{color:#1D4ED8!important;}
+.scard.zero .snum{color:#4B5563!important;}
+.slabel{font-size:12px;color:#374151;text-transform:none;letter-spacing:0;margin-top:6px;}
+.scard-hint{display:none;}
+.stats-grid.two{grid-template-columns:repeat(2,1fr);}
+
+/* Tiêu đề khu vực */
+.dash-section-title{margin:22px 0 10px;gap:8px;}
+.dash-section-title h3{font-size:20px;color:var(--txt);text-transform:none;letter-spacing:0;}
+.stag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;
+  background:var(--wdim);color:var(--warn);font-family:'Inter',sans-serif;}
+.stag.ok{background:var(--adim2);color:#047857;}
+.stag.warn{background:#FEF3C7;color:#B45309;}
+.dash-section-title h3 .stag{font-size:11px;letter-spacing:0;white-space:nowrap;}
+.dash-section-title h3{flex-wrap:wrap;row-gap:4px;}
+.dash-section-title h3 .stag.ok{color:#047857;}
+.linkbtn{background:none;border:none;color:#047857;font-weight:600;font-size:13px;
+  padding:10px 0;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;}
+.linkbtn.more{display:block;margin:10px auto 0;}
+.dash-note{font-size:13px;color:var(--mut);padding:8px 2px 0;}
+
+/* Thẻ công việc (kiểu phương án B) + line màu trái theo trạng thái */
+.card2{position:relative;display:flex;gap:12px;align-items:flex-start;background:var(--sur);
+  border-radius:14px;box-shadow:var(--sh);border:1px solid var(--brd);border-left:5px solid #CBD5E1;
+  padding:14px 14px 14px 12px;transition:box-shadow .2s;}
+.card2:hover{box-shadow:var(--shm);}
+.card2.err{border-left-color:var(--c-err);}
+.card2.pnd{border-left-color:var(--c-pnd);}
+.card2.ok {border-left-color:var(--c-ok);}
+.card2.vs {border-left-color:var(--c-vs);}
+.card2.blu{border-left-color:var(--c-info);}
+.c2-badge{width:56px;min-height:56px;border-radius:12px;background:#F3F4F6;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:4px;text-align:center;}
+.c2-badge span{font-size:10px;font-weight:600;color:#6B7280;letter-spacing:.3px;line-height:1.1;}
+.c2-badge b{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;line-height:1.05;color:var(--txt);}
+.c2-badge.txt b{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;line-height:1.2;
+  word-break:break-word;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.c2-main{flex:1;min-width:0;padding-right:24px;display:flex;flex-direction:column;gap:3px;}
+.c2-title{font-size:14px;font-weight:700;color:var(--txt);line-height:1.35;}
+.c2-meta{font-size:12px;color:var(--mut);line-height:1.4;}
+.c2-note{font-size:12px;color:var(--mut);font-style:italic;}
+.c2-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;align-items:center;}
+.c2-tags .pill-btn{font-size:11px;text-transform:none;font-weight:700;}
+.tag-age{font-size:11px;font-weight:700;color:#B91C1C;background:#FEE2E2;padding:3px 8px;border-radius:999px;}
+.card2 .card-del{top:10px;right:10px;}
+
+/* Line màu cho các thẻ cũ ở các tab khác */
+.card{border-left-width:5px;}
+.card.err{border-left-color:var(--c-err);}
+.card.pnd{border-left-color:var(--c-pnd);}
+.card.ok {border-left-color:var(--c-ok);}
+.card.vs {border-left-color:var(--c-vs);}
+.card.blu{border-left-color:var(--c-info);}
+.task-card{border-left:5px solid var(--c-task);}
+.task-card.done{border-left-color:var(--c-ok);}
+.task-card.urgent{border-left-color:var(--c-err);}
+
+/* Ô trống có line màu */
+.empty-ok{display:flex;align-items:center;gap:12px;text-align:left;padding:16px 14px;
+  background:var(--sur);border:1px solid var(--brd);border-left:5px solid var(--c-ok);
+  border-radius:14px;box-shadow:var(--sh);}
+.empty-ok .ei{font-size:20px;margin:0;opacity:1;}
+.empty-ok .et{font-size:14px;color:#374151;font-weight:500;}
+.empty-ok.err{border-left-color:var(--c-err);}
+.empty-ok.pnd{border-left-color:var(--c-pnd);}
+.empty-ok.sc {border-left-color:var(--c-sc);}
+.empty-ok.task{border-left-color:var(--c-task);}
+
+/* Bảng chi tiết (bottom sheet) */
+#mDetailBody .cgrid{grid-template-columns:1fr;}
 </style>
 </head>
 <body>
@@ -430,7 +604,8 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 <div id="appShell">
   <div class="topbar">
     <div class="tb-left">
-      <div><div class="tb-brand">ENG MHOTEL</div><div class="tb-sub">Kỹ Thuật · Cơ Điện</div></div>
+      <div class="tb-logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg></div>
+      <div><div class="tb-brand">ENG MHOTEL</div><div class="tb-sub">Kỹ thuật · Cơ điện</div></div>
       <div class="netstatus"><span class="ndot pulse" id="ndot"></span><span id="netlabel">Online</span></div>
     </div>
     <div class="tb-right">
@@ -439,51 +614,56 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
         <div><div class="uname" id="uName">—</div><div class="urole" id="uRole">—</div></div>
         <button class="btnLo" onclick="doLogout()" title="Đăng xuất">🚪</button>
       </div>
-      <button class="btn-giaoviec" id="btnGiaoViec" style="display:none" onclick="openMod('mGiaoViec')">➕ Giao Việc</button>
+      <button class="btn-giaoviec" id="btnGiaoViec" style="display:none" onclick="openMod('mGiaoViec')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Giao việc</button>
     </div>
   </div>
 
-  <div class="tabbar">
-    <div class="tbtn active" data-tab="dashboard">🏠 Tổng Quan</div>
-    <div class="tbtn" data-tab="dinhky">📋 Sửa Chữa</div>
-    <div class="tbtn" data-tab="suachua">🔧 Checklist</div>
-    <div class="tbtn" data-tab="hethong">⚡ Định Kỳ</div>
-    <div class="tbtn" data-tab="giaoviec" id="tabGiaoViec" style="display:none">📌 Giao Việc</div>
-  </div>
+  <div class="shell-body">
+  <nav class="tabbar" aria-label="Menu chính">
+    <div class="tbtn active" data-tab="dashboard" role="button" tabindex="0"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></span><span class="tl">Tổng quan</span></div>
+    <div class="tbtn" data-tab="dinhky" role="button" tabindex="0"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></span><span class="tl">Sửa chữa</span></div>
+    <div class="tbtn" data-tab="suachua" role="button" tabindex="0"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 13l2 2 4-4"/></svg></span><span class="tl">Checklist</span></div>
+    <div class="tbtn" data-tab="hethong" role="button" tabindex="0"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span><span class="tl">Định kỳ</span></div>
+    <div class="tbtn" data-tab="giaoviec" id="tabGiaoViec" style="display:none" role="button" tabindex="0"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4h11l-2 4 2 4H5"/></svg></span><span class="tl">Giao việc</span></div>
+  </nav>
 
   <div class="content">
 
     <!-- TAB: TỔNG QUAN -->
     <div class="tpanel active" id="tab-dashboard">
-      <div class="dash-welcome">
-        <div class="dw-sub">Chào mừng trở lại</div>
-        <div class="dw-name" id="dwName">—</div>
-        <div class="dw-date" id="dwDate">—</div>
+      <div class="dash-hello">
+        <div class="dh-name">Chào <span id="dwName">—</span></div>
+        <div class="dh-sub"><span id="dwRole">—</span> · <span id="dwDate">—</span></div>
       </div>
+
       <!-- SECTION 1: TỒN ĐỌNG HỆ THỐNG (không giới hạn ngày) -->
+      <section class="sumcard">
+        <h2>Tồn đọng hệ thống</h2>
+        <div id="tonBanner"></div>
+        <div class="stats-grid" id="tonGrid">
+          <div class="ld" style="grid-column:1/-1"><div class="spin"></div>Đang tải...</div>
+        </div>
+      </section>
       <div class="dash-section-title">
-        <h3>🚨 TỒN ĐỌNG HỆ THỐNG <span class="stag" id="tonBadge">...</span></h3>
-      </div>
-      <div id="tonBanner"></div>
-      <div class="stats-grid" id="tonGrid">
-        <div class="ld" style="grid-column:1/-1"><div class="spin"></div>Đang tải...</div>
+        <h3 id="tonListTitle">Cần xử lý</h3>
+        <button class="linkbtn" onclick="showTonDetail()">Xem tất cả</button>
       </div>
       <div id="tonList"><div class="ld"><div class="spin"></div></div></div>
 
       <!-- SECTION 2: HOẠT ĐỘNG HÔM NAY -->
-      <div class="dash-section-title" style="margin-top:24px">
-        <h3>✅ HOẠT ĐỘNG HÔM NAY <span class="stag ok" id="todayBadge">...</span></h3>
+      <div class="dash-section-title">
+        <h3>Hôm nay <span class="stag ok" id="todayBadge">...</span></h3>
         <button class="bsm bexp" onclick="exportDashCSV()">⬇ Xuất file</button>
       </div>
-      <div class="stats-grid" id="statsGrid">
+      <div class="stats-grid two" id="statsGrid">
         <div class="ld" style="grid-column:1/-1"><div class="spin"></div>Đang tải...</div>
       </div>
       <div id="dashCheckList"><div class="ld"><div class="spin"></div></div></div>
 
       <!-- SECTION 3: GIAO VIỆC ĐANG THỰC HIỆN -->
-      <div class="dash-section-title" style="margin-top:24px">
-        <h3>📌 CÔNG VIỆC ĐƯỢC PHÂN CÔNG <span class="stag" id="taskBadge"></span></h3>
-        <button class="bsm bexp" onclick="switchTab_('giaoviec')">Xem tất cả →</button>
+      <div class="dash-section-title">
+        <h3>Công việc được giao <span class="stag" id="taskBadge"></span></h3>
+        <button class="linkbtn" onclick="switchTab_('giaoviec')">Xem tất cả</button>
       </div>
       <div id="dashTaskList"><div class="ld"><div class="spin"></div></div></div>
     </div>
@@ -573,6 +753,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
     </div>
 
   </div>
+  </div><!-- /shell-body -->
 </div>
 
 <!-- MODALS: FORM INPUT -->
@@ -1103,26 +1284,19 @@ function cardCN(r, refreshFn) {
   const gc  = fld(r,'GhiChu');
   const cls = scls(tt);
   const rf  = refreshFn || 'loadDK';
-  return `<div class="card ${cls}">
+  return `<div class="card2 ${cls}">
     ${delBtn('Log_CheckNgay', r, rf)}
-    <div class="ci">
-      <div class="czl">Khu vực / Hạng mục</div>
-      <div class="cz">${vt} · ${hm}</div>
-      <div class="ctl">Nội dung nghiệp vụ</div>
-      <div class="ctv">${nd}</div>
-      <div class="cmg">
-        <div><div class="cml">Nhân viên</div><div class="cmv">• ${ht}</div></div>
-        <div><div class="cml">Thời gian</div><div class="cmv">🕐 ${tg}</div></div>
-      </div>
-      <div class="cft">
-        <div class="cnote">${gc ? 'Ghi chú: ' + gc : ''}</div>
-        ${pillBtn(tt,'Log_CheckNgay',r,rf)}
-      </div>
+    ${placeBadge(vt === '—' ? '' : vt, 'KHU VỰC')}
+    <div class="c2-main">
+      <div class="c2-title">${nd}</div>
+      <div class="c2-meta">${[hm, ht, tg].filter(x => x && x !== '—').join(' · ')}</div>
+      ${gc ? `<div class="c2-note">Ghi chú: ${gc}</div>` : ''}
+      <div class="c2-tags">${pillBtn(tt,'Log_CheckNgay',r,rf)}${agingTag(r, tt)}</div>
     </div>
   </div>`;
 }
 
-function cardSC(r) {
+function cardSC(r, refreshFn) {
   const tt  = fld(r,'TinhTrang');
   const hm  = fld(r,'HangMuc') || '—';
   const nd  = fld(r,'NoiDungCongViec','NoiDung') || '—';
@@ -1131,23 +1305,36 @@ function cardSC(r) {
   const tg  = fld(r,'ThoiGian') || '—';
   const gc  = fld(r,'GhiChu');
   const cls = scls(tt);
-  return `<div class="card ${cls}">
-    ${delBtn('Log_SuaChuaPhong', r, 'loadSC')}
-    <div class="ci">
-      <div class="czl">Hạng mục sửa chữa</div>
-      <div class="cz">${hm}</div>
-      <div class="ctl">Nội dung công việc</div>
-      <div class="ctv">${nd}</div>
-      <div class="cmg">
-        <div><div class="cml">Nhân viên</div><div class="cmv">• ${ht}</div></div>
-        <div><div class="cml">Ngày · Giờ</div><div class="cmv">📅 ${ngay ? fmtD(ngay) : tg}</div></div>
-      </div>
-      <div class="cft">
-        <div class="cnote">${gc ? 'Ghi chú: ' + gc : ''}</div>
-        ${pillBtn(tt,'Log_SuaChuaPhong',r,'loadSC')}
-      </div>
+  const rf  = refreshFn || 'loadSC';
+  return `<div class="card2 ${cls}">
+    ${delBtn('Log_SuaChuaPhong', r, rf)}
+    ${placeBadge(hm === '—' ? '' : hm, 'HẠNG MỤC')}
+    <div class="c2-main">
+      <div class="c2-title">${nd}</div>
+      <div class="c2-meta">${[hm, ht, ngay ? fmtD(ngay) : tg].filter(x => x && x !== '—').join(' · ')}</div>
+      ${gc ? `<div class="c2-note">Ghi chú: ${gc}</div>` : ''}
+      <div class="c2-tags">${pillBtn(tt,'Log_SuaChuaPhong',r,rf)}${agingTag(r, tt)}</div>
     </div>
   </div>`;
+}
+
+// Ô vị trí bên trái thẻ: số phòng → "PHÒNG 610", còn lại → nhãn + chữ nhỏ
+function placeBadge(v, label) {
+  const s = String(v || '').trim();
+  const room = s.match(/^(?:phòng|p\.?)?\s*(\d{2,4}[a-z]?)$/i);
+  if (room) return `<div class="c2-badge"><span>PHÒNG</span><b>${room[1]}</b></div>`;
+  if (!s) return `<div class="c2-badge"><span>${label}</span><b>—</b></div>`;
+  return `<div class="c2-badge txt"><span>${label}</span><b>${s}</b></div>`;
+}
+
+// Nhãn "Tồn X ngày" cho mục chưa xử lý xong
+function agingTag(r, tt) {
+  const c = scls(tt);
+  if (c === 'ok' || c === 'vs') return '';
+  const d = fld(r, '_date', 'Ngay');
+  if (!d) return '';
+  const days = Math.floor((new Date(today()) - new Date(cleanDate(d))) / 86400000);
+  return days >= 1 ? `<span class="tag-age">Tồn ${days} ngày</span>` : '';
 }
 
 function cardMP(r) {
@@ -1445,6 +1632,11 @@ function renderTaskStats() {
       <div class="snum">${hoanThanh}</div>
       <div class="slabel">Hoàn Thành</div>
     </div>`;
+  // Ô bằng 0 để số màu xám, ô có việc mới nổi màu
+  sg.querySelectorAll('.scard').forEach(c => {
+    const n = c.querySelector('.snum');
+    if (n && n.textContent.trim() === '0') c.classList.add('zero');
+  });
 }
 
 function filterTasks(f, el) {
@@ -1610,6 +1802,7 @@ function enterApp(r) {
   document.getElementById('uName').textContent   = r.hoten;
   document.getElementById('uRole').textContent   = r.vaitro === 'manager' ? 'Quản Lý' : 'Kỹ Thuật Viên';
   document.getElementById('dwName').textContent  = r.hoten;
+  document.getElementById('dwRole').textContent  = r.vaitro === 'manager' ? 'Quản lý' : 'Kỹ thuật viên';
   document.getElementById('dwDate').textContent  = fmtNowFull();
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('appShell').style.display    = 'flex';
@@ -1673,6 +1866,12 @@ document.querySelectorAll('.tbtn').forEach(btn =>
     btn.classList.add('active');
     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
     loadTab(btn.dataset.tab);
+  })
+);
+// Bàn phím: Enter / Space trên mục menu
+document.querySelectorAll('.tbtn').forEach(btn =>
+  btn.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
   })
 );
 function switchSub(prefix, name, el) {
@@ -1740,56 +1939,9 @@ async function loadDashboard() {
     });
 
     const totalPending = _allPendingCN.length + _allPendingSC.length;
-    document.getElementById('tonBadge').textContent = totalPending + ' mục';
-
-    // Banner cảnh báo nếu có tồn đọng
-    document.getElementById('tonBanner').innerHTML = totalPending > 0
-      ? `<div class="ton-banner">
-          <div class="tb-icon">⚠️</div>
-          <div class="tb-text">
-            <strong>Có ${totalPending} hạng mục chưa hoàn thành!</strong>
-            Bao gồm các mục từ nhiều ngày trước chưa được xử lý. Vui lòng kiểm tra và cập nhật.
-          </div>
-        </div>`
-      : `<div class="empty-ok"><div class="ei">🎉</div><div class="et">Không có tồn đọng — Hệ thống hoạt động bình thường!</div></div>`;
-
-    // Stat cards tồn đọng
-    const cnPnd  = _allPendingCN.filter(r => normStatus(fld(r,'TinhTrang')) === 'cần theo dõi').length;
-    const cnErr2 = _allPendingCN.filter(r => normStatus(fld(r,'TinhTrang')) === 'sửa chữa').length;
-    const scPnd  = _allPendingSC.length;
-
-    document.getElementById('tonGrid').innerHTML = `
-      <div class="scard err" onclick="showStatDetail('ton_err')">
-        <div class="snum">${cnErr2}</div>
-        <div class="slabel">Đang Sửa Chữa</div>
-        <div class="scard-hint">Tồn từ mọi ngày · Nhấn xem</div>
-      </div>
-      <div class="scard pnd" onclick="showStatDetail('ton_pnd')">
-        <div class="snum">${cnPnd}</div>
-        <div class="slabel">Cần Theo Dõi</div>
-        <div class="scard-hint">Tồn từ mọi ngày · Nhấn xem</div>
-      </div>
-      <div class="scard pnd" onclick="showStatDetail('ton_sc')">
-        <div class="snum">${scPnd}</div>
-        <div class="slabel">Sửa Phòng Tồn</div>
-        <div class="scard-hint">Chưa hoàn thành · Nhấn xem</div>
-      </div>
-      <div class="scard ok" onclick="showStatDetail('ton_gv')">
-        <div class="snum">${_allTasksDone}</div>
-        <div class="slabel">Giao Việc Xong</div>
-        <div class="scard-hint">Tổng hoàn thành · Nhấn xem</div>
-      </div>`;
-
-    // Danh sách tồn đọng (tối đa 6 card, click "xem thêm" → mở modal)
-    const tonEl = document.getElementById('tonList');
-    if (!_allPendingCN.length && !_allPendingSC.length) {
-      tonEl.innerHTML = '';
-    } else {
-      const allTon = [..._allPendingCN, ..._allPendingSC].slice(0,6);
-      tonEl.innerHTML = `<div class="cgrid">${allTon.map(r =>
-        _allPendingCN.includes(r) ? cardCN(r,'loadDashboard') : cardSC(r)
-      ).join('')}</div>`;
-    }
+    renderTonAlert(totalPending);
+    renderTonTiles();
+    renderTonList();
 
     // Hiển thị task cards theo role
     const dashTaskEl = document.getElementById('dashTaskList');
@@ -1814,39 +1966,14 @@ async function loadDashboard() {
           pendingTasks.slice(0,6).map(r => cardTask(r, isManager)).join('')
         }</div>`;
       } else {
-        dashTaskEl.innerHTML = `<div class="empty-ok"><div class="ei">✅</div>
-          <div class="et">Không có công việc nào đang chờ xử lý</div></div>`;
+        dashTaskEl.innerHTML = emptyOk('Không có công việc nào đang chờ xử lý', 'task');
       }
     }
 
     // ── SECTION 2: HOẠT ĐỘNG HÔM NAY ──
-    const cnOk  = _dashCNData.filter(r => {
-      const s = normStatus(fld(r,'TinhTrang'));
-      return s === 'đã kiểm tra' || s === 'đã sửa';
-    }).length;
-    const cnTot = _dashCNData.length;
-    document.getElementById('todayBadge').textContent = cnOk + '/' + cnTot + ' hoàn thành';
-
-    document.getElementById('statsGrid').innerHTML = `
-      <div class="scard ok" onclick="showStatDetail('ok')">
-        <div class="snum">${cnOk}</div>
-        <div class="slabel">Hoàn Thành</div>
-        <div class="scard-hint">Hôm nay · Nhấn xem</div>
-      </div>
-      <div class="scard info" onclick="showStatDetail('all')">
-        <div class="snum">${cnTot}</div>
-        <div class="slabel">Tổng Check Hôm Nay</div>
-        <div class="scard-hint">Nhấn để xem tất cả</div>
-      </div>`;
-
-    // 10 log hoàn thành/mới nhất hôm nay
-    const el = document.getElementById('dashCheckList');
-    if (!_dashCNData.length) {
-      el.innerHTML = empty('Chưa có hoạt động nào hôm nay');
-    } else {
-      const recent = _dashCNData.slice(-10).reverse();
-      el.innerHTML = `<div class="cgrid">${recent.map(r => cardCN(r,'loadDashboard')).join('')}</div>`;
-    }
+    const cnOk = todayDoneList().length;
+    document.getElementById('todayBadge').textContent = cnOk + '/' + _dashCNData.length + ' hoàn thành';
+    renderToday();
 
   } catch (e) {
     document.getElementById('tonGrid').innerHTML =
@@ -1855,6 +1982,113 @@ async function loadDashboard() {
       `<div class="et" style="color:var(--warn);padding:12px;grid-column:1/-1">Lỗi: ${e.toString()}</div>`;
     document.getElementById('dashCheckList').innerHTML = empty('Lỗi tải dữ liệu');
   }
+}
+
+// ── TỔNG QUAN: Ô CHỌN ĐƯỢC + LỌC DANH SÁCH ────────────
+let _dashSel = null, _todaySel = 'all';
+const TON_DEFS = [
+  { k:'err', cls:'err', label:'Đang sửa chữa',  detail:'ton_err', empty:'Không có hạng mục nào đang sửa chữa' },
+  { k:'pnd', cls:'pnd', label:'Cần theo dõi',   detail:'ton_pnd', empty:'Không có hạng mục nào cần theo dõi' },
+  { k:'sc',  cls:'sc',  label:'Sửa phòng tồn',  detail:'ton_sc',  empty:'Không có phòng nào tồn chưa sửa' },
+  { k:'gv',  cls:'ok',  label:'Giao việc xong', detail:'ton_gv',  empty:'Chưa có công việc nào hoàn thành' },
+];
+function tonItems(k) {
+  if (k === 'err') return _allPendingCN.filter(r => normStatus(fld(r,'TinhTrang')) === 'sửa chữa');
+  if (k === 'pnd') return _allPendingCN.filter(r => normStatus(fld(r,'TinhTrang')) === 'cần theo dõi');
+  if (k === 'sc')  return _allPendingSC;
+  return _allTasksData.filter(r => normStatus(fld(r,'TrangThai')) === 'hoàn thành');
+}
+function todayDoneList() {
+  return _dashCNData.filter(r => {
+    const s = normStatus(fld(r,'TinhTrang'));
+    return s === 'đã kiểm tra' || s === 'đã sửa';
+  });
+}
+function emptyOk(msg, cls) {
+  return `<div class="empty-ok ${cls || ''}"><div class="ei">✅</div><div class="et">${msg}</div></div>`;
+}
+const _icWarn = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg>`;
+const _icOk   = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>`;
+const _icNext = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>`;
+
+function renderTonAlert(total) {
+  const el = document.getElementById('tonBanner');
+  el.innerHTML = total > 0
+    ? `<button type="button" class="ton-alert" onclick="showStatDetail('ton_all')">
+        <span class="ta-ic">${_icWarn}</span>
+        <span style="flex:1;min-width:0"><span class="ta-t" style="display:block">${total} hạng mục tồn đọng</span>
+        <span class="ta-s" style="display:block">Tính cả các ngày trước · Nhấn để xem</span></span>${_icNext}
+      </button>`
+    : `<div class="ton-alert clear"><span class="ta-ic">${_icOk}</span>
+        <span><span class="ta-t" style="display:block">Không có tồn đọng</span>
+        <span class="ta-s" style="display:block">Hệ thống hoạt động bình thường</span></span></div>`;
+}
+
+function renderTonTiles() {
+  if (!_dashSel) {
+    const first = TON_DEFS.slice(0,3).find(d => tonItems(d.k).length);
+    _dashSel = first ? first.k : 'err';
+  }
+  document.getElementById('tonGrid').innerHTML = TON_DEFS.map(d => {
+    const n = tonItems(d.k).length, on = d.k === _dashSel;
+    return `<button type="button" class="scard ${d.cls}${n ? '' : ' zero'}${on ? ' sel' : ''}"
+      aria-pressed="${on}" onclick="selectTon('${d.k}')">
+      <div class="snum">${n}</div><div class="slabel">${d.label}</div></button>`;
+  }).join('');
+}
+
+function renderTonList() {
+  const d = TON_DEFS.find(x => x.k === _dashSel) || TON_DEFS[0];
+  const items = tonItems(d.k);
+  document.getElementById('tonListTitle').textContent = `${d.label} (${items.length})`;
+  const el = document.getElementById('tonList');
+  if (!items.length) { el.innerHTML = emptyOk(d.empty, d.cls); return; }
+  const shown = items.slice(0, 6);
+  let html;
+  if (d.k === 'gv')      html = `<div style="display:flex;flex-direction:column;gap:10px">${shown.map(r => cardTask(r, false)).join('')}</div>`;
+  else if (d.k === 'sc') html = `<div class="cgrid">${shown.map(r => cardSC(r, 'loadDashboard')).join('')}</div>`;
+  else                   html = `<div class="cgrid">${shown.map(r => cardCN(r, 'loadDashboard')).join('')}</div>`;
+  if (items.length > 6) html += `<button class="linkbtn more" onclick="showStatDetail('${d.detail}')">Xem thêm ${items.length - 6} mục →</button>`;
+  el.innerHTML = html;
+}
+
+// Bấm ô: đánh dấu ô (viền + chấm), lọc danh sách bên dưới, mở bảng chi tiết
+function selectTon(k) {
+  _dashSel = k;
+  renderTonTiles();
+  renderTonList();
+  showStatDetail(TON_DEFS.find(x => x.k === k).detail);
+}
+function showTonDetail() {
+  const d = TON_DEFS.find(x => x.k === _dashSel);
+  showStatDetail(d ? d.detail : 'ton_all');
+}
+
+function renderToday() {
+  const okList = todayDoneList();
+  const defs = [
+    { k:'ok',  cls:'ok',   label:'Đã hoàn thành',      n: okList.length },
+    { k:'all', cls:'info', label:'Tổng check hôm nay', n: _dashCNData.length },
+  ];
+  document.getElementById('statsGrid').innerHTML = defs.map(d => {
+    const on = d.k === _todaySel;
+    return `<button type="button" class="scard ${d.cls}${on ? ' sel' : ''}" aria-pressed="${on}"
+      onclick="selectToday('${d.k}')"><div class="snum">${d.n}</div><div class="slabel">${d.label}</div></button>`;
+  }).join('');
+  const list = _todaySel === 'ok' ? okList : _dashCNData;
+  const el = document.getElementById('dashCheckList');
+  if (!list.length) {
+    el.innerHTML = `<div class="dash-note">${_todaySel === 'ok' && _dashCNData.length
+      ? 'Chưa có hạng mục nào hoàn thành hôm nay.' : 'Chưa có hoạt động nào hôm nay.'}</div>`;
+  } else {
+    el.innerHTML = `<div class="cgrid" style="margin-top:10px">${
+      list.slice(-10).reverse().map(r => cardCN(r, 'loadDashboard')).join('')}</div>`;
+  }
+}
+function selectToday(k) {
+  _todaySel = k;
+  renderToday();
+  showStatDetail(k);
 }
 
 // ── STAT CARD DETAIL MODAL ────────────────────────────
@@ -1878,6 +2112,9 @@ function showStatDetail(type) {
   } else if (type === 'ton_sc') {
     title = '🛏 Sửa Phòng Tồn (Chưa Hoàn Thành)';
     items = _allPendingSC;
+  } else if (type === 'ton_all') {
+    title = '⚠️ Tất Cả Tồn Đọng (Mọi Ngày)';
+    items = [..._allPendingCN, ..._allPendingSC];
   } else if (type === 'ton_gv') {
     title = '✅ Giao Việc Đã Hoàn Thành';
     // Hiển thị task cards trong modal
@@ -1885,7 +2122,7 @@ function showStatDetail(type) {
       normStatus(fld(r,'TrangThai')) === 'hoàn thành');
     document.getElementById('mDetailTitle').textContent = title;
     if (!doneTasks.length) {
-      document.getElementById('mDetailBody').innerHTML = empty('Chưa có công việc nào hoàn thành');
+      document.getElementById('mDetailBody').innerHTML = emptyOk('Chưa có công việc nào hoàn thành', 'ok');
     } else {
       document.getElementById('mDetailBody').innerHTML =
         `<div style="display:flex;flex-direction:column;gap:10px">${
@@ -1901,23 +2138,11 @@ function showStatDetail(type) {
   if (!items.length) {
     document.getElementById('mDetailBody').innerHTML = empty('Không có dữ liệu');
   } else {
-    const html = items.map(r => {
-      const tt  = fld(r,'TinhTrang');
-      const vt  = fld(r,'ViTri') || fld(r,'HangMuc') || '—';
-      const nd  = fld(r,'NoiDungCongViec','NoiDung') || '—';
-      const ht  = fld(r,'HoTen') || '—';
-      const tg  = fld(r,'ThoiGian') || '—';
-      const gc  = fld(r,'GhiChu');
-      const cls = scls(tt) || 'neu';
-      return `<div class="detail-item ${cls}">
-        <div class="di-title">${vt}</div>
-        <div class="di-meta">📝 ${nd}</div>
-        <div class="di-meta">👤 ${ht} &nbsp;·&nbsp; 🕐 ${tg}</div>
-        ${gc ? `<div class="di-meta" style="margin-top:4px;font-style:italic">Ghi chú: ${gc}</div>` : ''}
-        <div style="margin-top:6px">${pill(tt)}</div>
-      </div>`;
-    }).join('');
-    document.getElementById('mDetailBody').innerHTML = `<div class="detail-list">${html}</div>`;
+    // Thẻ cùng kiểu với trang Tổng quan (line màu theo trạng thái)
+    const html = items.map(r =>
+      _dashSCData.includes(r) ? cardSC(r, 'loadDashboard') : cardCN(r, 'loadDashboard')
+    ).join('');
+    document.getElementById('mDetailBody').innerHTML = `<div class="cgrid">${html}</div>`;
   }
   openMod('mDetail');
 }
