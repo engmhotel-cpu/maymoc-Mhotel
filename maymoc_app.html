@@ -640,10 +640,39 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 .card2 .card-del{top:7px;right:7px;width:22px;height:22px;}
 .card2 .pccc-badges{gap:3px;margin:2px 0;}
 .card2 .pbadge{font-size:9.5px;padding:2px 6px;}
+/* Nhóm theo hạng mục */
+.hm-group{margin:0 0 20px;}
+.hm-head{display:flex;align-items:center;gap:8px;margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--brd);}
+.hm-ic{width:30px;height:30px;border-radius:9px;background:var(--sur);border:1px solid var(--brd);
+  display:inline-flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.hm-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:#111827;}
+.hm-cnt{font-size:12px;font-weight:700;color:#374151;background:#E5E7EB;padding:2px 9px;border-radius:999px;}
+.hm-group .c2-badge.cat,.hm-group .m-hm{display:none;}
 /* Hiện đầy đủ chữ — không cắt nội dung */
 .card2 .c2-title,.card2 .c2-meta{display:block;-webkit-line-clamp:unset;overflow:visible;word-break:break-word;}
 .card2 .c2-note{white-space:normal;overflow:visible;word-break:break-word;}
 .card2 .c2-badge.txt b,.card2 .c2-badge.inl b{white-space:normal;overflow:visible;line-height:1.25;}
+/* Nhãn đầu thẻ (KHU VỰC / PHÒNG / hạng mục) nền đậm hơn */
+.card2 .c2-badge{background:#DCE3EC;border:1px solid #C7D2DE;}
+.card2 .c2-badge span{color:#475569;font-weight:700;}
+.card2 .c2-badge b{color:#0F172A;}
+.card2.pnd .c2-badge,.card2.err .c2-badge{background:#FECACA;border-color:#FCA5A5;}
+.card2.pnd .c2-badge span,.card2.err .c2-badge span{color:#7F1D1D;}
+/* Thẻ không có nhãn đầu → chừa chỗ cho nút ✕ */
+.hm-group .card2:not(:has(.c2-badge:not(.cat))) .c2-title{padding-right:26px;}
+/* Nút Xuất file: xanh dương đậm */
+.bexp{background:#1E40AF;color:#fff;border:none;box-shadow:0 2px 6px rgba(30,64,175,.25);}
+.bexp:hover{background:#1E3A8A;color:#fff;border:none;}
+/* Thanh lọc ngày + nút: ngày cùng 1 hàng, các nút 1 hàng */
+.crow .bsm,.crow .btn-giaoviec{height:40px;justify-content:center;font-size:12px;}
+@media(max-width:767px){
+  .crow{display:flex;flex-wrap:wrap;gap:8px;}
+  .crow .diw{flex:1 1 calc(50% - 4px);min-width:0;flex-direction:column;align-items:flex-start;gap:2px;padding:6px 10px;}
+  .crow .diw label{font-size:9.5px;}
+  .crow .diw input[type=date]{width:100%;min-width:0;font-size:13px;padding:0;}
+  .crow .bsm,.crow .btn-giaoviec{flex:1 1 0;min-width:0;padding:0 6px;white-space:nowrap;
+    display:flex;align-items:center;justify-content:center;gap:4px;}
+}
 /* Ô số liệu gọn hơn */
 .scard{padding:9px 10px;}
 .scard .snum{font-size:24px;}
@@ -1364,7 +1393,7 @@ function cardCN(r, refreshFn) {
     ${placeBadge(vt === '—' ? '' : vt, 'KHU VỰC', nd)}
     <div class="c2-main">
       <div class="c2-title">${nd}</div>
-      <div class="c2-meta">${[hm, ht, tg].filter(x => x && x !== '—').join(' · ')}</div>
+      <div class="c2-meta">${hm !== '—' ? `<span class="m-hm">${hm} · </span>` : ''}${[ht, tg].filter(x => x && x !== '—').join(' · ')}</div>
       ${gc ? `<div class="c2-note">Ghi chú: ${gc}</div>` : ''}
       <div class="c2-tags">${pillBtn(tt,'Log_CheckNgay',r,rf)}${agingTag(r, tt)}</div>
     </div>
@@ -1393,9 +1422,29 @@ function cardSC(r, refreshFn) {
   </div>`;
 }
 
+// ── NHÓM THẺ THEO HẠNG MỤC ─────────────────────────
+const HM_ORDER = ['điện','nước','máy lạnh','chiếu sáng','mộc'];
+function groupByHM(list, keyFn, renderFn) {
+  const groups = new Map();
+  list.forEach(r => {
+    const raw = (keyFn(r) || '').trim() || 'Khác';
+    const k = normStatus(raw);
+    if (!groups.has(k)) groups.set(k, { name: raw.charAt(0).toUpperCase() + raw.slice(1), items: [] });
+    groups.get(k).items.push(r);
+  });
+  const rank = k => k === 'khác' ? 999 : (HM_ORDER.indexOf(k) >= 0 ? HM_ORDER.indexOf(k) : 100);
+  return [...groups.entries()]
+    .sort((a, b) => rank(a[0]) - rank(b[0]) || a[1].name.localeCompare(b[1].name, 'vi'))
+    .map(([k, g]) => `<section class="hm-group">
+      <div class="hm-head"><span class="hm-ic">${hmIcon(g.name)}</span>
+        <span class="hm-name">${g.name}</span><span class="hm-cnt">${g.items.length}</span></div>
+      <div class="cgrid">${g.items.map(renderFn).join('')}</div>
+    </section>`).join('');
+}
+
 // Biểu tượng theo hạng mục
 const HM_ICONS = { 'chiếu sáng':'💡', 'điện':'⚡', 'nước':'💧', 'máy lạnh':'❄️', 'mộc':'🪚', 'khác':'📦' };
-function hmIcon(hm) { return HM_ICONS[normStatus(hm)] || '🔧'; }
+function hmIcon(hm) { return HM_ICONS[normStatus(hm)] || CAT_ICONS[hm] || '🔧'; }
 function roomIn(text) {
   const m = String(text || '').match(/(?:^|[^\d\/:.,])(\d{3,4}[A-Za-z]?)(?![\d\/:.,])/);
   return m ? m[1] : '';
@@ -1405,7 +1454,7 @@ function scBadge(hm, nd) {
   const room = roomIn(nd);
   if (room) return `<div class="c2-badge"><span>PHÒNG</span><b>${room}</b></div>`;
   const h = hm && hm !== '—' ? hm : 'Khác';
-  return `<div class="c2-badge inl"><span>${hmIcon(h)}</span><b>${h}</b></div>`;
+  return `<div class="c2-badge inl cat"><span>${hmIcon(h)}</span><b>${h}</b></div>`;
 }
 
 // Ô vị trí bên trái thẻ: số phòng → "PHÒNG 610", còn lại → nhãn + chữ nhỏ
@@ -1618,7 +1667,7 @@ function cardTask(r, canDelete) {
   const taskCls = isDone ? 'ok' : isUrgent ? 'err' : 'task';
   return `<div class="card2 ${taskCls}">
     ${delBtn2}
-    <div class="c2-badge inl"><span>${CAT_ICONS[cat]||'📦'}</span><b>${cat}</b></div>
+    <div class="c2-badge inl cat"><span>${hmIcon(cat)}</span><b>${cat}</b></div>
     <div class="c2-main">
       <div class="c2-title">${nd !== '—' ? nd : cat}</div>
       <div class="c2-meta">👤 ${to} · Bởi ${from}</div>
@@ -1731,7 +1780,7 @@ function renderTasks() {
   const pending = data.filter(r => !fld(r,'TrangThai').toLowerCase().includes('hoàn thành'));
   const done    = data.filter(r =>  fld(r,'TrangThai').toLowerCase().includes('hoàn thành'));
   const sorted  = [...pending, ...done];
-  el.innerHTML = `<div class="cgrid">${sorted.map(r => cardTask(r, true)).join('')}</div>`;
+  el.innerHTML = groupByHM(sorted, r => fld(r,'DanhMuc'), r => cardTask(r, true));
 }
 
 function renderStaffTasks(data) {
@@ -1760,7 +1809,7 @@ function renderStaffTasks(data) {
     return;
   }
   const sorted = [...pending, ...done];
-  el.innerHTML = `<div class="cgrid">${sorted.map(r => cardTask(r, false)).join('')}</div>`;
+  el.innerHTML = groupByHM(sorted, r => fld(r,'DanhMuc'), r => cardTask(r, false));
 }
 
 // Save task mới
@@ -2238,8 +2287,8 @@ async function loadDK() {
     el.innerHTML = '';
     if (!data.length) { el.innerHTML = empty(`Chưa có kiểm tra định kỳ nào ${rangeText(d, d2)}`); return; }
     el.innerHTML = `
-      <div class="sh"><h2>Định Kỳ ${rangeShort(d, d2)}</h2><span class="cbadge">${data.length} mục</span></div>
-      <div class="cgrid">${data.map(r => cardCN(r, 'loadDK')).join('')}</div>`;
+      <div class="sh"><h2>Sửa chữa ${rangeShort(d, d2)}</h2><span class="cbadge">${data.length} mục</span></div>
+      ${groupByHM(data, r => fld(r,'HangMuc'), r => cardCN(r, 'loadDK'))}`;
   } catch (e) {
     document.getElementById('dkContent').innerHTML =
       `<div class="et" style="color:var(--warn);padding:16px">Lỗi: ${e.toString()}</div>`;
@@ -2261,8 +2310,8 @@ async function loadSC() {
     el.innerHTML = '';
     if (!data.length) { el.innerHTML = empty(`Chưa có phiếu sửa chữa ${rangeText(d, d2)}`); return; }
     el.innerHTML = `
-      <div class="sh"><h2>Sửa Chữa ${rangeShort(d, d2)}</h2><span class="cbadge">${data.length}</span></div>
-      <div class="cgrid">${data.map(r => cardSC(r)).join('')}</div>`;
+      <div class="sh"><h2>Checklist ${rangeShort(d, d2)}</h2><span class="cbadge">${data.length} mục</span></div>
+      ${groupByHM(data, r => fld(r,'HangMuc'), r => cardSC(r))}`;
   } catch (e) {
     document.getElementById('scContent').innerHTML =
       `<div class="et" style="color:var(--warn);padding:16px">Lỗi: ${e.toString()}</div>`;
