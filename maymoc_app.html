@@ -673,6 +673,39 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
   .crow .bsm,.crow .btn-giaoviec{flex:1 1 0;min-width:0;padding:0 6px;white-space:nowrap;
     display:flex;align-items:center;justify-content:center;gap:4px;}
 }
+/* Hạng mục: nút + (chỉ Quản lý) và modal quản lý */
+.mgr-only{display:none!important;}
+body.is-mgr .mgr-only{display:inline-flex!important;}
+.field label.lbl-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.hm-plus{align-items:center;gap:4px;border:1.5px dashed var(--acc);background:#ECFDF5;color:#047857;
+  font-size:11px;font-weight:700;padding:5px 10px;border-radius:999px;cursor:pointer;text-transform:none;
+  letter-spacing:0;font-family:'Inter',sans-serif;}
+.hm-plus:hover{background:#D1FAE5;}
+.hm-add-row{display:flex;gap:8px;align-items:stretch;}
+.hm-prev{width:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;
+  border:1.5px solid var(--brd);border-radius:var(--rs);background:var(--sur2);}
+.hm-sug-note{font-weight:600;color:#047857;text-transform:none;letter-spacing:0;}
+.hm-icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:6px;}
+.hm-ico{position:relative;height:44px;border:1.5px solid var(--brd);background:var(--sur);border-radius:10px;
+  font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+.hm-ico:hover{background:var(--sur2);}
+.hm-ico.sug{border-color:#FCD34D;background:#FFFBEB;}
+.hm-ico.sug::before{content:'Gợi ý';position:absolute;top:-7px;left:50%;transform:translateX(-50%);
+  font-size:8.5px;font-weight:700;color:#92400E;background:#FDE68A;padding:0 4px;border-radius:4px;
+  font-family:'Inter',sans-serif;white-space:nowrap;}
+.hm-ico.sel{border:2px solid var(--acc2);background:#D1FAE5;box-shadow:0 0 0 3px rgba(4,120,87,.18);}
+.hm-add-row input{flex:1;min-width:0;}
+.hm-add-row .bsm{height:auto;padding:0 14px;}
+.hm-list{display:flex;flex-direction:column;gap:6px;}
+.hm-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--brd);
+  border-radius:10px;background:var(--sur2);}
+.hm-item .hi-ic{font-size:18px;width:28px;text-align:center;}
+.hm-item .hi-name{flex:1;font-size:14px;font-weight:600;}
+.hm-item .hi-del{border:none;background:#FEE2E2;color:#B91C1C;border-radius:8px;height:34px;padding:0 12px;
+  font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;}
+.hm-item .hi-del:hover{background:#FECACA;}
+.hm-item .hi-lock{font-size:11px;color:var(--mut);}
+.hm-hint{font-size:12px;color:var(--mut);margin:0;}
 /* Ô số liệu gọn hơn */
 .scard{padding:9px 10px;}
 .scard .snum{font-size:24px;}
@@ -866,12 +899,9 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
     <div class="mhd"><div class="mtitle">📋 Thêm Sửa Chữa</div><button class="mclose" onclick="closeMod('mDK')">✕</button></div>
     <div class="mbody">
       <div class="field"><label>Vị trí</label><input id="dk_vitri" placeholder="VD: Tầng 2, Phòng 201..."/></div>
-      <div class="field"><label>Hạng mục</label>
-        <select id="dk_hangmuc">
+      <div class="field"><label class="lbl-row">Hạng mục <button type="button" class="hm-plus mgr-only" onclick="openHM()" aria-label="Thêm hoặc xoá hạng mục">＋ Thêm hạng mục</button></label>
+        <select id="dk_hangmuc" class="hm-select" data-ph="-- Chọn hạng mục --">
           <option value="">-- Chọn hạng mục --</option>
-          <option>Chiếu sáng</option><option>Điện</option>
-          <option>Máy lạnh</option><option>Mộc</option>
-          <option>Nước</option><option>Khác</option>
         </select></div>
       <div class="field"><label>Nội dung công việc</label>
         <textarea id="dk_noidung" placeholder="Mô tả công việc kiểm tra..."></textarea></div>
@@ -897,12 +927,9 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
     <div class="mhd"><div class="mtitle">🔧 Phiếu Checklist</div><button class="mclose" onclick="closeMod('mSC')">✕</button></div>
     <div class="mbody">
       <div class="field"><label>Hạng mục</label><input id="sc_hangmuc" placeholder="VD: Điện, Nước, Máy lạnh..."/></div>
-      <div class="field"><label>Hạng mục khác</label>
-        <select id="sc_hangmuc_khac">
+      <div class="field"><label class="lbl-row">Hạng mục khác <button type="button" class="hm-plus mgr-only" onclick="openHM()" aria-label="Thêm hoặc xoá hạng mục">＋ Thêm hạng mục</button></label>
+        <select id="sc_hangmuc_khac" class="hm-select" data-ph="-- Chọn hạng mục khác --">
           <option value="">-- Chọn hạng mục khác --</option>
-          <option>Chiếu sáng</option><option>Điện</option>
-          <option>Máy lạnh</option><option>Mộc</option>
-          <option>Nước</option><option>Khác</option>
         </select></div>
       <div class="field"><label>Nội dung công việc</label><textarea id="sc_noidung" placeholder="Mô tả chi tiết sửa chữa..."></textarea></div>
       <div class="field"><label>Tình trạng</label>
@@ -1005,19 +1032,8 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
     <div class="mbody">
       <!-- Danh mục -->
       <div class="field">
-        <label>Danh mục</label>
-        <div class="cat-chips" id="gvCatChips">
-          <div class="cat-chip" onclick="pickCat(this,'Nước')">
-            <span class="chip-icon">💧</span>Nước</div>
-          <div class="cat-chip" onclick="pickCat(this,'Điện')">
-            <span class="chip-icon">⚡</span>Điện</div>
-          <div class="cat-chip" onclick="pickCat(this,'Máy Lạnh')">
-            <span class="chip-icon">📺</span>Máy Lạnh</div>
-          <div class="cat-chip" onclick="pickCat(this,'Chiếu sáng')">
-            <span class="chip-icon">💡</span>Chiếu sáng</div>
-          <div class="cat-chip" onclick="pickCat(this,'Khác')">
-            <span class="chip-icon">📦</span>Khác</div>
-        </div>
+        <label class="lbl-row">Danh mục <button type="button" class="hm-plus mgr-only" onclick="openHM()" aria-label="Thêm hoặc xoá hạng mục">＋ Thêm hạng mục</button></label>
+        <div class="cat-chips" id="gvCatChips"></div>
         <input type="hidden" id="gv_danhmuc"/>
       </div>
       <!-- Nội dung chi tiết -->
@@ -1070,6 +1086,28 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
       <button class="bf bpri" onclick="saveTask()"
         style="flex:1.2;background:linear-gradient(135deg,#4F46E5,#7C3AED)">✦ Tạo mới công việc</button>
     </div>
+  </div>
+</div>
+
+<!-- MODAL: QUẢN LÝ HẠNG MỤC (chỉ Quản lý) -->
+<div class="ov" id="mHM">
+  <div class="modal">
+    <div class="mhd"><div class="mtitle">🗂 Quản lý hạng mục</div><button class="mclose" onclick="closeMod('mHM')">✕</button></div>
+    <div class="mbody">
+      <div class="field"><label for="hmNewName">Thêm hạng mục mới</label>
+        <div class="hm-add-row">
+          <span class="hm-prev" id="hmPrev" aria-hidden="true">🔧</span>
+          <input id="hmNewName" type="text" maxlength="40" placeholder="VD: Gas, Thang máy, Hồ bơi..."
+            oninput="suggestHMIcon()" onkeydown="if(event.key==='Enter'){event.preventDefault();addHM();}"/>
+          <button type="button" class="bsm ba" onclick="addHM()">＋ Thêm</button>
+        </div>
+        <input type="hidden" id="hmNewIcon" value="🔧"/></div>
+      <div class="field"><label>Chọn icon <span class="hm-sug-note" id="hmSugNote"></span></label>
+        <div class="hm-icons" id="hmIcons" role="radiogroup" aria-label="Icon hạng mục"></div></div>
+      <div class="field"><label>Danh sách hạng mục</label><div id="hmListBox" class="hm-list"></div></div>
+      <p class="hm-hint">Xoá hạng mục chỉ bỏ khỏi danh sách để chọn. Các phiếu cũ vẫn giữ nguyên.</p>
+    </div>
+    <div class="mft"><button class="bf bsec" onclick="closeMod('mHM')">Đóng</button></div>
   </div>
 </div>
 
@@ -1315,7 +1353,7 @@ function openMod(id) {
   const modal = document.getElementById(id);
   modal.querySelectorAll('input[type=text],input[type=hidden],textarea').forEach(el => el.value = '');
   modal.querySelectorAll('select').forEach(el => el.value = '');
-  modal.querySelectorAll('.rc').forEach(b => b.classList.remove('sel'));
+  modal.querySelectorAll('.rc,.cat-chip').forEach(b => b.classList.remove('sel'));
   modal.classList.add('open');
 }
 function closeMod(id) { document.getElementById(id).classList.remove('open'); }
@@ -1432,7 +1470,8 @@ function groupByHM(list, keyFn, renderFn) {
     if (!groups.has(k)) groups.set(k, { name: raw.charAt(0).toUpperCase() + raw.slice(1), items: [] });
     groups.get(k).items.push(r);
   });
-  const rank = k => k === 'khác' ? 999 : (HM_ORDER.indexOf(k) >= 0 ? HM_ORDER.indexOf(k) : 100);
+  const order = _hmList.map(h => normStatus(h.ten));
+  const rank = k => k === 'khác' ? 999 : (order.indexOf(k) >= 0 ? order.indexOf(k) : 500);
   return [...groups.entries()]
     .sort((a, b) => rank(a[0]) - rank(b[0]) || a[1].name.localeCompare(b[1].name, 'vi'))
     .map(([k, g]) => `<section class="hm-group">
@@ -1442,9 +1481,148 @@ function groupByHM(list, keyFn, renderFn) {
     </section>`).join('');
 }
 
+// ── HẠNG MỤC DÙNG CHUNG (lưu trên Supabase, chỉ Quản lý thêm/xoá) ──
+const HM_DEFAULT = [
+  {ten:'Điện',icon:'⚡'},{ten:'Nước',icon:'💧'},{ten:'Máy lạnh',icon:'❄️'},
+  {ten:'Chiếu sáng',icon:'💡'},{ten:'Mộc',icon:'🪚'},{ten:'Khác',icon:'📦'}
+];
+let _hmList = HM_DEFAULT.slice();
+function escH(v) {
+  return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+async function sbRpc(fn, body) {
+  const res = await fetch(SB_URL + '/rest/v1/rpc/' + fn, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+    body: JSON.stringify(body || {})
+  });
+  if (!res.ok) throw new Error('Lỗi kết nối (' + res.status + ')');
+  return res.json();
+}
+async function loadHM() {
+  try {
+    const d = await sbRpc('hm_list');
+    if (Array.isArray(d) && d.length) _hmList = d;
+  } catch (e) { /* chưa cài SQL hạng mục → dùng danh sách mặc định */ }
+  renderHMPickers();
+}
+// Đổ danh sách vào các ô chọn (giữ lựa chọn đang có)
+function renderHMPickers() {
+  document.querySelectorAll('select.hm-select').forEach(sel => {
+    const cur = sel.value;
+    sel.innerHTML = `<option value="">${escH(sel.dataset.ph || '-- Chọn hạng mục --')}</option>` +
+      _hmList.map(h => `<option value="${escH(h.ten)}">${escH(h.icon)} ${escH(h.ten)}</option>`).join('');
+    if (cur && _hmList.some(h => h.ten === cur)) sel.value = cur;
+  });
+  const chips = document.getElementById('gvCatChips');
+  if (chips) {
+    const cur = document.getElementById('gv_danhmuc').value;
+    chips.innerHTML = _hmList.map(h => `<div class="cat-chip${normStatus(h.ten) === normStatus(cur) ? ' sel' : ''}"
+      data-v="${escH(h.ten)}" onclick="pickCat(this, this.dataset.v)" role="button" tabindex="0">
+      <span class="chip-icon">${escH(h.icon)}</span>${escH(h.ten)}</div>`).join('');
+  }
+  const box = document.getElementById('hmListBox');
+  if (box) {
+    box.innerHTML = _hmList.map(h => `<div class="hm-item">
+      <span class="hi-ic">${escH(h.icon)}</span><span class="hi-name">${escH(h.ten)}</span>
+      ${normStatus(h.ten) === 'khác' ? '<span class="hi-lock">Mặc định</span>'
+        : `<button type="button" class="hi-del" data-v="${escH(h.ten)}" onclick="delHM(this.dataset.v)">Xoá</button>`}
+    </div>`).join('');
+  }
+}
+// Bộ icon + gợi ý theo tên (so khớp không dấu)
+const HM_ICON_SET = ['🔧','⚡','🔌','💡','💧','🚿','🚽','🌡️','❄️','🌀','🔥','🧯','🍳','🛗','🏊',
+  '🪚','🚪','🪟','🛏️','🧹','🗑️','📡','📺','📹','🔐','🎨','⚙️','🔋','🌿','📦'];
+const HM_ICON_HINTS = [
+  [['thang may','elevator','lift'],'🛗'], [['ho boi','be boi','pool'],'🏊'],
+  [['pccc','chua chay','cuu hoa','bao chay','sprinkler'],'🧯'], [['gas'],'🔥'], [['bep','nau'],'🍳'],
+  [['nuoc nong','heat','nhiet','boiler','nong lanh'],'🌡️'], [['may lanh','dieu hoa','chiller','lanh'],'❄️'],
+  [['quat','thong gio','hut mui'],'🌀'], [['voi sen','tam','shower'],'🚿'], [['toilet','wc','bon cau','ve sinh phong'],'🚽'],
+  [['nuoc','ong','bom','phao','be nuoc'],'💧'], [['o cam','cong tac','phich'],'🔌'],
+  [['den','chieu sang','bong'],'💡'], [['dien','tu dien'],'⚡'], [['may phat','co khi','may moc'],'⚙️'],
+  [['acquy','ac quy','pin','ups'],'🔋'], [['moc','go','tu ','ban ghe'],'🪚'], [['cua so','kinh'],'🪟'],
+  [['cua','khoa cua'],'🚪'], [['giuong','nem','phong ngu'],'🛏️'], [['don dep','ve sinh','lau'],'🧹'],
+  [['rac'],'🗑️'], [['wifi','mang','internet','dien thoai'],'📡'], [['tivi','tv','man hinh'],'📺'],
+  [['camera','cctv'],'📹'], [['ket','khoa'],'🔐'], [['son','tuong','tran'],'🎨'], [['cay','san vuon','vuon'],'🌿']
+];
+let _hmIconManual = false;
+function noAccent(t) {
+  return String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+}
+function hmSuggestions(name) {
+  const n = ' ' + noAccent(name) + ' ';
+  const out = [];
+  HM_ICON_HINTS.forEach(([keys, ic]) => {
+    if (keys.some(k => n.includes(k)) && !out.includes(ic)) out.push(ic);
+  });
+  return out.slice(0, 4);
+}
+function renderHMIcons() {
+  const sug = hmSuggestions(document.getElementById('hmNewName').value);
+  const cur = document.getElementById('hmNewIcon').value;
+  const list = [...sug, ...HM_ICON_SET.filter(i => !sug.includes(i))];
+  document.getElementById('hmIcons').innerHTML = list.map(i => `<button type="button"
+    class="hm-ico${sug.includes(i) ? ' sug' : ''}${i === cur ? ' sel' : ''}" role="radio"
+    aria-checked="${i === cur}" aria-label="Icon ${i}" onclick="pickHMIcon('${i}')">${i}</button>`).join('');
+  const name = document.getElementById('hmNewName').value.trim();
+  document.getElementById('hmSugNote').textContent = sug.length && name ? `· gợi ý cho “${name}”` : '';
+}
+function setHMIcon(i) {
+  document.getElementById('hmNewIcon').value = i;
+  document.getElementById('hmPrev').textContent = i;
+  renderHMIcons();
+}
+function pickHMIcon(i) { _hmIconManual = true; setHMIcon(i); }
+// Gõ tên → tự chọn icon gợi ý đầu tiên (nếu Quản lý chưa tự chọn)
+function suggestHMIcon() {
+  const sug = hmSuggestions(document.getElementById('hmNewName').value);
+  if (!_hmIconManual) setHMIcon(sug[0] || '🔧'); else renderHMIcons();
+}
+
+function openHM() {
+  if (!user || user.vaitro !== 'manager') { toast('Chỉ Quản lý mới được thêm hạng mục', 'err'); return; }
+  document.getElementById('hmNewName').value = '';
+  _hmIconManual = false;
+  setHMIcon('🔧');
+  renderHMPickers();
+  document.getElementById('mHM').classList.add('open');
+  setTimeout(() => document.getElementById('hmNewName').focus(), 50);
+}
+async function addHM() {
+  const name = document.getElementById('hmNewName').value.trim();
+  const icon = document.getElementById('hmNewIcon').value || '🔧';
+  if (!name) { toast('Nhập tên hạng mục', 'err'); return; }
+  try {
+    const r = await sbRpc('hm_add', { p_token: _token, p_ten: name, p_icon: icon });
+    if (!r || !r.success) { toast(r && r.msg ? r.msg : 'Không thêm được', 'err'); return; }
+    _hmList = r.data || _hmList;
+    document.getElementById('hmNewName').value = '';
+    _hmIconManual = false;
+    setHMIcon('🔧');
+    renderHMPickers();
+    toast('✓ Đã thêm hạng mục ' + name, 'ok');
+  } catch (e) {
+    toast('Chưa cài đặt lưu hạng mục trên Supabase (' + e.message + ')', 'err');
+  }
+}
+function delHM(name) {
+  showConfirm(`Xoá hạng mục "${name}" khỏi danh sách? Các phiếu cũ vẫn giữ nguyên.`, async () => {
+    try {
+      const r = await sbRpc('hm_delete', { p_token: _token, p_ten: name });
+      if (!r || !r.success) { toast(r && r.msg ? r.msg : 'Không xoá được', 'err'); return; }
+      _hmList = r.data || _hmList;
+      renderHMPickers();
+      toast('✓ Đã xoá hạng mục ' + name, 'ok');
+    } catch (e) { toast('Lỗi: ' + e.message, 'err'); }
+  });
+}
+
 // Biểu tượng theo hạng mục
 const HM_ICONS = { 'chiếu sáng':'💡', 'điện':'⚡', 'nước':'💧', 'máy lạnh':'❄️', 'mộc':'🪚', 'khác':'📦' };
-function hmIcon(hm) { return HM_ICONS[normStatus(hm)] || CAT_ICONS[hm] || '🔧'; }
+function hmIcon(hm) {
+  const f = _hmList.find(h => normStatus(h.ten) === normStatus(hm));
+  return (f && f.icon) || HM_ICONS[normStatus(hm)] || CAT_ICONS[hm] || '🔧';
+}
 function roomIn(text) {
   const m = String(text || '').match(/(?:^|[^\d\/:.,])(\d{3,4}[A-Za-z]?)(?![\d\/:.,])/);
   return m ? m[1] : '';
@@ -1922,6 +2100,8 @@ function enterApp(r) {
   document.getElementById('uRole').textContent   = r.vaitro === 'manager' ? 'Quản Lý' : 'Kỹ Thuật Viên';
   document.getElementById('dwName').textContent  = r.hoten;
   document.getElementById('dwRole').textContent  = r.vaitro === 'manager' ? 'Quản lý' : 'Kỹ thuật viên';
+  document.body.classList.toggle('is-mgr', r.vaitro === 'manager');
+  loadHM();
   document.getElementById('dwDate').textContent  = fmtNowFull();
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('appShell').style.display    = 'flex';
@@ -1964,6 +2144,8 @@ document.getElementById('loginPass').addEventListener('keydown', e => {
 
 function doLogout() {
   user = null; _token = '';
+  document.body.classList.remove('is-mgr');
+  document.querySelectorAll('.ov.open').forEach(o => o.classList.remove('open'));
   try { localStorage.removeItem('eng_token'); } catch (e) {}
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('appShell').style.display    = 'none';
